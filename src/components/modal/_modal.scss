@@ -1,0 +1,300 @@
+////
+/// CSS properties for modal (dialog) component
+/// @group modal 
+/// @since 2.0.0
+////
+///
+$modal-bg: $global-content-bg !default;
+///
+$modal-overlay-bg: $global-overlay-bg !default;
+///
+$modal-header-bg: $global-headers-bg !default;
+///
+$modal-header-padding: $global-padding / 2 !default;
+///
+$modal-divider-color: $modal-header-bg !default;
+///
+$modal-full-bg: $modal-overlay-bg !default;
+///
+$modal-width-xs: rem-calc(300) !default;
+///
+$modal-width-s: rem-calc(450) !default;
+///
+$modal-width-m: rem-calc(600) !default;
+///
+$modal-width-l: rem-calc(800) !default;
+
+@mixin modal-output {
+
+  .ng-bolt {
+
+    .modal-overlay {
+      align-items: center;
+      background-color: $modal-overlay-bg;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      transition: opacity .25s linear;
+      z-index: 1000;
+
+      &.ng-hide {
+        opacity: 0;
+      }
+    }
+
+    .modal {
+      display: flex;
+      flex: 0 0 auto;
+      max-height: 90vh;
+      max-width: 95vw;
+
+      .form-heading {
+        @include form-heading;
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+    }
+
+    .modal-x-small .modal {
+       width: $modal-width-xs;
+       max-width: $modal-width-xs;
+
+       .menu {
+         width: 100%;
+       }
+
+       .modal-body {
+         max-width: $modal-width-xs;
+       }
+     }
+
+    .modal-small .modal {
+      width: $modal-width-s;
+
+      .menu {
+        width: 100%;
+      }
+
+      .modal-body {
+        max-width: $modal-width-s;
+      }
+    }
+
+    .modal-medium .modal {
+      width: $modal-width-m;
+
+      .modal-body {
+        max-width: $modal-width-m;
+      }
+    }
+
+    .modal-large .modal {
+      min-height: $modal-width-l/2;
+      width: $modal-width-l;
+
+      .modal-body {
+        max-width: $modal-width-l;
+      }
+    }
+
+    .modal-full {
+      .modal {
+        background-color: $modal-full-bg;
+        height: 100%;
+        max-height: 100%;
+        max-width: 100%;
+        padding: 1.5rem;
+        width: 100%;
+      }
+
+      .modal-content {
+        background-color: isitlight($body-bg, $gray-light, $gray-dark);
+      }
+
+      .modal-body {
+        display: flex;
+      }
+    }
+
+    .modal-content {
+      background-color: $modal-bg;
+      display: flex;
+      flex: 1 1 auto;
+      box-sizing: border-box;
+      flex-direction: column;
+      max-width: 100%;
+      position: relative;
+    }
+
+    .modal-header {
+      align-items: center;
+      background-color: $modal-header-bg;
+      display: flex;
+      flex: 0 0 auto;
+      min-height: 3rem;
+      padding: 0 $modal-header-padding;
+
+      .font-icon
+      .fa {
+        font-size: 1.25rem;
+        margin-right: .25rem;
+        padding: 0 .125rem;
+        width: auto;
+      }
+    }
+
+    .modal-title {
+      @include font-sub-title($modal-bg, false);
+      color: isitlight($modal-bg, $font-secondary-dark, $font-secondary-light);
+      font-size: 1.125rem;
+      font-weight: normal;
+    }
+
+    .modal-text {
+      @include font-body($modal-bg, true);
+      box-sizing: border-box;
+      max-width: inherit;
+      white-space: normal;
+    }
+
+    .modal-heading {
+      @include font-body($modal-bg, true);
+      font-weight: bolder;
+    }
+
+    .modal-body {
+      color: isitlight($modal-bg, $font-primary-dark, $font-primary-light);
+      flex: 1 1 auto;
+      max-width: 100%;
+      overflow-y: auto;
+      padding: 1rem;
+      position: relative;
+      box-sizing: border-box;
+
+      p {
+        max-width: inherit;
+        box-sizing: border-box;
+      }
+
+      pre {
+        padding: .5rem;
+      }
+    }
+
+    .modal-footer {
+      display: flex;
+      flex: 0 0 auto;
+      justify-content: flex-end;
+      padding: 0 .5rem;
+    }
+
+    .modal-divider {
+      border-bottom: .25rem solid $modal-divider-color;
+      margin: 0;
+    }
+
+    .modal-btn-icon {
+      @include btn-icon($modal-bg);
+    }
+
+    .modal-btn-text {
+      @include btn-text($modal-bg);
+    }
+
+    .modal-btn-text-submit {
+      @include btn-text($modal-bg, true);
+    }
+
+    .modal-btn-solid {
+      @include btn-solid($modal-bg);
+    }
+
+    .modal-btn-solid-submit {
+      @include btn-solid($modal-bg, true);
+    }
+
+    .modal-collapse {
+      padding: 0;
+    }
+
+    .modal-overflow {
+      overflow: visible;
+    }
+
+    // Flip animation
+    .modal-flip {
+
+      .modal-x-small .modal {
+        height: $modal-width-xs;
+        width: $modal-width-xs;
+      }
+
+      .modal-small .modal {
+        height: $modal-width-s;
+        width: $modal-width-s;
+      }
+
+      .modal-medium .modal {
+        height: $modal-width-m;
+        width: $modal-width-m;
+      }
+
+      .modal-large .modal {
+        height: $modal-width-l;
+        width: $modal-width-l;
+      }
+
+      .modal {
+        height: 100%;
+      }
+
+      .modal-content {
+        perspective: 1000px;
+        background-color: transparent;
+        display: block;
+        height: 100%;
+        position: relative;
+        width: 100%;
+      }
+
+      .modal-back,
+      .modal-front {
+        background-color: $modal-bg;
+        display: flex;
+        flex-direction: column;
+        backface-visibility: hidden;
+        height: 100%;
+        position: absolute;
+        transform-style: preserve-3d;
+        transition: transform .9s ease;
+        width: 100%;
+      }
+
+      .modal-back {
+        z-index: 999;
+        transform: rotateY(-180deg);
+      }
+
+      .modal-front {
+        z-index: 1001;
+        transform: rotateY(0deg);
+      }
+
+      .modal-flipping .modal-content {
+          .modal-back {        
+            transform: rotateY(0deg);
+          }
+
+          .modal-front {
+            transform: rotateY(180deg);
+          }
+      }
+    }
+  }
+}

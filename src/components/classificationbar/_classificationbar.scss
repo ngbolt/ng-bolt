@@ -1,0 +1,102 @@
+////
+/// CSS properties for classification bar displayed at very top of application
+/// @group class-bar
+/// @since 2.0.0
+////
+
+///
+$unclassified-bg: $green-dark;
+///
+$unclassified-color: $font-secondary-light;
+///
+$confidential-bg: $light-blue;
+///
+$confidential-color: $font-secondary-dark;
+///
+$secret-bg: $red;
+///
+$secret-color: $font-secondary-dark;
+///
+$top-secret-bg: $orange;
+///
+$top-secret-color: $font-secondary-dark;
+///
+$class-bar-height: rem-calc(24);
+///
+$class-bar-height-sm: rem-calc(6);
+///
+$class-bar-hide-text-sm: true;
+
+@function class-bar-height($hide-text: $class-bar-hide-text-sm) {
+  @if $hide-text {
+    @return $class-bar-height-sm;
+  } @else {
+    @return $class-bar-height;
+  }
+}
+
+@mixin _classification-bar($bg, $color) {
+  background-color: $bg;
+  color: $color;
+  flex: 0 0 auto;
+  font-size: .75rem;
+  font-weight: 600;
+  width: 100%;
+  position: relative;
+  z-index: 1001;
+
+  @if $class-bar-hide-text-sm {
+    @include screen-width(sm, only) {
+      height: class-bar-height(true);
+    }
+  }
+}
+
+@mixin classificationbar-output {
+  .ng-bolt {
+    .classification-bar {
+      &-unclassified {
+        @include _classification-bar($unclassified-bg, $unclassified-color);
+      }
+      &-confidential {
+        @include _classification-bar($confidential-bg, $confidential-color);
+      }
+      &-secret {
+        @include _classification-bar($secret-bg, $secret-color);
+      }
+      &-top-secret {
+        @include _classification-bar($top-secret-bg, $top-secret-color);
+      }
+    }
+
+    .classification-bar-text {
+      line-height: class-bar-height(false);
+      overflow: hidden;
+      text-align: center;
+      white-space: nowrap;
+      margin: 0;
+
+      @if $class-bar-hide-text-sm {
+        @include screen-width(sm, only) {
+          display: none;
+        }
+      }
+    }
+
+    &.classification {
+      .modal-overlay,
+      .panel-overlay,
+      [class*="menu-panel-top"],
+      [class*="menu-panel-left"],
+      [class*="menu-panel-right"] {
+        top: class-bar-height(false);
+
+        @if $class-bar-hide-text-sm {
+          @include screen-width(sm, only) {
+            top: class-bar-height(true);
+          }
+        }
+      }
+    }
+  }
+}

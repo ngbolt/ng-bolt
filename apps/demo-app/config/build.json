@@ -1,0 +1,52 @@
+{
+  "appSrc": "ng-bolt-app",
+  "ngBoltSrc": "src",
+  "port": 9000,
+  "docsPort": 9001,
+  "libraries": {
+    "css": [],
+    "js": [],
+    "fonts": [],
+    "static": []
+  },
+  "debug": true,
+  "defaultLogLevel": "debug",
+  "generateBoltDocs": true,
+  "generateAppDocs": false,
+  "buildDest": "build/app",
+  "docsDest": "build/docs",
+  "html5mode": true,
+  "logoUrl": "images/logo.png",
+  "packagePath": "/../../package.json",
+  "serve": true,
+  "gzip": false,
+  "cleanIgnore": [],
+  "components": {
+    "auth": true,
+    "appbar": true,
+    "cards": true,
+    "checkboxradio": true,
+    "classificationbar": true,
+    "counter": true,
+    "datepicker": true,
+    "fileloader": true,
+    "fontAwesome": true,
+    "lists": true,
+    "login": true,
+    "menu": true,
+    "modal": true,
+    "notifications": true,
+    "panel": true,
+    "dropdown": true,
+    "tables": true,
+    "tabs": true,
+    "textfield": true,
+    "toggleswitch": true,
+    "view": true,
+    "data": {
+      "http": true,
+      "sqlite": true,
+      "wamp": true
+    }
+  }
+}

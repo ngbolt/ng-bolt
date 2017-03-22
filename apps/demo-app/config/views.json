@@ -1,0 +1,69 @@
+{
+  "views": [
+    {
+      "path": "/base-styles",
+      "route": {
+        "templateUrl": "partials/base-styles/base-styles.template.html"
+      },
+      "animation": "slide"
+    },
+    {
+      "path": "/tabs",
+      "route": {
+        "templateUrl": "partials/tabs/tabs.template.html"
+      },
+      "animation": "slide"
+    },
+    {
+      "path": "/form-controls",
+      "route": {
+        "templateUrl": "partials/forms/forms.template.html",
+        "controller": "FormsController",
+        "controllerAs": "Forms"
+      },
+      "animation": "fade"
+    },
+    {
+      "path": "/lists",
+      "route": {
+        "templateUrl": "partials/lists/lists.template.html"
+      }
+    },
+    {
+      "path": "/tables",
+      "route": {
+        "templateUrl": "partials/tables/tables.template.html",
+        "controller": "TablesController",
+        "controllerAs": "Tables"
+      }
+    },
+    {
+      "path": "/modals",
+      "route": {
+        "templateUrl": "partials/modals/modals.template.html",
+        "controller": "ModalsController",
+        "controllerAs": "Modals"
+      }
+    },
+    {
+      "path": "/menus",
+      "route": {
+        "templateUrl": "partials/menus/menus.template.html",
+        "controller": "MenusController",
+        "controllerAs": "Menus"
+      }
+    },
+    {
+      "path": "/cards",
+      "route": {
+        "templateUrl": "partials/cards/cards.template.html"
+      }
+    },
+    {
+      "path": "/components",
+      "route": {
+        "templateUrl": "partials/components/components.template.html"
+      }
+    }
+  ]
+}

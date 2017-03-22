@@ -1,0 +1,14 @@
+{% import "lib/macros.html" as lib -%}
+{%- if doc.properties %}
+<section class="api-properties edge-top">
+  <h2>Properties</h2>
+  {%- for property in doc.properties %}
+  <div id="{$ property.name $}">
+    <h3 class="api-property-name">{$ property.name | code $}</h3>
+    <div class="api-property-content">
+      {$ lib.typeInfo(property) $}
+    </div>
+  </div>
+  {% endfor -%}
+</section>
+{%- endif -%}

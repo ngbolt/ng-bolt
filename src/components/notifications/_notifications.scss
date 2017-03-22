@@ -1,0 +1,99 @@
+////
+/// CSS properties for 'toast' and 'snack-bar' notifications 
+/// @group notifications 
+/// @since 2.0.0
+////
+
+///
+$notification-bg: isitlight($body-bg, rgba($black, .9), rgba($white, .9)) !default;
+///
+$notification-color: isitlight($notification-bg, $font-primary-dark, $font-primary-light) !default;
+///
+$notification-btn-color: isitlight($notification-bg, $font-secondary-dark, $font-secondary-light) !default;
+
+@mixin notifications-output {
+  .ng-bolt {
+    .notification-container {
+      position: fixed;
+      display: flex;
+      flex-direction: column-reverse;
+      bottom: 0;
+      left: 0;
+      margin-left: 1rem;
+      margin-bottom: 1rem;
+      width: rem-calc(400);
+      z-index: 1000;
+
+      @include screen-width(sm, only) {
+        margin: 0;
+        width: 100%;
+        flex-direction: column;
+        max-height: 20vh;
+        overflow-y: auto;
+      }
+    }
+    .notification {
+      flex: 0 0 auto;
+      display: flex;
+      background-color: $notification-bg;
+      margin-top: .25rem;
+      transition: all .3s;
+      &.ng-enter {
+        transition-timing-function: ease-out;
+        transform: translateX(-100%);
+      }
+      &.ng-enter-active {
+        transform: translateX(0%);
+      }
+      &.ng-leave {
+        transition-timing-function: ease;
+        opacity: 1;
+      }
+      &.ng-leave-active {
+        opacity: 0;
+      }
+
+      @include screen-width(sm, only) {
+        margin-top: 0;
+        border-top: 1px solid isitlight($notification-bg, $global-border-dark, $global-border-light);
+
+        &.ng-enter {
+          transition-timing-function: ease-out;
+          transform: translateY(100%);
+        }
+        &.ng-enter-active {
+          transform: translateY(0%);
+        }
+        &.ng-leave {
+          transition-timing-function: ease;
+          opacity: 1;
+        }
+        &.ng-leave-active {
+          opacity: 0;
+        }
+      }
+    }
+    .notification-content {
+      flex: 1 1 auto;
+      padding: 1rem;
+    }
+    .notification-message {
+      color: $notification-color;
+      margin: 0;
+      line-height: 1rem;
+    }
+    .notification-actions {
+      flex: 0 0 auto;
+      flex-wrap: wrap;
+      display: flex;
+      align-items: flex-end;
+      padding-right: .5rem;
+      .notification-btn {
+        @include btn-text($notification-bg);
+      }
+      .notification-btn-submit {
+        @include btn-text($notification-bg, true);
+      }
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "appSrc": "app",
+  "ngBoltSrc": "src",
+  "port": 9000,
+  "docsPort": 9000,
+  "libraries": {
+    "css": [],
+    "js": [],
+    "fonts": []
+  },
+  "debug": true,
+  "defaultLogLevel": "debug",
+  "generateBoltDocs": true,
+  "generateAppDocs": false,
+  "buildDest": "build",
+  "docsDest": "build",
+  "html5mode": false,
+  "serve": true,
+  "gzip": false,
+  "cleanIgnore": [],
+  "components": {
+    "auth": false,
+    "appbar": true,
+    "cards": false,
+    "checkboxradio": false,
+    "classificationbar": false,
+    "counter": false,
+    "datepicker": false,
+    "fileloader": false,
+    "fontAwesome": false,
+    "lists": false,
+    "login": false,
+    "menu": true,
+    "modal": false,
+    "notifications": false,
+    "panel": false,
+    "dropdown": false,
+    "tables": false,
+    "tabs": false,
+    "textfield": false,
+    "toggleswitch": false,
+    "view": false,
+    "data": {
+      "http": false,
+      "sqlite": false,
+      "wamp": false
+    }
+  }
+}

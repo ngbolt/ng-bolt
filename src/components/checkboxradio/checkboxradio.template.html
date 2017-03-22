@@ -1,0 +1,37 @@
+
+<div class="checkbox-radio">
+    <!-- Checkbox or Radio Button -->
+    <label>
+        <!--TODO: Implement bolt directives to handle optional attributes-->
+        <input name="{{$ctrl.name}}"
+               type="{{$ctrl.type}}"
+               class="checkbox-radio-input-hidden"
+               ng-model="$ctrl.model"
+               ng-change="$ctrl.onChange()"
+               ng-keyup="$ctrl.toggle()"
+               ng-disabled="$ctrl.disabled"
+               value="{{$ctrl.value}}"
+               blt-tabindex="{{$ctrl.tabindex}}"
+               blt-required="{{$ctrl.required}}"
+               blt-autofocus="{{$ctrl.autofocus}}"/>
+
+        <div class="checkbox-radio-input" ng-class="{'disabled': $ctrl.disabled}">
+            <span class="checkbox-radio-icon fa"
+                  ng-class="$ctrl.model ? 'fa-check-square' : 'fa-square'"
+                  ng-if="$ctrl.type == 'checkbox'">
+            </span>
+            <span class="checkbox-radio-icon fa"
+                  ng-class="$ctrl.model == $ctrl.value ? 'fa-dot-circle-o' : 'fa-circle'"
+                  ng-if="$ctrl.type == 'radio'">
+            </span>
+
+            <span class="checkbox-radio-label" ng-class="{'disabled': $ctrl.disabled}" ng-if="$ctrl.label">{{$ctrl.label}}</span>
+        </div>
+
+        <!-- Form Field Error Messages -->
+        <p class="checkbox-radio-error"
+           ng-if="$ctrl.type == 'checkbox'">
+            <span class="checkbox-radio-error-hide checkbox-radio-error-required">This field is required.</span>
+        </p>
+    </label>
+</div>

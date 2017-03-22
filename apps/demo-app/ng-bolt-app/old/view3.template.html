@@ -1,0 +1,49 @@
+<h1>View 3</h1>
+<button blt-open-view="view1">View 1</button>
+<button blt-open-view="view2">View 2</button>
+<div class="table-container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>This is a basic cell. <br>
+                <span class="table-tag">tag</span>
+                <span class='table-tag-solid'>solid tag</span>
+            </td>
+            <td>
+                <div class="dropdown" ng-class="{'is-open': Main.show.dropdown}">
+                    <button class="dropdown-toggle" ng-click="Main.show.dropdown = !Main.show.dropdown">Dropdown<span
+                            class='fa fa-caret-down'></span>
+                    </button>
+                    <div class="dropdown-overlay" ng-click="Main.show.dropdown = false"></div>
+                    <ul class="menu floating condensed">
+                        <li class="menu-item">
+                            <button class="menu-item-link">This</button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-item-link">Is a</button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-item-link">Dropdown</button>
+                        </li>
+                        <li class="menu-item">
+                            <button class="menu-item-link">Menu</button>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+            <td class="table-actions">
+                <div class="btn-row">
+                    <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

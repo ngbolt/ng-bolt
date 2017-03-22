@@ -1,0 +1,26 @@
+{
+  "routes": {
+    "example": {
+      "return": "text",
+      "rest": {
+        "url": "index.html",
+        "type": "GET",
+        "params": [],
+        "body": []
+      },
+      "wamp": {
+        "rpc": "f.remote.procedure.call",
+        "args": [
+          "argstName"
+        ],
+        "kargs": [
+          "kArgsName"
+        ]
+      },
+      "sqlite": {
+        "query": "SELECT * FROM EXAMPLE;",
+        "args": []
+      }
+    }
+  }
+}

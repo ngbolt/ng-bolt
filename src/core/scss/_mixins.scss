@@ -1,0 +1,200 @@
+////
+/// @group mixins
+/// @since 1.11.0
+////
+
+@mixin tag($bg, $tag-color: default, $solid: false) {
+  @if $solid {
+    @if $tag-color == default {
+      background-color: isitlight($bg, $divider-color-dark, $divider-color-light);
+      color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+    } @else {
+      background-color: $tag-color;
+      color: isitlight($tag-color, $font-secondary-dark, $font-primary-light);
+    }
+    border-radius: rem-calc(3);
+    padding: .3125rem .375rem;
+    margin-top: .125rem;
+  } @else {
+    @if $tag-color == default {
+      color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+    } @else {
+      color: $tag-color;
+    }
+  }
+  display: inline-block;
+  font-size: rem-calc(12);
+  font-weight: normal;
+  line-height: 1;
+  margin-right: .25rem;
+  white-space: nowrap;
+}
+
+// Pending
+$pending-bg-dark: $gray-darker !default;
+$pending-bg-light: white !default;
+
+@mixin pending($bg) {
+  align-items: center;
+  background-color: isitlight($bg, $pending-bg-dark, $pending-bg-light);
+  color: isitlight($bg, $font-secondary-light, $font-secondary-dark);
+  display: flex;
+  font-size: $font-size-normal;
+  justify-content: space-between;
+  min-height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin: 0;
+}
+
+/// Breakpoints
+$breakpoints: (
+        sm: rem-calc(0),
+        md: rem-calc(640),
+        lg: rem-calc(1024),
+        xl: rem-calc(1440),
+        xxl: rem-calc(1920),
+) !default;
+
+/// Breakpoint ranges
+$bp-ranges: up, down, only;
+
+/// @todo Don't return anything if $bp does not exist in map.
+@mixin screen-width($bp: sm, $dir: 'up') {
+  $str: 'screen';
+  $max: 0;
+
+  @if type-of($bp) == 'string' {
+    @if map-has-key($breakpoints, $bp) {
+      @if $dir == 'only' or 'down' {
+        $next-bp: map-index($breakpoints, $bp);
+        @if $next-bp == null {
+          $max: null;
+        } @else {
+          $max: $next-bp - (1/16);
+        }
+      }
+      $bp: map-get($map: $breakpoints, $key: $bp);
+    } @else {
+      $bp: 0;
+    }
+  }
+
+  @if unit($bp) == 'px' or unit($bp) == '' {
+    $bp: rem-calc($bp);
+  }
+
+  @if $bp > 0 or $dir == 'only' {
+    @if $dir == 'only' {
+      $str: $str + ' and (min-width: #{$bp})';
+      @if $max != null {
+        $str: $str + ' and (max-width: #{$max})';
+      }
+    } @else if $dir == 'down' {
+      $str: $str + ' and (max-width: #{$max})';
+    } @else {
+      $str: $str + ' and (min-width: #{$bp})';
+    }
+  }
+
+  @if $bp == 0em and $dir != 'only' or $max == null and $dir == 'down' {
+    @content;
+  } @else {
+    @media #{$str} {
+      @content;
+    }
+  }
+}
+
+@mixin screen-resolution($min) {
+  @if $min == 1 {
+    @content;
+  } @else {
+    $dpi: $min * 92;
+    @media screen and (-webkit-min-device-pixel-ratio: $min) and (min-resolution: #{$dpi}dpi) {
+      @content;
+    }
+  }
+}
+
+@mixin screen-orientation($orientation) {
+  @media only screen and (orientation: $min) {
+    @content;
+  }
+}
+
+/// Define CSS properties for each screen width
+/// @require {mixin} screen-width
+/// @param {string} $base Base classname
+@mixin for-screen-widths($base) {
+  @each $bp in map-keys($map: $breakpoints) {
+    @each $dir in $bp-ranges {
+      @include screen-width($bp, $dir) {
+        #{$base}-#{$bp}-#{$dir} {
+          @content;
+        }
+      }
+    }
+  }
+}
+
+/// Trucate overflowing text and add ellipsis.
+@mixin truncate-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/// Hide element not within provided breakpoint and range. Does not apply to elements displayed or hidden with ng-show or ng-hide.
+/// @param {string} $bp - Provided breakpoint, e.g. 'medium'.
+/// @param {string} $dir - Range of the provided breakpoint, e.g. 'down'.
+@mixin show-for($bp, $dir) {
+  $min: map-index($breakpoints, $bp, false);
+  $max: map-index($breakpoints, $bp, true);
+
+  &:not(.ng-hide) {
+    @if $dir == 'only' {
+      @if $min {
+        @include screen-width($min, 'down') {
+          display: none !important;
+        }
+      }
+      @if $max {
+        @include screen-width($max, 'up') {
+          display: none !important;
+        }
+      }
+    } @else if $dir == 'down' {
+      @if $max {
+        @include screen-width($max, 'up') {
+          display: none !important;
+        }
+      }
+    } @else {
+      @if $min {
+        @include screen-width($min, 'down') {
+          display: none !important;
+        }
+      }
+    }
+  }
+}
+
+/// Hide elements within provided breakpoint and range. Does not apply to elements displayed or hidden with ng-show or ng-hide.
+/// @param {string} $bp - Provided breakpoint, e.g. 'medium'.
+/// @param {string} $dir - Range of the provided breakpoint, .e.g. 'down'.
+@mixin hide-for($bp, $dir) {
+  &:not(.ng-hide) {
+    @include screen-width($bp, $dir) {
+      display: none !important;
+    }
+  }
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}

@@ -1,0 +1,108 @@
+@import 'textfield/textfield';
+
+////
+/// CSS properties for the fileloader component.
+/// @group fileloader
+/// @since 2.0.0
+////
+
+/// The background color of the fileloader.
+/// @type Color
+$fileloader-bg: $textfield-bg !default;
+/// The color of the fileloader label.
+/// @type Color
+$fileloader-label-color: $textfield-label-color !default;
+/// The color of a focused or hovered fileloader.
+/// @type Color
+$fileloader-focused-color: $global-link-color !default;
+/// The font and border color of a fileloader error
+/// @type Color
+$fileloader-error-color: $textfield-error-color !default;
+
+/// CSS classnames to output if module is included in build.
+@mixin fileloader-output {
+  .ng-bolt {
+    .fileloader {
+      @include text-field($fileloader-bg);
+      position: relative;
+
+      input[type="file"]::-webkit-file-upload-button, button {
+        cursor: pointer !important;
+      }
+
+      .placeholder {
+        color: $gray-dark;
+      }
+
+      input[type="file"] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        display: none;
+
+        &:focus,
+        &:hover {
+          ~ .fileloader-input {
+            border-bottom-color: $fileloader-focused-color;
+          }
+        }
+
+        &.ng-invalid.ng-touched {
+          @include text-field-invalid($classname: "fileloader");
+          ~ .fileloader-input {
+            border-bottom-color: $fileloader-error-color;
+            margin: 0 0 1rem;
+          }
+        }
+
+      }
+    }
+
+    .fileloader-label {
+      @include text-field-small($color: $fileloader-label-color, $top: .5rem);
+    }
+
+    .fileloader-input {
+      @include text-field-input('fileloader', $fileloader-bg);
+
+      .placeholder {
+        display: none;
+      }
+
+      &.disabled {
+        border-bottom-color: transparent !important;
+        opacity: .4;
+      }
+
+    }
+
+    .fileloader-icon {
+      @include text-field-icon($fileloader-bg, 'fileloader');
+    }
+
+    .fileloader-error {
+      @include text-field-small($color: $fileloader-error-color, $bottom: .5rem);
+      display: none;
+    }
+
+    .fileloader-empty {
+      @include text-field-empty('fileloader');
+      // A input[type="file] element does not appear the same as a regular input,
+      // so we need to fake placeholders and show them when the input is empty.
+      .fileloader-input .placeholder {
+        display: inline;
+      }
+    }
+
+    .fileloader-error-hide {
+      display: none;
+    }
+
+    form.ng-submitted.ng-invalid .fileloader .fileloader-input.ng-invalid {
+      @include text-field-invalid($classname: 'fileloader');
+      ~ .fileloader-input {
+        border-bottom-color: $fileloader-error-color;
+      }
+    }
+  }
+}

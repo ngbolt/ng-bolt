@@ -1,0 +1,22 @@
+{
+  "data": {
+    "protocol": "wamp",
+    "retryMax": 1,
+    "retryDelay": 100
+  },
+  "auth": {
+    "authService": "DevAuthService"
+  },
+  "servers": {
+    "wamp": {
+      "url": "ws://localhost:8080",
+      "realm": "wamp_realm"
+    }
+  },
+  "database": {
+    "name": "EXAMPLE_DB",
+    "version": "1.0",
+    "createFromLocation": 1
+  },
+  "build": {}
+}

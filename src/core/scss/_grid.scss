@@ -1,0 +1,153 @@
+////
+/// Grid elements are the foundational building blocks of an ngBoltJS project.
+/// @group grid
+/// @since 2.0.0
+////
+
+/// Default grid padding
+$grid-padding: $global-padding !default;
+
+/// Base grid properties.
+/// @param {String} $display - The value of the elements display CSS property.
+@mixin grid-base($display) {
+  display: $display;
+  position: relative;
+
+  @if $display == flex {
+    backface-visibility: hidden;
+  }
+}
+
+%grid-frame {
+  @include grid-base(flex);
+  height: 100vh;
+  overflow: hidden !important;
+}
+
+/// Grid element properties.
+/// @param {string} $type - The type of the grid element. (block, content)
+/// @require {mixin} grid-base
+@mixin grid-block-base($type) {
+
+  @if $type == 'block' {
+    @include grid-base(flex);
+  } @else if $type == 'content' {
+    @include grid-base(block);
+  } @else {
+    @error "Value for $type must be 'block' or 'content', was #{type}.";
+  }
+
+  flex: 1 1 auto;
+  height: auto;
+  overflow-y: auto;
+
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  -webkit-overflow-scrolling: touch;
+}
+
+/// Grid element modifiers.
+/// @param {string} $modifier - A grid element modifier. Can be **shrink**, **wrapper**, **vertical**, **align-center**, **justify-center**, **center**, **no-scroll**, or **expand**;
+/// @output Grid element modifier CSS classes.
+@mixin grid-modifier($modifier) {
+  @if $modifier == shrink {
+    flex: 0 0 auto;
+  } @else if $modifier == wrapper {
+    padding: $grid-padding;
+  } @else if $modifier == vertical {
+    flex-direction: column;
+  } @else if $modifier == align-center {
+    align-items: center;
+  } @else if $modifier == justify-center {
+    justify-content: center;
+  } @else if $modifier == center {
+    align-items: center;
+    justify-content: center;
+  } @else if $modifier == 'no-scroll' {
+    overflow-y: visible;
+  } @else if $modifier == 'expand' {
+    flex: 1 1 auto;
+  }
+}
+
+/// A grid element with a position of fixed.
+/// @param {number | string} $top [auto] - The value of the element's top CSS property.
+/// @param {number | string} $right [auto] - The value of the element's right CSS property.
+/// @param {number | string} $bottom [auto] - The value of the element's bottom CSS property.
+/// @param {number | string} $left [auto] - The value of the element's left CSS property.
+/// @param {number | string} $width [auto] - The width of the element.
+/// @param {number | string} $z [100] - The z-index of the element.
+/// @access Private 
+@mixin grid-fixed($top: auto, $right: auto, $bottom: auto, $left: auto, $width: auto, $z: 100) {
+  bottom: $bottom;
+  left: $left;
+  position: fixed;
+  right: $right;
+  top: $top;
+  width: $width;
+  z-index: $z;
+}
+
+// Output: the CSS classes that will be included in the generated ng-bolt.css file.
+.ng-bolt {
+  // Grid frame element
+  .grid-frame {
+    @extend %grid-frame;
+  }
+
+  // Grid block element
+  .grid-block {
+    @include grid-block-base('block');
+  }
+
+  // Grid content element
+  .grid-content {
+    @include grid-block-base('content');
+  }
+
+  // Grid element modifiers
+  @each $modifier in shrink, wrapper, vertical, align-center, justify-center, center, 'no-scroll', 'expand' {
+    .grid-#{$modifier} {
+      @include grid-modifier($modifier);
+    }
+
+    // Screen width properties for grid element modifiers.
+    @include for-screen-widths('.grid-#{$modifier}') {
+      @include grid-modifier($modifier);
+    }
+    // @each $bp in map-keys($map: $breakpoints) {
+    //   @include screen-width($bp) {
+    //     .grid-#{$modifier}-#{$bp}-up {
+
+    //     }
+    //   }
+
+    //   @include screen-width($bp, 'down') {
+    //     .grid-#{$modifier}-#{$bp}-down {
+    //       @include grid-modifier($modifier);
+    //     }
+    //   }
+
+    //   @include screen-width($bp, 'only') {
+    //     .grid-#{$modifier}-#{$bp}-only {
+    //       @include grid-modifier($modifier);
+    //     }
+    //   }
+    // }
+  }
+
+  // No padding for grid-wrapper on small screens by default. Use grid-wrapper-small-* to override default.
+  @include screen-width(sm, 'only') {
+    .grid-wrapper {
+      padding: 0;
+    }
+  }
+
+  // Screen width properties for grid-block and grid-content elements.
+  @include for-screen-widths('.grid-content') {
+    @include grid-block-base(content);
+  }
+
+  @include for-screen-widths('.grid-block') {
+    @include grid-block-base(block);
+  }
+}

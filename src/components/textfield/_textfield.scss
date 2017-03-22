@@ -1,0 +1,207 @@
+////
+/// The textfield component is the basic building block of all form controls.
+/// @group textfield
+/// @since 2.0.0
+////
+
+/// The background color of a textfield
+/// @type Color
+$textfield-bg: $form-field-bg !default;
+/// The font color of a textfield
+/// @type Color
+/// @requires {function} isitlight
+$textfield-color: $form-input-color !default;
+/// The font color of a textfield label
+/// @type Color
+/// @requires {function} isitlight
+$textfield-label-color: $form-label-color !default;
+/// The font size of a text-field label
+$textfield-label-size: $form-field-label-size !default;
+/// The border color of a focused or hovered textfield
+/// @type Color
+$textfield-focused-color: $global-link-color !default;
+/// The transition speed of the textfield animations
+/// @type Number
+$textfield-transition-speed: .25s !default;
+/// The font color of a textfield input error
+/// @type Color
+$textfield-error-color: $alert-color !default;
+/// The font color of a textfield icon
+$textfield-icon-color: isitlight($textfield-bg, $font-hint-dark, $font-hint-light);
+
+/// The common CSS properties of a textfield.
+/// @param {Color} $bg [$textfield-bg] - The background color of a textfield.
+@mixin text-field($bg: $textfield-bg) {
+  background-color: $bg;
+  padding: .5rem;
+  position: relative;
+  width: 100%;
+}
+
+/// CSS properties of an empty textfield
+/// @param {String} $classname - The component classname.
+@mixin text-field-empty($classname: 'text-field') {
+  .#{$classname}-label {
+    display: none;
+  }
+  .#{$classname}-input {
+    margin: .5rem 0;
+  }
+}
+
+/// CSS properties of the textfield input element
+/// @param {String} $classname ['text-field'] - The base classname of the component to use on nested elements.
+/// @param {Color} $bg [$textfield-bg] - The background color of the input.
+/// @requires {function} isitlight
+/// @requires {mixin} text-field-invalid
+@mixin text-field-input($classname: 'text-field', $bg: $textfield-bg) {
+  background-color: $bg;
+  border: 0;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: $textfield-color;
+  display: block;
+  font-size: 1rem;
+  line-height: rem-calc(20);
+  margin: .875rem 0 .125rem;
+  padding: 0;
+  position: relative;
+  resize: none;
+  transition: margin $textfield-transition-speed, border-color .5s;
+  width: 100%;
+  z-index: 1;
+
+  &:focus,
+  &:hover {
+    border-bottom-color: $textfield-focused-color;
+    outline: none;
+  }
+
+  &:disabled {
+    border-bottom-color: transparent !important;
+    opacity: .4;
+  }
+
+  &.ng-invalid.ng-touched {
+    @include text-field-invalid($classname);
+  }
+}
+
+/// CSS properties for displaying error messages on invalid inputs. Extends angulars ng-invalid styles
+/// @param {String} $classname - CSS classname of component to prefix to error classes.
+@mixin text-field-invalid($classname) {
+  border-bottom-color: $textfield-error-color;
+  margin: 1rem 0;
+  & ~ .#{$classname}-error {
+    display: block;
+  }
+  &.ng-invalid-required {
+    margin: 0 0 1rem;
+  }
+
+  &.ng-invalid-required ~ .#{$classname}-error .#{$classname}-error-required {
+    display: inline;
+  }
+
+  &.ng-invalid-email ~ .#{$classname}-error .#{$classname}-error-email {
+    display: inline;
+  }
+
+  &.ng-invalid-url ~ .#{$classname}-error .#{$classname}-error-url {
+    display: inline;
+  }
+
+  &.ng-invalid-minlength ~ .#{$classname}-error .#{$classname}-error-minlength {
+    display: inline;
+  }
+
+  &.ng-invalid-maxlength ~ .#{$classname}-error .#{$classname}-error-maxlength {
+    display: inline;
+  }
+
+  &.ng-invalid-min ~ .#{$classname}-error .#{$classname}-error-min {
+    display: inline;
+  }
+
+  &.ng-invalid-max ~ .#{$classname}-error .#{$classname}-error-max {
+    display: inline;
+  }
+
+  &.ng-invalid-pattern ~ .#{$classname}-error .#{$classname}-error-pattern {
+    display: inline;
+  }
+}
+
+/// CSS properties for textfield labels and errors
+/// @requires {mixin} truncate-text
+/// @param {Color} $color - The font color of the element
+/// @param {Number|String} $top [auto] - Value of the css top property.
+/// @param {Number|String} $bottom [auto] - Value of the css bottom property.
+@mixin text-field-small($color, $top: auto, $bottom: auto) {
+  @include truncate-text;
+  bottom: $bottom;
+  color: $color;
+  font-size: $textfield-label-size;
+  line-height: 1;
+  left: 0;
+  margin: 0;
+  padding: 0 .5rem;
+  position: absolute;
+  top: $top;
+  width: 100%;
+}
+
+/// CSS properties for an textfield icon that is positioned to the right of the textfield input and can add a visual cue as to the type of input the text-field is.
+/// @requires {function} isitlight
+/// @param {Color} $bg [$textfield-bg] - The background color of the textfield so the icon will hide the bottom border of the input.
+/// @param {String} $classname ['text-field'] - The base classname of the component that will be prefixed to the icon classname. e.g. 'text-field-icon'
+/// @param {Number} $size [1.25rem] - The font size of the icon.
+@mixin text-field-icon($bg: $textfield-bg, $classname: 'text-field', $size: 1.25rem) {
+  background-color: $bg;
+  color: $textfield-icon-color;
+  font-size: $size;
+  line-height: $form-field-height;
+  position: absolute;
+  right: .5rem;
+  top: 0;
+  z-index: 1;
+  pointer-events: none;
+  text-align: center;
+  width: 2rem;
+}
+
+/// CSS classnames to output if module is included in build.
+@mixin textfield-output {
+  .ng-bolt {
+
+    .text-field {
+      @include text-field;
+    }
+
+    .text-field-empty {
+      @include text-field-empty;
+    }
+
+    .text-field-input {
+      @include text-field-input;
+    }
+
+    .text-field-label {
+      @include text-field-small($color: $textfield-label-color, $top: .5rem);
+    }
+
+    .text-field-error {
+      @include text-field-small($color: $textfield-error-color, $bottom: .5rem);
+      display: none;
+    }
+
+    .text-field-error-hide {
+      display: none;
+    }
+
+    form.ng-submitted.ng-invalid .text-field .text-field-input.ng-invalid {
+      @include text-field-invalid($classname: 'text-field');
+    }
+  }
+}

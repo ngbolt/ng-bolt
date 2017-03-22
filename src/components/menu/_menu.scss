@@ -1,0 +1,418 @@
+////
+/// Defines the CSS properties of the ngBoltJS menu component.
+/// @group menu
+/// @since 2.0.0
+////
+
+/// The background color of the menu element.
+/// @type Color
+$menu-bg: $global-content-bg !default;
+/// The font color of the menu.
+/// @type Color
+/// @requires {function} isitlight
+$menu-color: isitlight($menu-bg, $font-primary-dark, $font-primary-light) !default;
+/// The font color of an active menu item.
+/// @type Color
+$menu-item-active: $global-link-color !default;
+/// The minimum width of the menu
+/// @type Number
+$menu-min-width: rem-calc(200) !default;
+/// The background color of a sub-menu.
+/// @type Color
+$menu-sub-bg: isitlight($menu-bg, rgba($black, .05), rgba($white, .05)) !default;
+/// The animation sliding speed of a menu panel.
+/// @type Number
+$menu-panel-slide-speed: $global-slide-speed !default;
+
+/// CSS properties for the menu element.
+/// @param {Color} $bg [$menu-bg] - The background color of the menu element.
+/// @param {String} $type [normal] - The type of menu.
+@mixin menu($bg: $menu-bg, $type: normal) {
+  background-color: $bg;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  @if $type == normal {
+    flex: 1 1 12.5rem;
+    width: $menu-min-width;
+  } @else {
+    border: 1px solid $global-border-dark;
+    box-shadow: 1px 1px 10px $global-shadow-color;
+    position: absolute;
+    margin-top: -.25rem;
+    z-index: 100;
+  }
+}
+
+@mixin menu-item($bg: $menu-bg, $border: false, $top: false) {
+  @if $border {
+
+    $border-color: isitlight($bg, $borders-dark, $borders-light);
+    @if $top {
+      border: 0;
+      border-top: 1px solid $border-color;
+    } @else {
+      border-bottom: 1px solid $border-color;
+    }
+
+    &.menu-no-border {
+      border-bottom: 0;
+    }
+  }
+}
+
+@mixin menu-link($color: $menu-color, $bg: $menu-bg) {
+  align-items: center;
+  color: $color;
+  display: flex;
+  //required to deal with Mozilla Firefox flexbox bug.
+  display: -moz-box;
+  font-size: .875rem;
+  height: 3rem;
+  line-height: 1rem;
+  padding: 0 .5rem;
+  transition: background-color .5s ease;
+  width: 100%;
+
+  &:hover,
+  &:focus {
+    background-color: isitlight($bg, $borders-dark, $borders-light);
+    text-decoration: none;
+  }
+
+  &[disabled] {
+    background-color: transparent;
+    $color: isitlight($bg, $font-disabled-dark, $font-disabled-light);
+    color: $color;
+    cursor: default;
+
+    .menu-icon {
+      color: $color;
+    }
+  }
+}
+
+@mixin menu-text() {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin menu-condensed {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+
+  .menu {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+  }
+
+  .menu-link {
+    height: 2rem;
+  }
+
+  .menu-divider {
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+  }
+}
+
+@mixin menu-borders {
+  padding: 0;
+
+  > .menu-item {
+    @include menu-item($border: true);
+  }
+
+  .menu-divider {
+    border-width: .5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .menu {
+    border-top: 1px solid isitlight($menu-bg, $global-border-dark, $global-border-light);
+  }
+}
+
+@mixin menu-icons($icons: true) {
+  @if $icons {
+    max-width: 3rem;
+
+    .menu-link {
+      padding: 0;
+      text-align: center; 
+    }
+
+    .menu-icon {
+      font-size: rem-calc(20);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .menu-label {
+      display: none;
+    }
+  } @else {
+    .menu-icon {
+      display: none;
+    }
+  }
+}
+
+@mixin menu-accordion {
+  display: flex;
+  flex-direction: column;
+
+  > .menu-item {
+    flex: 0 0 auto;
+  }
+}
+
+@mixin menu-floating {
+  border: 1px solid rgba($black, .18);
+  box-shadow: 1px 1px 10px $global-shadow-color;
+  min-width: rem-calc(120);
+  position: absolute;
+  margin-top: -.25rem;
+  width: auto;
+  z-index: 100;
+
+  &.menu-left {
+    left: .5rem;
+  }
+
+  &.menu-right {
+    right: .5rem;
+  }
+}
+
+/// CSS properties for a menu panel positioned to the left or right
+/// @param {String} $classname ['menu-panel'] - The base classname of the component to prefix the active class.
+@mixin left-right($classname: 'menu-panel') {
+  top: 0;
+  height: 100vh;
+  max-width: 75vw;
+
+  &.#{$classname}-active {
+    transform: translateX(0);
+  }
+}
+
+/// CSS properties for a menu panel positioned to the bottom or top
+/// @param {String} $classname ['menu-panel'] - The base classname of the component to prefix the active class.
+@mixin top-bottom($classname: 'menu-panel') {
+  left: 0;
+  width: 100vw;
+  max-height: 60vh;
+
+  &.#{$classname}-active {
+    transform: translateY(0);
+  }
+}
+
+/// CSS properties for a menu that functions as a panel, animating in and off screen.
+/// @param {String} $side - The direction (top, bottom, left, right) the panel is positioned.
+/// @param {String} $classname ['menu-panel'] - The base classname of the component to prefix the active class.
+/// @requires {mixin} top-bottom
+/// @requires {mixin} left-right
+@mixin menu-panel($side, $classname: 'menu-panel') {
+  position: fixed;
+  transition: transform $menu-panel-slide-speed ease-in;
+  z-index: 1000;
+
+  $menu-panel-shadow-blur: 6px;
+
+  @if $side == top {
+    @include top-bottom;
+    top: 0;
+    transform: translateY(-100%);
+    box-shadow: 0 1px $menu-panel-shadow-blur $global-shadow-color;
+  } @else if $side == bottom {
+    @include top-bottom;
+    bottom: 0;
+    transform: translateY(100%);
+    box-shadow: 0 -1px $menu-panel-shadow-blur $global-shadow-color;
+  } @else if $side == left {
+    @include left-right;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 1px 0 $menu-panel-shadow-blur $global-shadow-color;
+  } @else if $side == right {
+    @include left-right;
+    right: 0;
+    transform: translateX(100%);
+    box-shadow: -1px 0 $menu-panel-shadow-blur $global-shadow-color;
+  } @else {
+    @error "$side must be 'top', 'bottom', 'right' or 'left', was #{$side}";
+  }
+
+  &.#{$classname}-active {
+    transition-timing-function: ease-out;
+  }
+}
+
+/// CSS properties for the close button on a menu panel element.
+/// @param {Color} $bg [$global-headers-bg] - The background color of the menu item containing the close button.
+/// @requires {function} isitlight
+@mixin menu-panel-close($bg: $global-headers-bg) {
+  $color: isitlight($bg, $font-primary-dark, $font-primary-light);
+  background-color: $bg;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 0 !important;
+}
+
+@mixin menu-output {
+  .ng-bolt {
+    .menu {
+      @include menu;
+
+      // Menu inside a menu is a sub-menu.
+      .menu {
+        background-color: $menu-sub-bg;
+        flex: 1 1 auto;
+        width: 100%;
+      }
+    }
+
+    .menu-link {
+      @include menu-link;
+      text-align: left;
+    }
+
+    .menu-icon {
+      color: isitlight($menu-bg, $font-icon-dark, $font-icon-light);
+      font-size: 1.25em;
+      margin-right: .5rem;
+    }
+
+    .menu-label {
+      @include menu-text;
+    }
+
+    .menu-divider {
+      border-top: 1px solid isitlight($menu-bg, $borders-dark, $borders-light);
+    }
+
+    .menu-container {
+      position: relative;
+    }
+
+    .menu-heading {
+      @include form-heading;
+    }
+
+    .menu-panel-close {
+      @include menu-panel-close;
+    }
+
+    @each $side in top, left, right, bottom {
+      .menu-panel-#{$side} {
+        @include screen-width(md, down) {
+          &-md-down {
+            @include menu-panel($side);
+          }
+        }
+
+        @include screen-width(md, only) {
+          &-md-only {
+            @include menu-panel($side);
+          }
+        }
+
+        @include screen-width(sm, only) {
+          &-sm-only {
+            @include menu-panel($side);
+          }
+        }
+      }
+    }
+
+    .menu-condensed {
+      @include menu-condensed;
+    }
+
+    @include for-screen-widths('.menu-condensed') {
+      @include menu-condensed;
+    }
+
+    .menu-borders {
+      @include menu-borders;
+    }
+
+    @include for-screen-widths('.menu-borders') {
+      @include menu-borders;
+    }
+
+    .menu-icons {
+      @include menu-icons;
+    }
+
+    @include for-screen-widths('.menu-icons') {
+      @include menu-icons;
+    }
+
+    @include for-screen-widths('.menu-no-icons') {
+      @include menu-icons(false);
+    }
+
+    .menu-accordion {
+      @include menu-accordion;
+    }
+
+    @include for-screen-widths('.menu-accordion') {
+      @include menu-accordion;
+    }
+
+    .menu-floating {
+      @include menu-floating;
+    }
+
+    @include for-screen-widths('.menu-floating') {
+      @include menu-floating;
+    }
+
+    .menu-thin {
+      width: rem-calc(128);
+    }
+
+    .menu-wide {
+      min-width: rem-calc(240);
+      width: rem-calc(240);
+    }
+
+    .menu-active {
+      & > .menu-link {
+        $color: isitlight($menu-item-active, $font-primary-dark, $font-primary-light);
+
+        background-color: $menu-item-active !important;
+        color: $color;
+        cursor: pointer !important;
+
+        .menu-icon {
+          color: $color;
+        }
+      }
+    }
+
+    .menu-hide-active {
+      .menu-active {
+        display: none;
+      }
+    }
+
+    @include for-screen-widths('.menu-hide-active') {
+      .menu-active {
+        display: none;
+      }
+    }
+  }
+}

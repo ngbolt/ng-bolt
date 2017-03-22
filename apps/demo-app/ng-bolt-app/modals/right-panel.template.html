@@ -1,0 +1,27 @@
+<header class="panel-header">
+    <h2 class="panel-title">Panel {{positionClass}}</h2>
+</header>
+<div class="panel-body">
+    <div class="grid-wrapper">
+        <p class="panel-text">This is some panel content inside a <code>.grid-wrapper</code> to add padding around the
+            text.</p>
+        <h3 class="panel-heading">This is a panel heading</h3>
+        <p class="panel-text">Often though, you will want to omit the <code>.grid-wrapper</code> in order to let the
+            content expand to the edges of the panel. This is useful for things like menus and forms inside a panel.</p>
+    </div>
+    <ul class="menu menu-borders edge-top">
+        <li class="menu-item">
+            <button class="menu-link">Item 1</button>
+        </li>
+        <li class="menu-item">
+            <button class="menu-link">Item 2</button>
+        </li>
+        <li class="menu-item">
+            <button class="menu-link">Item 3</button>
+        </li>
+    </ul>
+</div>
+<footer class="panel-footer edge-top">
+    <button class="btn-text" ng-click="Modals.togglePanel('rightPanel')">Cancel</button>
+    <button class="btn-text-submit" ng-click="Modals.togglePanel('rightPanel')">Save</button>
+</footer>

@@ -1,0 +1,252 @@
+////
+/// CSS properties for the date-picker component 
+/// @group datepicker 
+/// @since 1.11.0
+////
+
+///
+$datepicker-bg: $form-field-bg !default;
+///
+$datepicker-field-border: 1px solid isitlight($datepicker-bg, $divider-color-dark, $divider-color-light) !default;
+///
+$datepicker-header-bg: $global-headers-bg !default;
+///
+$datepicker-focused-color: $secondary-color !default;
+///
+$datepicker-active-bg: $secondary-color !default;
+///
+$datepicker-now-bg: isitlight($datepicker-bg, $gray-dark, $gray-light) !default;
+///
+$datepicker-overlay-bg: rgba($black, .5) !default;
+///
+$datepicker-hover: $datepicker-header-bg !default;
+
+@mixin datepicker-output {
+  .ng-bolt {
+    .datepicker-field {
+      background-color: $datepicker-bg;
+      padding: rem-calc(21) .5rem rem-calc(8);
+      position: relative;
+      width: 100%;
+      transition: padding .15s ease, background-color .3s ease;
+      white-space: nowrap;
+      // border-bottom: $datepicker-field-border;
+      &.is-empty {
+        padding: 1rem 1rem rem-calc(13);
+        label {
+          display: none;
+        }
+        .datepicker-toggle {
+          color: isitlight($datepicker-bg, $gray-dark, $gray-light);
+        }
+      }
+    }
+    .datepicker-overlay {
+      background-color: $datepicker-overlay-bg;
+      opacity: 1;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      transition: opacity .35s ease;
+      z-index: 100;
+    }
+    .datepicker-label {
+      font-size: rem-calc(12);
+      // font-weight: bold;
+      color: $gray-dark;
+      position: absolute;
+      top: .5rem;
+      left: .5rem;
+    }
+    .datepicker-input-hidden {
+      opacity: 0;
+      position: absolute;
+      width: auto !important;
+      left: 1rem;
+      right: 1rem;
+      &:focus + .datepicker-toggle,
+      &:hover + .datepicker-toggle{
+        border-bottom-color: $datepicker-focused-color;
+      }
+    }
+    .datepicker-toggle {
+      line-height: rem-calc(24);
+      display: block;
+      width: 100%;
+      border-bottom: 2px solid $datepicker-bg;
+      &.disabled {
+        border-bottom-color: transparent !important;
+        opacity: .4;
+      }
+    }
+    .datepicker-container {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      background-color: $datepicker-bg;
+      box-shadow: 2px 2px 0px 2px rgba(0, 0, 0, 0.12);
+      width: rem-calc(338);
+      height: rem-calc(289);
+      border-top: 1px solid rgba(black, .12);
+      border-left: 1px solid rgba(black, .12);
+      opacity: 1;
+      z-index: 101;
+      transition: opacity .15s ease;
+    }
+    .panel-bottom .datepicker-container {
+      top: auto;
+      bottom: 1rem;
+
+    }
+    .datepicker-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+    .datepicker-header {
+      background-color: $datepicker-header-bg;
+      flex: 0 0 auto;
+      display: flex;
+    }
+    .datepicker-btn-icon {
+      @include btn-icon($datepicker-header-bg);
+    }
+    .datepicker-title {
+      flex: 1 1 auto;
+      text-align: center;
+      line-height: 3rem;
+      font-size: 1rem;
+      font-weight: normal;
+      margin: 0;
+    }
+    .datepicker-title-link {
+      @extend .datepicker-title;
+      color: $btn-link-color;
+      cursor: pointer;
+    }
+    .datepicker-table {
+      flex: 1 1 auto;
+      display: flex;
+      flex-wrap: wrap;
+      &.vertical {
+        flex-direction: column;
+        flex-wrap: nowrap;
+      }
+    }
+    // base for date picker 'table-cells'
+    %datepicker-td {
+      color: isitlight($datepicker-bg, $font-secondary-dark, $font-secondary-light);
+      flex: 0 0 auto;
+      border-top: 1px solid $datepicker-hover;
+      border-right: 1px solid $datepicker-hover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        cursor: pointer;
+        background-color: $datepicker-hover !important;
+        color: isitlight($datepicker-bg, $font-secondary-dark, $font-secondary-light) !important;
+      }
+      &.is-now {
+        background-color: $datepicker-now-bg;
+        color: isitlight($datepicker-now-bg, $font-secondary-dark, $font-secondary-light);
+      }
+      &.is-active {
+        background-color: $datepicker-active-bg;
+        color: isitlight($datepicker-active-bg, $font-primary-dark, $font-primary-light);
+      }
+      &.is-disabled {
+        $disabled-dark-bg: darken($datepicker-bg, 4);
+        $disabled-light-bg: lighten($datepicker-bg, 4);
+        background-color: isitlight($datepicker-bg, $disabled-light-bg, $disabled-dark-bg) !important;
+        color: isitlight($datepicker-bg, $font-hint-dark, $font-hint-light);
+        cursor: default;
+      }
+    }
+    .datepicker-year {
+      @extend %datepicker-td;
+      width: rem-calc(112);
+      height: rem-calc(48);
+      &:nth-child(3n) {
+        border-right: none;
+      }
+    }
+    .datepicker-month {
+      @extend %datepicker-td;
+      width: rem-calc(112);
+      height: rem-calc(60);
+      &:nth-child(3n) {
+        border-right: none;
+      }
+    }
+    .datepicker-week {
+      flex: 1 1 auto;
+      display: flex;
+      &.six-weeks {
+        .datepicker-day {
+          height: rem-calc(40);
+        }
+      }
+    }
+    .datepicker-day {
+      @extend %datepicker-td;
+      width: rem-calc(48);
+      height: rem-calc(48);
+      &:nth-child(7n) {
+        border-right: none;
+      }
+    }
+    .datepicker-hour {
+      @extend %datepicker-td;
+      width: rem-calc(84);
+      height: rem-calc(40);
+      &:nth-child(4n) {
+        border-right: none;
+      }
+    }
+    .datepicker-minute {
+      @extend %datepicker-td;
+      width: rem-calc(112);
+      height: rem-calc(60);
+      &:nth-child(3n) {
+        border-right: none;
+      }
+    }
+
+    .form-group blt-datepicker {
+      flex: 1 1 auto;
+      .date-picker-field {
+        border-bottom: none;
+        border-right: 1px solid isitlight($datepicker-bg, $divider-color-dark, $divider-color-light);
+      }
+      &:last-child {
+        .date-picker-field {
+          border-right: none;
+        }
+      }
+    }
+
+    // animations
+    blt-datepicker.enter {
+      .datepicker-container, .datepicker-overlay {
+        opacity: 0;
+      }
+    }
+    blt-datepicker.leave {
+      .datepicker-container, .datepicker-overlay {
+        opacity: 0;
+      }
+    }
+
+    // mobile
+    @media screen and (max-width: 25rem) {
+      .panel-bottom .datepicker-container {
+        position: fixed;
+        bottom: 3rem;
+      }
+    }
+  }
+}

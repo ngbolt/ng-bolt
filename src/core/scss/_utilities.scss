@@ -1,0 +1,238 @@
+////
+/// Collection of helper CSS classes.
+/// @group utilities
+/// @since 2.0.0
+////
+
+/// spinner stroke width
+$spinner-stroke: 6 !default;
+
+/// spinner offset
+$spinner-offset: 187 !default;
+
+/// spinner duration
+$spinner-duration: 1.6s !default;
+
+/// spinner color
+$spinner-color: $global-link-color !default;
+
+%divider-base {
+  border: none;
+  border-top-width: $global-border-width;
+  border-top-style: solid;
+  margin: 0;
+  margin-top: .5rem;
+  padding-top: .5rem;
+}
+
+/// Add border to element
+/// @param {string} $side - Top, right, left, or bottom border.
+/// @param {list} $border - Border CSS property value.
+@mixin edge($side, $border) {
+  border-#{$side}: $border;
+}
+
+.ng-bolt {
+  .divider-dark {
+    @extend %divider-base;
+    border-top-color: $global-border-dark;
+  }
+  .divider-light {
+    @extend %divider-base;
+    border-top-color: $global-border-light;
+  }
+  .spacer {
+    @extend %divider-base;
+    border-top-width: 0;
+
+    &-vertical {
+      @extend %divider-base;
+      border: 0;
+      margin: 0;
+      margin-left: .5rem;
+      padding: 0;
+      padding-left: .5rem;
+    }
+  }
+
+  $borders: (
+          dark: $global-border-width solid $global-border-dark,
+          light: $global-border-width solid $global-border-light
+  );
+
+  @each $side in top, left, right, bottom {
+    .edge-#{$side} {
+      @include edge($side, map-get($borders, dark));
+    }
+
+    .edge-#{$side}-light {
+      @include edge($side, map-get($borders, light));
+    }
+
+    @each $color in dark, light {
+      .edge-#{$side}-#{$color} {
+        @include edge($side, map-get($borders, $color));
+      }
+
+      @include for-screen-widths('.edge-#{$side}-#{$color}') {
+        @include edge($side, map-get($borders, $color));
+      }
+    }
+  }
+
+  .collapse {
+    padding: 0 !important;
+  }
+  @include for-screen-widths('.collapse') {
+    padding: 0 !important;
+  }
+
+  .shrink {
+    flex: 0 0 auto !important;
+  }
+  @include for-screen-widths('.shrink') {
+    flex: 0 0 auto !important;
+  }
+
+  .wrapper {
+    padding: $global-padding !important;
+  }
+  @include for-screen-widths('.wrapper') {
+    padding: $global-padding !important;
+  }
+
+  @each $align in center, left, right {
+    .text-#{$align} {
+      text-align: $align !important;
+    }
+    @include for-screen-widths('.text-#{$align}') {
+      text-align: $align !important;
+    }
+  }
+
+  $justifications: (
+          left: flex-start,
+          center: center,
+          right: flex-end
+  );
+
+  @each $align in map-keys($map: $justifications) {
+    .justify-#{$align} {
+      justify-content: map-get($justifications, $align) !important;
+    }
+    @include for-screen-widths('.justify-#{$align}') {
+      justify-content: map-get($justifications, $align) !important;
+    }
+  }
+
+  .overflow-visible {
+    overflow: visible;
+  }
+
+  /// Background color of the full-screen message
+  $full-screen-bg: isitlight($global-bg, $gray-darker, $gray-light) !default;
+
+  .full-screen-bg {
+    align-items: center;
+    background-color: $full-screen-bg;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    left: 0;
+    opacity: 1;
+    padding: $global-padding $global-padding * 4;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: opacity .5s;
+    z-index: 98;
+
+    &.ng-hide {
+      opacity: 0;
+    }
+  }
+
+  .full-screen-msg {
+    color: isitlight($full-screen-bg, $font-secondary-dark, $font-secondary-light);
+    font-size: 2rem;
+    font-weight: 200;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .full-screen-caption {
+    @include font-body($full-screen-bg);
+  }
+
+  // Show and hide elements.
+  @each $bp in map-keys($breakpoints) {
+    @each $dir in $bp-ranges {
+      .hide-#{$bp}-#{$dir} {
+        @include hide-for($bp, $dir);
+      }
+      .show-#{$bp}-#{$dir} {
+        @include show-for($bp, $dir);
+      }
+    }
+  }
+
+  .spinner {
+    animation: rotator $spinner-duration linear infinite;
+    height: 2rem;
+    width: 2rem;
+    margin: 0 .5rem;
+
+    circle {
+      stroke-dasharray: $spinner-offset;
+      stroke-dashoffset: 0;
+      transform-origin: center;
+      fill: none;
+      stroke-width: $spinner-stroke;
+      animation: dash $spinner-duration ease-in-out infinite,
+      colors ($spinner-duration*4) ease-in-out infinite;
+    }
+  }
+
+  @keyframes rotator {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(270deg);
+    }
+  }
+
+  @keyframes colors {
+    0% {
+      stroke: $spinner-color;
+    }
+    25% {
+      stroke: $spinner-color;
+    }
+    50% {
+      stroke: $spinner-color;
+    }
+    75% {
+      stroke: $spinner-color;
+    }
+    100% {
+      stroke: $spinner-color;
+    }
+  }
+
+  @keyframes dash {
+    0% {
+      stroke-dashoffset: $spinner-offset;
+    }
+    50% {
+      stroke-dashoffset: $spinner-offset/4;
+      transform: rotate(135deg);
+    }
+    100% {
+      stroke-dashoffset: $spinner-offset;
+      transform: rotate(450deg);
+    }
+  }
+}

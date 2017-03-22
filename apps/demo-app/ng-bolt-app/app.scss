@@ -1,0 +1,90 @@
+@import 'ng-bolt';
+
+.base-styles {
+  padding: 1rem;
+
+  &-dark {
+    $bg-dark: $gray-darker;
+    background-color: $bg-dark;
+
+    .font {
+      &-title {
+        @include font-title($bg-dark);
+      }
+
+      &-sub-title {
+        @include font-sub-title($bg-dark);
+      }
+
+      &-body {
+        @include font-body($bg-dark);
+      }
+
+      &-caption {
+        @include font-caption($bg-dark);
+      }
+      &-icon {
+        @include font-icon($bg-dark);
+      }
+      &-code {
+        @include font-code($bg-dark);
+      }
+    }
+
+    .btn {
+      &-text {
+        @include btn-text($bg-dark);
+      }
+      &-text-submit {
+        @include btn-text($bg-dark, true);
+      }
+      &-solid {
+        @include btn-solid($bg-dark);
+      }
+      &-solid-submit {
+        @include btn-solid($bg-dark, true);
+      }
+      &-icon {
+        @include btn-icon($bg-dark);
+      }
+    }
+  }
+
+  &-light {
+    background-color: white;
+  }
+}
+
+#tables {
+  .special-tag {
+    @include tag($table-td-bg, $btn-link-color);
+  }
+  .special-tag-solid {
+    @include tag($table-td-bg, $btn-link-color, true);
+  }
+}
+
+#cards {
+  max-width: 25rem;
+  //IE11 flex bug requires explicit max width to be set on card contents.
+  .card-collapse {
+    .card-image {
+      max-width: 23.875rem;
+    }
+  }
+  .card-image {
+     max-width: 22.875rem;
+  }
+}
+
+#base-style-form {
+  max-width: 400px;
+}
+
+.ng-bolt {
+  .form-row {
+    blt-textfield {
+      flex: 1 1 auto;
+    }
+  }
+}

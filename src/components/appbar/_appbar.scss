@@ -1,0 +1,259 @@
+////
+/// Sets the CSS properties of the top bar of a ngBoltJS application called the appbar.
+/// @group appbar
+/// @since 2.0.0
+////
+
+/// The background color of the appbar.
+/// @type Color
+$appbar-bg: $primary-color !default;
+/// The font color of the appbar.
+/// @type Color
+$appbar-color: $body-font-color !default;
+/// The height of the appbar.
+/// @type Number
+/// @requires {function} rem-calc
+$appbar-height: rem-calc(56) !default;
+/// The height of the appbar on small screens.
+/// $type Number
+$appbar-height-small: $appbar-height * .857 !default;
+/// The background color of the appbar search field
+/// @type Color
+/// @requires {function} isitlight
+$appbar-search-bg: isitlight($appbar-bg, $global-border-dark, $global-border-light) !default;
+/// Amount of spacing between appbar sections.
+/// @type Number
+$appbar-spacing: .75rem !default;
+/// Background color of appbar dropdown menu
+/// @type Color
+$appbar-dropdown-bg: $global-content-bg !default;
+
+/// Base appbar flexbox block 
+%flex-block {
+  align-items: center;
+  display: flex;
+  flex: 1 1 auto;
+  overflow: visible;
+}
+
+/// Defines CSS properties for the appbar container
+/// @param {Number} $height [$appbar-height] - The height of the appbar.
+/// @param {Color} $bg [$appbar-bg] - The background color of the appbar.
+@mixin appbar($height: $appbar-height, $bg: $appbar-bg) {
+  align-items: center;
+  background-color: $bg;
+  display: flex;
+  flex: 0 0 auto;
+  height: $height;
+  width: 100%;
+  z-index: 10;
+  position: relative;
+  overflow-x: hidden;
+
+  @include screen-width(sm, only) {
+    height: $appbar-height-small;
+    min-height: 2.5rem;
+  }
+}
+
+/// Defines CSS properties for a section of an appbar
+/// @requires {placeholder} flex-block
+@mixin appbar-section {
+  @extend %flex-block;
+  height: 100%;
+  margin: 0 $appbar-spacing / 2;
+  min-width: 0;
+  position: relative;
+}
+
+/// The generated CSS classnames and properties for the appbar component
+@mixin appbar-output {
+  .ng-bolt {
+
+    .appbar {
+      @include appbar;
+
+      &.edge-bottom, &.edge-bottom-light {
+
+        .appbar-search {
+          background-color: $appbar-search-bg;
+          padding-left: .75rem;
+          padding-right: .75rem;
+        }
+
+        .appbar-search-field {
+          background-color: transparent;
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .appbar-section {
+      @include appbar-section;
+    }
+
+    .appbar-title {
+      @include font-title($appbar-bg, false);
+      color: isitlight($appbar-bg, $font-primary-dark, $font-primary-light);
+      font-weight: 400;
+      white-space: nowrap;
+
+      @include screen-width(sm, only) {
+        font-size: 1.25rem;
+        font-weight: 500;
+      }
+    }
+
+    .appbar-logo {
+      height: $appbar-height * .65;
+      margin-right: $appbar-spacing;
+
+      @include screen-width(sm, only) {
+        height: $appbar-height-small * .7;
+      }
+    }
+
+    .appbar-text {
+      @include font-body($appbar-bg, false);
+      @include truncate-text;
+      max-width: 100%;
+    }
+
+    .appbar-caption {
+      @include font-caption($appbar-bg, false);
+      @include truncate-text;
+      font-size: .75rem;
+      margin-top: .125rem;
+      max-width: 100%;
+
+      @include screen-width(sm, only) {
+        margin-top: 0;
+      }
+    }
+
+    .appbar-search {
+      @include appbar-section;
+      position: relative;
+
+      @include screen-width(sm, only) {
+        background-color: $appbar-search-bg;
+        padding-left: .5rem;
+        padding-right: .5rem;
+      }
+    }
+
+    .appbar-search-field {
+      background-color: $appbar-search-bg;
+      border-bottom: 2px solid transparent;
+      color: isitlight($appbar-bg, $font-primary-dark, $font-primary-light);
+      display: block;
+      font-size: 1rem;
+      line-height: rem-calc(22);
+      padding: .375rem .5rem .25rem;
+      flex: 1 1 auto;
+      &:focus {
+        border-color: $btn-link-color;
+        outline: none;
+      }
+
+      @include screen-width(sm, only) {
+        background-color: transparent;
+        padding: 0;
+        margin-top: .125rem;
+      }
+    }
+
+    .appbar-search-clear {
+      @include btn-icon($appbar-bg);
+      flex: 0 0 auto;
+      font-size: 1.25rem;
+      margin: 0;
+      margin-left: .25rem;
+    }
+
+    .appbar-icon {
+      @include btn-icon($appbar-bg);
+      margin: 0 .25rem;
+
+      @include screen-width(sm, only) {
+        margin-right: .5rem;
+        margin-left: .5rem;
+      }
+    }
+
+    .appbar-tab {
+      @include btn-text($submit: true);
+
+      $btn-bg: isitlight($appbar-bg, lighten($appbar-bg, 8%), darken($appbar-bg, 8%));
+
+      align-items: center;
+      background-color: $btn-bg;
+      display: flex;
+      flex: 1 1 auto;
+      font-weight: normal;
+      height: 100%;
+      margin: 0;
+      padding: 0 1rem;
+      border-radius: 0;
+      border-right: 1px solid isitlight($btn-bg, $divider-color-dark, $divider-color-light);
+      justify-content: center;
+
+      &:hover {
+        background-color: darken($btn-bg, 4%);
+      }
+
+      &:last-child {
+        border-right: 0;
+        margin-right: .5rem;
+      }
+
+      @include screen-width(sm, only) {
+        padding: 0 .5rem;
+        min-width: 3rem;
+      }
+    }
+
+    .appbar-shrink {
+      flex: 0 0 auto;
+    }
+
+    @include for-screen-widths('.appbar-shrink') {
+      flex: 0 0 auto;
+    }
+
+    .appbar-right {
+      justify-content: flex-end;
+    }
+
+    .appbar-vertical {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &.appbar-right {
+        align-items: flex-end;
+      }
+    }
+
+    @include for-screen-widths('.appbar-vertical') {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &.appbar-right {
+        align-items: flex-end;
+      }
+    }
+
+    .appbar-collapse {
+      margin: 0;
+    }
+
+    @include for-screen-widths('.appbar-collapse') {
+      margin: 0;
+    }
+  }
+}

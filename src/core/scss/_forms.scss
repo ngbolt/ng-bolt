@@ -1,0 +1,165 @@
+////
+/// Defines the global CSS properties for forms. 
+/// @group forms
+/// @since 2.0.0
+////
+
+/// Form background-color
+/// @type Color
+$form-bg: transparent !default;
+/// Form field background color
+/// @type Color
+$form-field-bg: $global-content-bg !default;
+/// Form field font color relative to the lightness of the form field background color
+/// @type Color
+$form-input-color: isitlight($form-field-bg, $font-primary-dark, $font-primary-light) !default;
+/// Form label color relative to the lightness of the form field background color
+/// @type Color
+$form-label-color: isitlight($form-field-bg, $font-secondary-dark, $font-secondary-light) !default;
+/// Form heading background color
+/// @type Color
+$form-heading-bg: $global-headers-bg !default;
+/// Form divider border color
+/// @type Color
+$form-border-color: isitlight($form-field-bg, $global-border-dark, $global-border-light);
+/// Form border width
+/// @type Number
+$form-border-width: $global-border-width;
+/// Form focused input color
+/// @type Color
+$form-focused-color: $global-link-color !default;
+/// Form field height
+/// @type Number
+$form-field-height: rem-calc(56) !default;
+/// The font size of a form field label
+$form-field-label-size: .75rem !default;
+
+/// Sets the base properties on a form. 
+/// @param {number|string} $max-width [null] - The max-width of the form element.
+/// @param {color} $bg [null] - The background color of the form element. 
+/// @output Base CSS properties for a form.
+@mixin form-base($max-width: null, $bg: $form-bg) {
+  background-color: $bg;
+  @if $max-width {
+    max-width: $max-width;
+  }
+  width: 100%;
+}
+
+/// Sets the CSS properties for a form heading.
+/// @param {color} $bg [$form-heading-bg] - The background of the heading element.
+/// @param {color} $color [null] - The color of the heading text. If null, the color will be calculated based on the darkness of $bg.
+/// @requires {function} isitlight
+/// @requires {mixin} font-body
+@mixin form-heading($bg: $form-heading-bg, $color: null) {
+  @include font-body($bg, false);
+  background-color: $bg;
+  @if $color == null {
+    color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+  } @else {
+    color: $color;
+  }
+  font-weight: 600;
+  line-height: 2.86em;
+  padding: 0 $global-padding / 2;
+}
+
+/// Sets the CSS properties for a form divider that creates a border between form fields.
+/// @param {color} $bg [$form-field-bg] - The background color of a form field.
+/// @param {color} $color [$form-border-color] - The border color of the divider.
+/// @param {number} $form-border-width [$form-border-width] - The width or thickness of the border in px, rem, or em.
+/// @param {bool} $vertical [false] - The divider is vertically oriented.
+@mixin form-divider($bg: $form-field-bg, $color: $form-border-color, $border-width: $form-border-width, $vertical: false) {
+  $border: $border-width solid $color;
+  background-color: $bg;
+  @if $vertical {
+    border-right: $border;
+  } @else {
+    border-top: $border;
+  }
+  margin: 0;
+}
+
+/// Sets the CSS properties for a form row that can contain multiple form fields.
+@mixin form-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  blt-textfield,
+  blt-datepicker,
+  blt-dropdown,
+  blt-checkbox-radio,
+  blt-counter,
+  blt-fileloader,
+  blt-toggle-switch,
+  .form-field {
+    flex: 1 1 auto;
+  }
+
+  .form-divider-vertical {
+    flex: 0 0 auto;
+  }
+}
+
+/// Sets the CSS properties for a form submit button.
+/// @param {color} $bg [$form-field-bg] - The background color of a form field.
+/// @requires {mixin} btn-solid
+@mixin form-submit($bg: $form-field-bg) {
+  @include btn-solid($bg, true);
+  border-radius: 0;
+  margin: 0;
+  width: 100%;
+  line-height: 2.86em;
+
+  @include screen-width(sm, only) {
+    line-height: 3.5em;
+  }
+}
+
+// css output
+.ng-bolt {
+  .form {
+    @include form-base;
+  }
+
+  .form-heading {
+    @include form-heading;
+  }
+
+  .form-divider {
+    @include form-divider;
+    &-vertical {
+      @include form-divider($vertical: true);
+    }
+  }
+
+  .form-spacer {
+    padding-top: 1rem;
+
+    @include screen-width(sm, only) {
+      background-color: $form-heading-bg;
+      padding-top: .25rem;
+    }
+  }
+
+  .form-submit {
+    @include form-submit;
+
+  }
+
+  .form-row {
+    @include form-row;
+  }
+
+  @include screen-width(sm, 'only') {
+    .form-col-sm-only {
+      flex-wrap: nowrap;
+      flex-direction: column;
+
+      .form-divider-vertical {
+        @include form-divider;
+      }
+    }
+  }
+}

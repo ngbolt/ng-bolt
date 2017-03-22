@@ -1,0 +1,75 @@
+{# Be aware that we need these extra new lines here or marked will not realise that the <div>
+   is HTML and wrap each line in a <p> - thus breaking the HTML #}
+
+
+<div class="runnable-example"
+    ng-controller="RunnableExampleController as exCtrl"
+
+    {% if doc.example.attributes.runnable %}
+    ng-init="exCtrl.setDefaultExample('demo');"
+    {% elif doc.example.html.content %}
+    ng-init="exCtrl.setDefaultExample('html');"
+    {% elif doc.example.javascript.content %}
+    ng-init="exCtrl.setDefaultExample('js');"
+    {% elif doc.example.css.content %}
+    ng-init="exCtrl.setDefaultExample('css');"
+    {% endif %}
+    
+    {%- for attrName, attrValue in doc.example.attributes %}
+    {$ attrName $}="{$ attrValue $}"{% endfor %}>
+  
+  {% if doc.example.attributes.runnable %}
+  <div class="tabs">
+    {% if doc.example.attributes.runnable %}
+    <button class="tabs-btn" ng-click="exCtrl.showExample = 'demo'" ng-class="{'tabs-active': exCtrl.showExample == 'demo'}">Live Demo</button>
+    {% endif %}
+
+    {% if doc.example.javascript.content %}
+    <button class="tabs-btn" ng-click="exCtrl.showExample = 'js'" ng-class="{'tabs-active': exCtrl.showExample == 'js'}">Javascript</button>
+    {% endif %}
+
+    {% if doc.example.css.content %}
+    <button class="tabs-btn" ng-click="exCtrl.showExample = 'css'" ng-class="{'tabs-active': exCtrl.showExample == 'css'}">CSS</button>
+    {% endif %}
+
+    {% if doc.example.html.content %}
+    <button class="tabs-btn" ng-click="exCtrl.showExample = 'html'" ng-class="{'tabs-active': exCtrl.showExample == 'html'}">HTML</button>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  {% if doc.example.javascript.content %}
+  <div class="runnable-example-javascript" ng-show="exCtrl.showExample == 'js'">
+    {% code -%}
+    {$ doc.example.javascript.content $}
+    {%- endcode %}
+  </div>
+  {% endif %}
+
+  {% if doc.example.css.content %}
+  <div class="runnable-example-css" ng-show="exCtrl.showExample == 'css'">
+    {% code -%}
+    {$ doc.example.css.content $}
+    {%- endcode %}
+  </div>
+  {% endif %}
+
+  {% if doc.example.html.content %}
+  <div class="runnable-example-html" ng-show="exCtrl.showExample == 'html'">
+      {% code -%}
+      {$ doc.example.html.content $}
+      {%- endcode %}
+  </div>
+  {% if doc.example.attributes.runnable %}
+  <div class="runnable-example-demo" ng-show="exCtrl.showExample == 'demo'">
+    {$ doc.example.html.content $}
+  </div>
+  {% endif %}
+  {% endif %}
+
+</div>
+
+
+{# Be aware that we need these extra new lines here or marked will not realise that the <div>
+   above is HTML and wrap each line in a <p> - thus breaking the HTML #}

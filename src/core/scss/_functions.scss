@@ -1,0 +1,203 @@
+//////////////////////////////////////////////////////////////////
+
+$rem-base: 16px !default;
+
+/// Strip Unit
+/// Removes the unit (e.g. px, em, rem) from a value, returning the number only.
+///
+/// @param {number} $num - Number to strip unit from.
+///
+/// @return The same number, sans unit.
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+/// Turn to Degrees
+/// Converts a turn unit to the equivalent unit in degrees. 1turn is equal to 360 degrees. Not all browsers support turn, so this function allows us to use turns while outputting a value that all browsers understand.
+///
+/// @param {number} $value - Turn value to convert.
+///
+/// @return The same value, but in degrees.
+@function turn-to-deg($value) {
+  @return strip-unit($value) * 360deg;
+}
+
+/// Convert to Rem
+/// Converts a pixel value to matching rem value. *Any* value passed, regardless of unit, is assumed to be a pixel value. By default, the base pixel value used to calculate the rem value is taken from the `$rem-base` variable.
+///
+/// @param {number} $value - Pixel value to convert.
+///
+/// @return A number in rems, calculated based on the given value and the base pixel value.
+@function convert-to-rem($value, $base-value: $rem-base) {
+  $value: strip-unit($value) / strip-unit($base-value) * 1rem;
+  @if ($value == 0rem) {
+    $value: 0;
+  }
+  // Turn 0rem into 0
+  @return $value;
+}
+
+/// Rem Calculator
+/// Converts one or more pixel values into matching rem values. This function works a lot like `convert-to-rem`, except it can convert more than one value at once, which is useful when setting multiple values on a `margin` or `padding` property.
+///
+/// @param {number|list} $values - One or more values to convert. Be sure to separate them with spaces and not commas. If you need to convert a comma-separated list, wrap the list in parentheses.
+///
+/// @return A list of converted values.
+@function rem-calc($values, $base-value: null) {
+  @if $base-value == null {
+    $base-value: $rem-base;
+  }
+  $max: length($values);
+
+  @if $max == 1 {
+    @return convert-to-rem(nth($values, 1), $base-value);
+  }
+
+  $remValues: ();
+  @for $i from 1 through $max {
+    $remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+  }
+  @return $remValues;
+}
+
+/// Is It Light?
+/// Checks the lightness of $color, and if it passes the $threshold of lightness, it returns the `$yes` color. Otherwise, it returns the `$no` color. Use this function to dynamically output a foreground color based on a given background color.
+///
+/// @param {color} $color - Color to check the lightness of.
+/// @param {color} $yes - Color to return if $color is light.
+/// @param {color} $no - Color to return if $color is dark.
+/// @param {percentage} $threshold - Threshold of lightness to check against.
+///
+/// @return The $yes color or $no color.
+@function isitlight($color, $yes: #000, $no: #fff, $threshold: 60%) {
+  @if (lightness($color) > $threshold) {
+    @return $yes;
+  } @else {
+    @return $no;
+  }
+}
+
+/// Find the next or previous key in a map.
+/// @param {map} $map - Map to traverse.
+/// @param {mixed} $key - Key to use as a starting point.
+/// @param {bool} $next [true] - Whether to get the next or previous key.
+/// @return The value for the key before or after `$key` if `$key` was found. If `$key` was not found, or `$key` was the first or last value in the map, returns null.
+@function map-index($map, $key, $next: true) {
+  // Store the values of the map as a list, so we can access them with nth
+  $values: map-values($map);
+
+  // Ghetto for loop
+  $i: 1;
+  $found: false;
+  @each $val in map-keys($map) {
+    @if $found == false {
+      @if ($key == $val) {
+        $found: true;
+      }
+      @if $next {
+        $i: $i + 1;
+      } @else {
+        $i: $i - 1;
+      }
+    }
+  }
+
+  @if $next {
+    // If the key doesn't exist, or it's the last key in the map, return null
+    @if $i > length($map) {
+      @return null;
+    }
+      // Otherwise return the value
+    @else {
+      @return nth($values, $i);
+    }
+  } @else {
+    // If the key doesn't exist, or it's the first key in the map, return null
+    @if $i < 1 {
+      @return null;
+    }
+      // Otherwise return the value
+    @else {
+      @return nth($values, $i);
+    }
+  }
+}
+
+/// Round a number to specified digits.
+/// @group  decimals
+/// @source gist.github.com/terkel/4373420
+/// @param  {Number} $number A number to round
+/// @param  {Number} [$digits:0] Digits to output
+/// @param  {String} [$mode:round] (round|ceil|floor) How to round a number
+/// @return {Number} A rounded number
+/// @example
+///     decimal-round(0.333)    => 0
+///     decimal-round(0.333, 1) => 0.3
+///     decimal-round(0.333, 2) => 0.33
+///     decimal-round(0.666)    => 1
+///     decimal-round(0.666, 1) => 0.7
+///     decimal-round(0.666, 2) => 0.67
+@function decimal-round ($number, $digits: 0, $mode: round) {
+  $n: 1;
+  // $number must be a number
+  @if type-of($number) != number {
+    @warn '#{ $number } is not a number.';
+    @return $number;
+  }
+  // $digits must be a unitless number
+  @if type-of($digits) != number {
+    @warn '#{ $digits } is not a number.';
+    @return $number;
+  } @else if not unitless($digits) {
+    @warn '#{ $digits } has a unit.';
+    @return $number;
+  }
+  @for $i from 1 through $digits {
+    $n: $n * 10;
+  }
+  @if $mode == round {
+    @return round($number * $n) / $n;
+  } @else if $mode == ceil {
+    @return ceil($number * $n) / $n;
+  } @else if $mode == floor {
+    @return floor($number * $n) / $n;
+  } @else {
+    @warn '#{ $mode } is undefined keyword.';
+    @return $number;
+  }
+}
+
+/// Ceil a number to specified digits.
+/// @group  decimals
+/// @source gist.github.com/terkel/4373420
+/// @param  {Number} $number A number to round
+/// @param  {Number} [$digits:0] Digits to output
+/// @return {Number} A ceiled number
+/// @example
+///     decimal-ceil(0.333)    => 1
+///     decimal-ceil(0.333, 1) => 0.4
+///     decimal-ceil(0.333, 2) => 0.34
+///     decimal-ceil(0.666)    => 1
+///     decimal-ceil(0.666, 1) => 0.7
+///     decimal-ceil(0.666, 2) => 0.67
+@function decimal-ceil ($number, $digits: 0) {
+  @return decimal-round($number, $digits, ceil);
+}
+
+/// Floor a number to specified digits.
+/// @group  decimals
+/// @source gist.github.com/terkel/4373420
+/// @param  {Number} $number A number to round
+/// @param  {Number} [$digits:0] Digits to output
+/// @return {Number} A floored number
+/// @example
+///     decimal-floor(0.333)    => 0
+///     decimal-floor(0.333, 1) => 0.3
+///     decimal-floor(0.333, 2) => 0.33
+///     decimal-floor(0.666)    => 0
+///     decimal-floor(0.666, 1) => 0.6
+///     decimal-floor(0.666, 2) => 0.66
+///
+@function decimal-floor ($number, $digits: 0) {
+  @return decimal-round($number, $digits, floor);
+}

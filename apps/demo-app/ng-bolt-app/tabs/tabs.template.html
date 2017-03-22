@@ -1,0 +1,68 @@
+<div class="grid-block grid-vertical">
+    <div class="grid-content grid-shrink">
+        <nav class="tabs">
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeTab == 1}" ng-click="Main.activeTab = 1;">
+                Tab One
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeTab == 2}" ng-click="Main.activeTab = 2;">
+                Tab Two
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeTab == 3}" ng-click="Main.activeTab = 3;">
+                Tab Three
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeTab == 4}" ng-click="Main.activeTab = 4;">
+                Tab Four
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeTab == 5}" ng-click="Main.activeTab = 5;">
+                Tab Five
+            </button>
+        </nav>
+    </div>
+    <div class="grid-content grid-wrapper">
+        <h2 class="font-title">Tabs</h2>
+        <hr class="spacer"></hr>
+        <p class="font-body" ng-if="Main.activeTab == 1">Tab 1 Content</p>
+        <p class="font-body" ng-if="Main.activeTab == 2">Tab 2 Content</p>
+        <p class="font-body" ng-if="Main.activeTab == 3">Tab 3 Content</p>
+        <p class="font-body" ng-if="Main.activeTab == 4">Tab 4 Content</p>
+        <p class="font-body" ng-if="Main.activeTab == 5">Tab 5 Content</p>
+    </div>
+    <div class="grid-content grid-shrink edge-top">
+        <nav class="tabs tabs-icons">
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeIconTab == 1}"
+                    ng-click="Main.activeIconTab = 1;">
+                <span class="tabs-icon fa fa-home"></span>
+                <span class="tabs-label">Home</span>
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeIconTab == 2}"
+                    ng-click="Main.activeIconTab = 2;">
+                <span class="tabs-icon fa fa-folder"></span>
+                <span class="tabs-label">Files</span>
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeIconTab == 3}"
+                    ng-click="Main.activeIconTab = 3;">
+                <span class="tabs-icon fa fa-group"></span>
+                <span class="tabs-label">Users</span>
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeIconTab == 4}"
+                    ng-click="Main.activeIconTab = 4;">
+                <span class="tabs-icon fa fa-bell"></span>
+                <!-- <span class="tabs-label">Notifications</span> -->
+            </button>
+            <button class="tabs-btn" ng-class="{'tabs-active': Main.activeIconTab == 5}"
+                    ng-click="Main.activeIconTab = 5;">
+                <span class="tabs-icon fa fa-cog"></span>
+                <span class="tabs-label">Settings</span>
+            </button>
+        </nav>
+    </div>
+    <div class="grid-content grid-wrapper">
+        <h2 class="font-title">Icon Tabs</h2>
+        <hr class="spacer"></hr>
+        <p class="font-body" ng-if="Main.activeIconTab == 1">Home Tab Content</p>
+        <p class="font-body" ng-if="Main.activeIconTab == 2">Files Tab Content</p>
+        <p class="font-body" ng-if="Main.activeIconTab == 3">Users Tab Content</p>
+        <p class="font-body" ng-if="Main.activeIconTab == 4">Notifications Tab Content</p>
+        <p class="font-body" ng-if="Main.activeIconTab == 5">Settings Content</p>
+    </div>
+</div>

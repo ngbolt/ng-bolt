@@ -1,0 +1,111 @@
+////
+/// Defines CSS properties for counter component.
+/// @group counter
+/// @since 2.0.0
+////
+
+/// The background color of the counter
+$counter-bg: $textfield-bg !default;
+/// The font color of the counter buttons and input
+$counter-color: isitlight($counter-bg, $font-primary-dark, $font-primary-light) !default;
+/// The font color of the counter label
+$counter-label-color: isitlight($counter-bg, $font-hint-dark, $font-hint-light) !default;
+/// The color for hovered or focused counter elements
+$counter-focused-color: $global-link-color !default;
+
+/// Base counter CSS properties
+@mixin counter {
+  display: flex;
+  position: relative;
+  user-select: none;
+  white-space: nowrap;
+
+  input::-webkit-inner-spin-button,
+  input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+// CSS Output
+// The classes that will be ouputed to ng-bolt.css if included.
+@mixin counter-output {
+  .ng-bolt {
+    .counter {
+      padding: .5rem;
+    }
+
+    .counter-field {
+      @include counter;
+      margin: 0;
+    }
+
+    .counter-input {
+      @include text-field-input('counter', transparent);
+      line-height: 1.5rem;
+      margin: 0;
+      border: 0;
+      order: 2;
+      text-align: center;
+      width: auto;
+
+      &:focus,
+      &:hover {
+        color: $counter-focused-color;
+      }
+    }
+
+    .counter-label {
+      @include text-field-small($color: $counter-label-color);
+      position: static;
+      padding: 0;
+      display: block;
+      margin-bottom: .25rem;
+    }
+
+    .counter-btn {
+      @include btn-icon($counter-bg);
+      cursor: pointer;
+      font-size: 1.25rem;
+      height: 1.5rem;
+      line-height: 1.5rem;
+      margin: 0;
+      transition: margin .5s ease;
+      min-width: auto;
+
+      &:hover,
+      &:focus {
+        color: $counter-focused-color;
+      }
+    }
+
+    .counter-left {
+      order: 1;
+      padding-right: .25rem;
+    }
+
+    .counter-right {
+      order: 3;
+      padding-left: .25rem;
+    }
+
+    .counter-disabled {
+      color: isitlight($counter-bg, $font-disabled-dark, $font-disabled-light) !important;
+
+      ~ .counter-btn:hover {
+        color: $counter-color;
+      }
+    }
+
+    .form {
+      .counter {
+        background-color: $counter-bg;
+        padding: .5rem;
+      }
+    }
+  }
+}

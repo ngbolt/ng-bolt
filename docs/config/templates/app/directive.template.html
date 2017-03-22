@@ -1,0 +1,32 @@
+{% import "lib/macros.html" as lib -%}
+{% extends "api/api.template.html" %}
+
+{% block additional %}
+
+  {% block usage %}
+  {% if doc.usage %}
+  <section class="api-usage edge-top">
+    <h2 id="usage">Basic Usage</h2>
+    {% if doc.restrict %}
+    <div class="note-info">
+      <p><strong>NOTE</strong>Restrict directive to an HTML {% if doc.restrict.element %} Element tag{% endif %}{% if doc.restrict.element and doc.restrict.attribute %} Element tag or Attribute{% endif %}{% if doc.restrict.attribute %} Attribute{% endif %}.</p>
+    </div>
+    {% endif %}
+    <div class="usage">
+      {$ doc.usage | marked $}
+    <div>
+  </section>
+  {% endif %}
+  {% endblock %}
+
+  {%- if doc.animations %}
+  <section class="api-animations edge-top">
+    <h2 id="animations">Animations</h2>
+    {$ doc.animations | marked $}
+    {$ 'module:ngAnimate.$animate' | link('Click here', doc) $} to learn more about the steps involved in the animation.
+  </section>
+  {%- endif -%}
+
+  {% include "lib/params.template.html" %}
+  {% include "lib/events.template.html" %}
+{% endblock %}

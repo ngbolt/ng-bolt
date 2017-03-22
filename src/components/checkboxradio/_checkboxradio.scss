@@ -1,0 +1,106 @@
+@import 'textfield/textfield';
+
+////
+/// CSS properties for the checkbox-radio component
+/// @group checkboxradio
+/// @since 2.0.0
+////
+
+/// The background color of the checkbox-radio element
+/// @type Color
+$checkbox-bg: $textfield-bg !default;
+/// The font color of a focused checkbox-radio input
+/// @type Color
+$checkbox-focused-color: $global-link-color !default;
+/// The font color of an unchecked checkbox-radio input
+/// @type Color
+/// @requires {function} isitlight
+$checkbox-unchecked-color: isitlight($checkbox-bg, $font-hint-dark, $font-hint-light) !default;
+/// The font color of a checked checkbox-radio input
+/// @type Color
+/// @requires {function} isitlight
+$checkbox-checked-color: isitlight($checkbox-bg, $font-primary-dark, $font-primary-light) !default;
+/// The font color a checkbox-radio error message.
+/// @type Color
+$checkbox-error-color: $textfield-error-color !default;
+
+@mixin checkboxradio-output {
+  .ng-bolt {
+    .checkbox-radio {
+      @include text-field($checkbox-bg);
+      display: block;
+      flex: 1 1 auto;
+    }
+
+    .checkbox-radio-input {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      transition: margin-bottom $textfield-transition-speed;
+      margin-bottom: 0;
+
+      &.disabled {
+        cursor: unset;
+        opacity: .4;
+      }
+
+      &:hover {
+        .checkbox-radio-label {
+          &:not(.disabled) {
+            color: $checkbox-focused-color;
+          }
+        }
+      }
+    }
+
+    .checkbox-radio-icon {
+      flex: 0 0 auto;
+      color: $checkbox-unchecked-color;
+      font-size: 1.25rem;
+      margin-right: .5rem;
+
+      &.fa-dot-circle-o,
+      &.fa-check-square {
+        color: $checkbox-checked-color;
+      }
+    }
+
+    .checkbox-radio-label {
+      line-height: 1.5rem;
+      &.disabled {
+        opacity: .4;
+      }
+    }
+
+    .checkbox-radio-error {
+      @include text-field-small($color: $checkbox-error-color, $bottom: .5rem);
+      display: none;
+    }
+    .checkbox-radio-error-hide {
+      display: none;
+    }
+
+    .checkbox-radio-input-hidden {
+      opacity: 0;
+      position: absolute;
+
+      &:focus {
+        ~ .checkbox-radio-icon,
+        ~ .checkbox-radio-label {
+          color: $checkbox-focused-color;
+        }
+      }
+
+      &.ng-invalid.ng-touched {
+        @include text-field-invalid($classname: 'checkbox-radio');
+        ~ .checkbox-radio-input {
+          margin-bottom: 1rem;
+          .checkbox-radio-label {
+            color: $checkbox-error-color;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,261 @@
+<div class="grid-block grid-content-md-down">
+    <div class="grid-content">
+        <h2 class="font-title">Default List</h2>
+        <ul class="list list-wrap">
+            <li class="list-row">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <h2 class="list-title" ng-click="Main.open()">This is the first item in the list</h2>
+                    </div>
+                    <div class="list-actions hide-md-up">
+                        <button class="list-btn-icon"
+                                ng-click="Main.showListActions = true;">
+                            <span class="fa fa-ellipsis-v"></span>
+                        </button>
+                    </div>
+                    <div class="list-actions list-actions-secondary-sm-only"
+                         ng-class="{'list-actions-secondary-show': Main.showListActions}">
+                        <button class="list-btn-icon" ng-click="Main.showListActions = false;"><span
+                                class="fa fa-check"></span></button>
+                        <button class="list-btn-icon" ng-click="Main.showListActions = false;"><span
+                                class="fa fa-times"></span></button>
+                    </div>
+                </div>
+            </li>
+            <li class="list-row">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <p class="list-text">This is the second item in the list. There is a lot of content here so
+                            this item will wrap.</p>
+                        <p>
+                            <span class="list-tag-solid">Tag</span>
+                        </p>
+                    </div>
+                    <div class="list-actions-vertical hide-md-up">
+                        <button class="list-btn-icon"
+                                ng-click="Main.showListActions2 = true;">
+                            <span class="fa fa-ellipsis-v"></span>
+                        </button>
+                    </div>
+                    <div class="list-actions-vertical list-actions-secondary-sm-only"
+                         ng-class="{'list-actions-secondary-show': Main.showListActions2}">
+                        <button class="list-btn-icon" ng-click="Main.showListActions2 = false;"><span
+                                class="fa fa-check"></span></button>
+                        <button class="list-btn-icon" ng-click="Main.showListActions2 = false;"><span
+                                class="fa fa-times"></span></button>
+                    </div>
+                </div>
+            </li>
+            <li class="list-row list-pending">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <a class="list-text list-link">This is a clickable item.</a>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+                <p class="list-pending-msg">Loading <span class="fa fa-spinner fa-pulse"></span></p>
+            </li>
+        </ul>
+
+        <h2 class="font-title">Accordion</h2>
+        <div class="list">
+            <div class="list-row" ng-class="{'list-open': Main.list == 3}">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <button class="list-title list-toggle" ng-click="Main.list = 3"><span
+                                class="fa fa-caret-down"></span>This is the accordion list header
+                        </button>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+
+                <div class="list-inner">
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the first accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the second accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="list-row" ng-class="{'list-open': Main.list == 4}">
+
+                <div class="list-tile">
+                    <div class="list-content">
+                        <button class="list-title list-toggle" ng-click="Main.list = 4"><span
+                                class="fa fa-caret-down"></span>This is the accordion list header
+                        </button>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+
+                <div class="list-inner">
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the first accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the second accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-content edge-left-md-up">
+
+        <h2 class="font-title">Collapsed List</h2>
+        <div class="list list-collapse">
+            <div class="list-row">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <h2 class="list-title">This is the first item in the list</h2>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+            </div>
+            <div class="list-row">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <h2 class="list-title">This is the second item in the list</h2>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="font-title">Collapsed Accordion</h2>
+        <div class="list list-collapse">
+            <div class="list-row" ng-class="{'list-open': Main.list == 1}">
+                <div class="list-tile">
+                    <div class="list-content">
+                        <button class="list-title list-toggle" ng-click="Main.list = 1"><span
+                                class="fa fa-caret-down"></span>This is the accordion list header
+                        </button>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+
+                <div class="list-inner">
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the first accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the second accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="list-row" ng-class="{'list-open': Main.list == 2}">
+
+                <div class="list-tile">
+                    <div class="list-content">
+                        <button class="list-title list-toggle" ng-click="Main.list = 2"><span
+                                class="fa fa-caret-down"></span>This is the accordion list header
+                        </button>
+                    </div>
+                    <div class="list-actions">
+                        <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </div>
+
+                <div class="list-inner">
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the first accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-row">
+                        <div class="list-tile">
+                            <div class="list-content">
+                                <h2 class="list-text">This is the second accordion item</h2>
+                            </div>
+                            <div class="list-actions">
+                                <button class="list-btn-icon"><span class="fa fa-check"></span></button>
+                                <button class="list-btn-icon"><span class="fa fa-times"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

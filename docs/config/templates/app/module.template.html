@@ -1,0 +1,70 @@
+{% extends "base.template.html" %}
+
+{% block content %}
+<header class="api-header">
+  <h1 class="api-header-title">
+    {% if doc.area == 'api' %}<a href="/api">ngBoltJS</a> / {% endif %}{$ doc.name $}
+  </h1>
+  <div class="api-header-tags">
+    <span class="tag-{$ doc.docType $}"></span>
+  </div>
+</header>
+
+<section class="api-profile-description">
+  {$ doc.description | marked $}
+</section>
+
+{% if doc.knownIssueDocs %}
+<section class="known-issues edge-top">
+  <h2 id="known-issues">Known Issues</h2>
+  <table class="table">
+  <tr><th>Name</th><th>Description</th></tr>
+  {% for issueDoc in doc.knownIssueDocs -%}
+  <tr>
+    <td>{$ issueDoc.id | link(issueDoc.name, issueDoc) $}</td>
+    <td>
+    {% for issue in issueDoc.knownIssues -%}
+      {$ issue | marked $}
+    {% endfor -%}
+    </td>
+  </tr>
+  {% endfor -%}
+  </table>
+</section>
+{% endif %}
+
+
+<section class="api-components edge-top">
+  <h2>Module Components</h2>
+  {% for componentGroup in doc.componentGroups %}
+  <div>
+    <h3 class="component-heading" id="{$ componentGroup.groupType | dashCase $}">{$ componentGroup.groupType | title $}</h3>
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+      {% for component in componentGroup.components %}
+      <tr>
+        <td>
+          {$ component.id | link(component.name, component) $}
+          {% if component.deprecated %}<span class="tag-deprecated"></span>{% endif %}
+        </td>
+        <td>{$ component.description | firstParagraph | marked $}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endfor %}
+</section>
+
+{% if doc.usage %}
+<section class="api-usage edge-top">
+  <h2 id="usage">Basic Usage</h2>
+  <div class="usage">
+    {$ doc.usage | marked $}
+  <div>
+</section>
+{% endif %}
+
+{% endblock %}

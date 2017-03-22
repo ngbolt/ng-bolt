@@ -1,0 +1,157 @@
+<h1>View 1</h1>
+<button blt-open-view="view2">View 2</button>
+<button blt-open-view="view3">View 3</button>
+
+<form class="form" name="myForm" novalidate>
+    <blt-textfield data-name="validationTest"
+                   data-label="Validation Test"
+                   data-model="Main.testForm.text"
+                   data-type="text"
+                   data-required="true"
+                   data-validate="Main.test">
+    </blt-textfield>
+    <hr class="form-divider"></hr>
+    <blt-textfield data-name="test2"
+                   data-label="Test 2"
+                   data-model="Main.testForm.text2"
+                   data-type="text">
+    </blt-textfield>
+</form>
+
+<!-- <div class="list">
+
+	<div class="list-row">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<h2 class="heading">This is the first item in the list</h2>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+	</div>
+	<div class="list-row">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<h2 class="heading">This is the second item in the list. There is a lot of content here so this item will wrap. See here it goes!<br>
+				<span class="list-tag-solid">Tag</span></h2>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+	</div>
+	<div class="list-row">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<a class="heading">This is a clickable item.</a>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- <div class="list-collapsed">
+	<div class="list-row">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<h2 class="heading">This is the first item in the list</h2>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+	</div>
+	<div class="list-row">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<h2 class="heading">This is the second item in the list</h2>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- <div class="list-accordion">
+	<div class="list-row" ng-class="{'is-open': Main.current.list == 1}">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<button class="heading accordion-toggle" ng-click="Main.toggleAccordion(1)"><span class="fa fa-caret-down"></span>This is the accordion list header</button>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+		<div class="list-collapsed blt-animate">
+			<div class="list-row">
+				<div class="list-tile">
+					<div class="list-tile-primary">
+						<h2 class="heading">This is the first accordion item</h2>
+					</div>
+					<div class="list-tile-actions">
+						<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+						<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+					</div>
+				</div>
+			</div>
+			<div class="list-row">
+				<div class="list-tile">
+					<div class="list-tile-primary">
+						<h2 class="heading">This is the second accordion item</h2>
+					</div>
+					<div class="list-tile-actions">
+						<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+						<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="list-row" ng-class="{'is-open': Main.current.list == 2}">
+		<div class="list-tile">
+			<div class="list-tile-primary">
+				<button class="heading accordion-toggle" ng-click="Main.toggleAccordion(2)"><span class="fa fa-caret-down"></span>This is the accordion list header</button>
+			</div>
+			<div class="list-tile-actions">
+				<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+				<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+			</div>
+		</div>
+		<div class="list-collapsed blt-animate">
+			<div class="list-row">
+				<div class="list-tile">
+					<div class="list-tile-primary">
+						<h2 class="heading">This is the first accordion item</h2>
+					</div>
+					<div class="list-tile-actions">
+						<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+						<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+					</div>
+				</div>
+			</div>
+			<div class="list-row">
+				<div class="list-tile">
+					<div class="list-tile-primary">
+						<h2 class="heading">This is the second accordion item</h2>
+					</div>
+					<div class="list-tile-actions">
+						<button class="list-btn-icon"><span class="fa fa-check"></span></button>
+						<button class="list-btn-icon"><span class="fa fa-times"></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+</div>

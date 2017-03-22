@@ -1,0 +1,113 @@
+////
+/// CSS properties for the toggle-switch component
+/// @group toggle-switch 
+/// @since 2.0.0
+////
+
+/// Background color for the toggle switch
+$toggle-switch-bg: isitlight($global-content-bg, $global-border-dark, $global-border-light) !default;
+/// Background color of a toggle switch in the 'true' position
+$toggle-switch-on-bg: $secondary-color !default;
+/// Color of the toggle-switch-knob
+$toggle-switch-knob-color: isitlight($toggle-switch-bg, $black, $white) !default;
+/// Height of the toggle switch.
+$toggle-switch-height: 1.375rem !default;
+/// Background color of a focused or hovered toggle-switch-knob when toggle-switch is on
+$toggle-switch-focused-color: rgba($toggle-switch-knob-color, .7);
+
+@mixin toggleswitch-output {
+  .ng-bolt {
+    .toggle-switch {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: auto;
+      margin: .5rem;
+
+      &:focus {
+        outline: none;
+
+        .toggle-switch-bg {
+          border-color: $toggle-switch-on-bg;
+
+          &.toggle-switch-on {
+            .toggle-switch-knob {
+              background-color: $toggle-switch-focused-color;
+            }
+          }
+        }
+      }
+    }
+
+    .toggle-switch-label {
+      display: block;
+      color: $form-label-color;
+      font-size: $form-field-label-size;
+      margin-bottom: .125rem;
+    }
+
+    .toggle-switch-bg {
+      background-color: $toggle-switch-bg;
+      border: 1px solid transparent;
+      border-radius: ($toggle-switch-height +1.25rem)/2;
+      box-sizing: content-box;
+      cursor: pointer;
+      display: inline-block;
+      transition: background-color .5s linear;
+      height: $toggle-switch-height;
+      width: $toggle-switch-height * 1.75;
+    }
+
+    .toggle-switch-knob {
+      background-color: $toggle-switch-knob-color;
+      border-radius: $toggle-switch-height / 2;
+      box-shadow: 0 1px 5px 0 $global-shadow-color;
+      cursor: pointer;
+      display: block;
+      height: $toggle-switch-height;
+      left: 0;
+      width: $toggle-switch-height;
+      position: relative;
+      transition: transform .35s ease;
+      transform: translateX(0);
+    }
+
+    .toggle-right {
+      align-items: flex-end;
+    }
+
+    .toggle-center {
+      align-items: center;
+    }
+
+    .toggle-left {
+      align-items: flex-start;
+    }
+
+    .toggle-switch-on {
+      background-color: $toggle-switch-on-bg;
+
+      .toggle-switch-knob {
+        transform: translateX(75%);
+      }
+    }
+
+    .toggle-switch-disabled {
+      border-color: transparent !important;
+      opacity: .7;
+
+      .toggle-switch-knob {
+        box-shadow: none;
+      }
+    }
+
+    .form {
+      .toggle-switch {
+        background-color: $form-field-bg;
+        height: $form-field-height;
+        padding: .5rem;
+        margin: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<div class="text-field" ng-class="{'text-field-empty': !$ctrl.form[$ctrl.name].$viewValue}" ng-disabled="$ctrl.disabled">
+
+    <!-- Form Field Label -->
+    <label class="text-field-label">{{$ctrl.label + $ctrl.asterisk}}</label>
+
+    <!-- Text area -->
+    <textarea class="text-field-input"
+              name="{{$ctrl.name}}"
+              ng-if="$ctrl.type == 'textarea'"
+              rows="{{$ctrl.rows}}"
+              ng-change="$ctrl.onChange()"
+              ng-model="$ctrl.model"
+              ng-disabled="$ctrl.disabled"
+              placeholder="{{$ctrl.label + $ctrl.asterisk}}"
+              blt-validate="$ctrl.validate"
+              blt-autocomplete="{{$ctrl.autocomplete}}"
+              blt-autocorrect="{{$ctrl.autocorrect}}"
+              blt-spellcheck="{{$ctrl.spellcheck}}"
+              blt-autofocus="{{$ctrl.autofocus}}">
+  </textarea>
+
+    <!-- Default Inputs -->
+    <input class="text-field-input"
+           name="{{$ctrl.name}}"
+           ng-if="$ctrl.type != 'textarea'"
+           type="{{$ctrl.type}}"
+           ng-change="$ctrl.onChange()"
+           ng-model="$ctrl.model"
+           ng-disabled="$ctrl.disabled"
+           blt-validate="$ctrl.validate"
+           blt-step="{{$ctrl.step}}"
+           blt-pattern="{{$ctrl.pattern}}"
+           min="{{ $ctrl.min }}"
+           max="{{ $ctrl.max }}"
+           blt-required="{{$ctrl.required}}"
+           placeholder="{{$ctrl.label + $ctrl.asterisk}}"
+           blt-autofocus="{{$ctrl.autofocus}}"
+           blt-minlength="{{$ctrl.minlength}}"
+           blt-maxlength="{{$ctrl.maxlength}}"
+           blt-autocomplete="{{$ctrl.autocomplete}}"
+           blt-autocorrect="{{$ctrl.autocorrect}}"
+           blt-spellcheck="{{$ctrl.spellcheck}}">
+
+    <!-- Form Field Error Messages -->
+    <p class="text-field-error">
+        <span class="text-field-error-hide text-field-error-required">This field is required.</span>
+        <span class="text-field-error-hide text-field-error-email">Not a valid email address.</span>
+        <span class="text-field-error-hide text-field-error-url">Not a valid url.</span>
+        <span class="text-field-error-hide text-field-error-minlength">Cannot be less than {{$ctrl.minlength}} characters.</span>
+        <span class="text-field-error-hide text-field-error-maxlength">Cannot be more than {{$ctrl.maxlength}} characters.</span>
+        <span class="text-field-error-hide text-field-error-min">Cannot be less than {{$ctrl.min}}.</span>
+        <span class="text-field-error-hide text-field-error-max">Cannot be more than {{$ctrl.max}}.</span>
+        <span class="text-field-error-hide text-field-error-pattern">{{$ctrl.form[$ctrl.name].$viewValue}} is not valid.</span>
+        <span ng-show="$ctrl.form[$ctrl.name].$viewValue && $ctrl.form[$ctrl.name].$error[$ctrl.validate.name]">{{$ctrl.errorMsg}}</span>
+    </p>
+</div>

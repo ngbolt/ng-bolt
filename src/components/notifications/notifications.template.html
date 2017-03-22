@@ -1,0 +1,13 @@
+<div class="notification-container">
+    <div class="notification blt-animate" ng-repeat="notification in $ctrl.notifications" ng-if="notification.show">
+        <div class="notification-content">
+            <p class="notification-message">{{notification.text}}</p>
+        </div>
+        <div class="notification-actions">
+            <button class="notification-btn" ng-if="notification.callback" ng-click="$ctrl.resolve(notification.id)">
+                {{notification.callback.text}}
+            </button>
+            <button class="notification-btn-submit" ng-click="$ctrl.dismiss(notification.id)">ok</button>
+        </div>
+    </div>
+</div>

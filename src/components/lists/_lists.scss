@@ -1,0 +1,305 @@
+////
+/// CSS properties for the list component
+/// @group list
+/// @since 2.0.0
+////
+
+///
+$list-tile-bg: $global-content-bg !default;
+///
+$list-heading-color: isitlight($list-tile-bg, $font-primary-dark, $font-primary-light) !default;
+///
+$list-row-divider: 1px solid isitlight($list-tile-bg, $global-border-dark, $global-border-light) !default;
+///
+$list-content-padding: .5rem !default;
+///
+$list-active-color: $global-link-color;
+///
+$list-action-secondary-bg: isitlight($list-tile-bg, darken($list-tile-bg, 20), lighten($list-tile-bg, 20));
+
+@mixin list-block($shrink: false, $vertical: false) {
+  display: flex;
+
+  @if $shrink {
+    flex: 0 0 auto;
+  } @else {
+    flex: 1 1 auto;
+  }
+
+  @if $vertical {
+    flex-direction: column;
+    justify-content: center;
+  } @else {
+    align-items: center;
+  }
+}
+
+@mixin secondary-actions($bg: $list-action-secondary-bg) {
+  background-color: $bg;
+  border-left: $global-border-width solid isitlight($bg, $global-border-dark, $global-border-light);
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  transition: transform .25s;
+  transform: translateX(100%);
+
+  [class*="btn"] {
+    color: isitlight($bg, $font-primary-dark, $font-primary-light) !important;
+    transition: opacity .5s;
+
+    &:hover,
+    &:focus {
+      opacity: .5;
+    }
+  }
+
+  &[class$="show"] {
+    transform: translateX(0);
+  }
+}
+
+@mixin lists-output {
+  .ng-bolt {
+    .list {
+      margin: 0;
+      padding: .5rem;
+      width: 100%;
+
+      @include screen-width(sm, only) {
+        padding: 0;
+      }
+    }
+
+    .list-row {
+      background-color: $list-tile-bg;
+      display: block;
+      margin-bottom: .5rem;
+
+      @include screen-width(sm, only) {
+        margin-bottom: .25rem;
+      }
+    }
+
+    .list-tile {
+      display: flex;
+      min-height: 3rem;
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    .list-content {
+      @include list-block($vertical: true);
+      padding: $list-content-padding;
+      transition: transform .25s;
+    }
+
+    .list-actions {
+      @include list-block($shrink: true);
+      padding: .25rem;
+    }
+
+    .list-actions-vertical {
+      @include list-block($shrink: true, $vertical: true);
+      justify-content: flex-start;
+      padding: .25rem;
+    }
+
+    .list-actions-secondary {
+      @include secondary-actions;
+    }
+
+    @include for-screen-widths('.list-actions-secondary') {
+      @include secondary-actions;
+    }
+
+    .list-title {
+      @include font-body($list-tile-bg, false);
+      font-weight: bold;
+      line-height: 1.1;
+      &[ng-click] {
+        cursor: pointer;
+        &:hover {
+          color: $btn-link-color;
+        }
+      }
+    }
+
+    .list-text {
+      @include font-body($list-tile-bg, false);
+    }
+
+    .list-caption {
+      @include font-caption($list-tile-bg, false);
+    }
+
+    .list-link {
+      border-radius: rem-calc(2);
+      color: $btn-link-color;
+      padding: .25rem;
+      transition: background-color .5s ease;
+
+      &:hover {
+        background-color: isitlight($list-tile-bg, $divider-color-dark, $divider-color-light);
+      }
+    }
+
+    .list-tag {
+      @include tag($list-tile-bg);
+    }
+
+    .list-tag-solid {
+      @include tag($list-tile-bg, true);
+    }
+
+    .list-btn-icon {
+      @include btn-icon($list-tile-bg);
+      margin: 0 .125rem;
+    }
+
+    .list-btn-text {
+      @include btn-text($list-tile-bg);
+    }
+
+    .list-pending-msg {
+      @include pending($list-tile-bg);
+      display: none;
+    }
+
+    .list-pending {
+      .list-tile {
+        display: none;
+      }
+
+      .list-pending-msg {
+        display: flex;
+      }
+    }
+
+    .list-collapse {
+      padding: 0;
+
+      .list-row {
+        border-bottom: $list-row-divider;
+        margin-bottom: 0;
+      }
+    }
+
+    // .list-wrap {
+    //   @include clearfix;
+    //   // display: flex;
+    //   // flex-wrap: wrap;
+
+    //   .list-row {
+    //     background-color: transparent
+    //     float: left;
+    //     width: 50%;
+    //     padding: 0 .5rem;
+    //   }
+    // }
+
+    // Accordion List
+
+    .list-toggle {
+      text-align: left;
+      transition: color .5s ease;
+
+      &:hover {
+        color: isitlight($list-tile-bg, $btn-link-color, lighten($btn-link-color, 10%));
+      }
+
+      .fa-caret-down {
+        margin-left: -0.25rem;
+        margin-right: 0.125rem;
+        text-align: center;
+        transition: transform .2s ease;
+        width: 1rem;
+      }
+
+    }
+
+    .list-inner {
+      display: none;
+    }
+
+    .list-open {
+      .list-toggle {
+        color: isitlight($list-tile-bg, $btn-link-color, lighten($btn-link-color, 10%));
+      }
+
+      .list-inner {
+        border-top: rem-calc(4) solid isitlight($list-tile-bg, $divider-color-dark, $divider-color-light);
+        display: block;
+
+        .list-row {
+          border-bottom: $list-row-divider;
+          margin-bottom: 0;
+        }
+      }
+
+      .fa-caret-down {
+        transform: rotate(.5turn);
+      }
+    }
+
+    .list-tab {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      border-left: 8px solid transparent;
+      padding-left: .5rem;
+      padding-right: .25rem;
+      .fa {
+        font-size: 1.125rem;
+        color: isitlight($list-tile-bg, $font-secondary-dark, $font-secondary-light);
+      }
+    }
+
+    .list-danger {
+      background-color: $alert-color !important;
+      .fa,
+      .list-title
+      .list-text,
+      .list-btn-text,
+      .list-btn-icon {
+        color: isitlight($alert-color, $font-primary-dark, $font-primary-light);
+      }
+      .list-caption {
+        color: isitlight($alert-color, $font-secondary-dark, $font-secondary-light);
+      }
+    }
+
+    .list-active {
+      background-color: $list-active-color;
+
+      .fa,
+      .list-title,
+      .list-text,
+      .list-btn-text,
+      .list-btn-icon {
+        color: isitlight($list-active-color, $font-primary-dark, $font-primary-light);
+
+        &[disabled] {
+          color: isitlight($list-active-color, $font-primary-dark, $font-primary-light);
+          cursor: default;
+        }
+
+        &:hover:not([disabled]) {
+          color: isitlight($list-active-color, $font-secondary-dark, $font-secondary-light);
+        }
+      }
+
+      &.list-tab {
+        border-color: $list-active-color;
+      }
+    }
+
+    .list-warning .list-tab {
+      border-color: $warning-color;
+    }
+    .list-disabled {
+      background-color: rgba($list-tile-bg, .7) !important;
+    }
+  }
+}

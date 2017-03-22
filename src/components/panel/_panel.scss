@@ -1,0 +1,279 @@
+////
+/// CSS properties for panel component 
+/// @group panel
+/// @since 2.0.0
+////
+
+///
+$panel-animation-speed: 250ms !default;
+///
+$panel-bg: $global-content-bg !default;
+///
+$panel-header-bg: $global-headers-bg !default;
+///
+$panel-header-height: $appbar-height !default;
+///
+$panel-header-height-sm: $appbar-height-small !default;
+///
+$panel-divider-color: $panel-header-bg !default;
+///
+$panel-height: rem-calc(300) !default;
+///
+$panel-overlay-bg: $global-overlay-bg !default;
+///
+$panel-shadow-color: $global-shadow-color !default;
+///
+$panel-width: rem-calc(300) !default;
+
+@mixin panel-output {
+
+  .ng-bolt {
+    .panel-overlay {
+      background-color: transparent;
+      bottom: 0;
+      left: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      transition: background-color $panel-animation-speed linear, visibility 0s linear $panel-animation-speed;
+      visibility: hidden;
+      z-index: 99;
+    }
+
+    .panel {
+      display: flex;
+      position: absolute;
+      transition-property: transform;
+      transition-duration: $panel-animation-speed;
+      z-index: 100;
+
+      &-container {
+        display: flex;
+        flex: 1 1 auto;
+      }
+
+      &-content {
+        background-color: $panel-bg;
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        -ms-overflow-x: hidden;
+        max-width: 100%;
+      }
+
+      &-header {
+        align-items: center;
+        background-color: $panel-header-bg;
+        display: flex;
+        flex: 0 0 auto;
+        height: $panel-header-height;
+        padding: 0 .5rem;
+
+        @include screen-width(sm, only) {
+          height: $panel-header-height-sm;
+          min-height: 2.5rem;
+        }
+      }
+
+      &-title {
+        @include font-sub-title($panel-bg, false);
+        font-size: 1.125rem;
+        font-weight: normal;
+      }
+
+      &-body {
+        color: isitlight($panel-bg, $font-primary-dark, $font-primary-light);
+        flex: 1 1 auto;
+        overflow-y: auto;
+      }
+
+      &-wrapper {
+        padding: 1rem;
+      }
+
+      &-text {
+        @include font-body($panel-bg, true);
+      }
+
+      &-footer {
+        align-items: center;
+        display: flex;
+        flex: 0 0 auto;
+        justify-content: flex-end;
+        min-height: 3rem;
+        padding: 0 .5rem;
+      }
+
+      &-heading {
+        @include font-body($panel-bg, true);
+        font-weight: bolder;
+      }
+
+      &-divider {
+        border-bottom: .25rem solid $panel-divider-color;
+        margin: 0;
+      }
+
+      &-pending-msg {
+        $pending-bg: darken($panel-bg, 20);
+        @include font-title($pending-bg, false);
+        align-items: center;
+        background-color: $pending-bg;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        left: 0;
+        padding: 1rem;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      .menu {
+        width: 100%;
+      }
+    }
+
+    .panel-btn-icon {
+      @include btn-icon($panel-bg);
+    }
+
+    .panel-btn-text {
+      @include btn-text($panel-bg);
+    }
+
+    .panel-btn-text-submit {
+      @include btn-text($panel-bg, true);
+    }
+
+    .panel-btn-solid {
+      @include btn-solid($panel-bg);
+    }
+
+    .panel-btn-solid-submit {
+      @include btn-solid($panel-bg, true);
+    }
+
+    .panel-right,
+    .panel-left {
+      .panel {
+        height: 100%;
+        width: $panel-width;
+
+        @include screen-width(sm, only) {
+          width: 90vw;
+        }
+      }
+    }
+
+    .panel-top,
+    .panel-bottom {
+      .panel {
+        min-height: $panel-height;
+        width: 100%;
+      }
+
+      .panel-content {
+        min-height: $panel-height;
+      }
+    }
+
+    .panel-right {
+      .panel {
+        box-shadow: -2px 0 $panel-shadow-color;
+        right: 0;
+        &.ng-enter {
+          transform: translateX(100%);
+          transition-timing-function: ease-out;
+        }
+        &.ng-enter-active {
+          transform: translateX(0);
+        }
+        &.ng-leave {
+          transform: translateX(0);
+          transition-timing-function: ease-in;
+        }
+        &.ng-leave-active {
+          transform: translateX(100%);
+        }
+      }
+    }
+
+    .panel-left {
+      .panel {
+        box-shadow: 2px 0 $panel-shadow-color;
+        left: 0;
+        &.ng-enter {
+          transform: translateX(-100%);
+          transition-timing-function: ease-out;
+          &-active {
+            transform: translateX(0);
+          }
+        }
+        &.ng-leave {
+          transform: translateX(0);
+          transition-timing-function: ease-in;
+          &-active {
+            transform: translateX(-100%);
+          }
+        }
+      }
+    }
+
+    .panel-top {
+      .panel {
+        box-shadow: 0 2px $panel-shadow-color;
+        top: 0;
+        &.ng-enter {
+          transform: translateY(-100%);
+          transition-timing-function: ease-out;
+          &-active {
+            transform: translateY(0);
+          }
+        }
+        &.ng-leave {
+          transform: translateY(0);
+          transition-timing-function: ease-out;
+          &-active {
+            transform: translateY(-100%);
+          }
+        }
+      }
+    }
+
+    .panel-bottom {
+      .panel {
+        bottom: 0;
+        box-shadow: 0 -2px $panel-shadow-color;
+        &.ng-enter {
+          transform: translateY(100%);
+          transition-timing-function: ease-out;
+          &-active {
+            transform: translateY(0);
+          }
+        }
+        &.ng-leave {
+          transform: translateY(0);
+          transition-timing-function: ease-in;
+          &-active {
+            transform: translateY(100%);
+          }
+        }
+      }
+    }
+
+    .panel-active {
+      .panel-overlay {
+        background-color: $panel-overlay-bg;
+        transition-delay: 0s;
+        visibility: visible;
+      }
+    }
+
+    @media screen and (max-width: 400px) {
+      .panel {
+        width: 100%;
+      }
+    }
+  }
+}

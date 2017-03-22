@@ -1,0 +1,99 @@
+
+<div class="datepicker-field" ng-class="{'is-empty': !model}">
+
+    <!-- Input Field -->
+    <label class="datepicker-label">{{label}}</label>
+    <input type="text" class="datepicker-input-hidden" ng-model="model" ng-disabled="disabled" ng-click="activate($event)" ng-keypress="activate($event)"
+           id="blt-datepicker-input">
+    <span class="datepicker-toggle" ng-class="{'disabled': disabled}" ng-click="activate($event)">{{ (model|date:format) || label}}</span>
+
+    <!-- Overlay -->
+    <div class="datepicker-overlay" ng-click="close()" ng-show="active" ng-keypress="test()"></div>
+
+    <!-- Picker -->
+    <div id="picker" class="datepicker-container" ng-switch="current.view" ng-if="active">
+        <!-- Year -->
+        <div ng-switch-when="year" class="data-picker-content">
+            <header class="datepicker-header">
+                <button class="datepicker-btn-icon" ng-click="prev(15)"><span class="fa fa-chevron-left"></span>
+                </button>
+                <h2 class="datepicker-title"
+                    ng-bind="years[0].getFullYear()+' - '+years[years.length-1].getFullYear()"></h2>
+                <button class="datepicker-btn-icon" ng-click="next(15)"><span class="fa fa-chevron-right"></span>
+                </button>
+            </header>
+            <div class="datepicker-table">
+                <span class="datepicker-year"
+                      ng-class="{'is-active':isSameYear(year), 'is-now':isNow(year), 'is-disabled':!canPickYear(year)}"
+                      ng-repeat="year in years" ng-click="setDate(year)" ng-bind="year.getFullYear()"></span>
+            </div>
+        </div>
+
+        <!-- Month -->
+        <div ng-switch-when="month" class="datepicker-content">
+            <header class="datepicker-header">
+                <button class="datepicker-btn-icon" ng-click="prev()"><span class="fa fa-chevron-left"></span></button>
+                <h2 class="datepicker-title-link" ng-bind="current.date|date:'yyyy'"
+                    ng-click="current.view = 'year'"></h2>
+                <button class="datepicker-btn-icon" ng-click="next()"><span class="fa fa-chevron-right"></span>
+                </button>
+            </header>
+            <div class="datepicker-table">
+                <span class="datepicker-month" ng-repeat="month in months"
+                      ng-class="{'is-active':isSameMonth(month), 'is-now':isNow(month), 'is-disabled':!canPickMonth(month)}"
+                      ng-click="setDate(month)" ng-bind="month|date:'MMM'"></span>
+            </div>
+        </div>
+
+        <!-- Date -->
+        <div ng-switch-when="date" class="datepicker-content">
+            <header class="datepicker-header">
+                <button class="datepicker-btn-icon" ng-click="prev()"><span class="fa fa-chevron-left"></span></button>
+                <h2 class="datepicker-title-link" ng-bind="current.date|date:'yyyy MMMM'"
+                    ng-click="current.view = 'month'"></h2>
+                <button class="datepicker-btn-icon" ng-click="next()"><span class="fa fa-chevron-right"></span>
+                </button>
+            </header>
+            <div class="datepicker-table vertical">
+                <div class="datepicker-week" ng-repeat="week in weeks" ng-class="{'six-weeks': weeks.length == 6}">
+                    <span class="datepicker-day" ng-repeat="day in week"
+                          ng-class="{'is-active':isSameDay(day), 'is-now':isNow(day), 'is-disabled':(!canPickDay(day))}"
+                          ng-click="setDate(day)" ng-bind="day.getDate()"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hours -->
+        <div ng-switch-when="hours">
+            <header class="datepicker-header">
+                <button class="datepicker-btn-icon" ng-click="prev(24)"><span class="fa fa-chevron-left"></span>
+                </button>
+                <h2 class="datepicker-title-link" ng-bind="current.date|date:'dd MMMM yyyy'"
+                    ng-click="current.view = 'date'"></h2>
+                <button class="datepicker-btn-icon" ng-click="next(24)"><span class="fa fa-chevron-right"></span>
+                </button>
+            </header>
+            <div class="datepicker-table">
+                <span class="datepicker-hour" ng-repeat="hour in hours"
+                      ng-class="{'is-active':isSameHour(hour), 'is-now':isNow(hour), 'is-disabled':!canPickHour(hour)}"
+                      ng-click="setDate(hour)" ng-bind="hour|time"></span>
+            </div>
+        </div>
+
+        <!-- Minutes -->
+        <div ng-switch-when="minutes">
+            <header class="datepicker-header">
+                <button class="datepicker-btn-icon" ng-click="prev()"><span class="fa fa-chevron-left"></span></button>
+                <h2 class="datepicker-title-link" ng-bind="current.date|date:'dd MMMM yyyy'"
+                    ng-click="current.view = 'hours'"></h2>
+                <button class="datepicker-btn-icon" ng-click="next()"><span class="fa fa-chevron-right"></span>
+                </button>
+            </header>
+            <div class="datepicker-table">
+                <span class="datepicker-minute" ng-repeat="minute in minutes"
+                      ng-class="{'is-active':isSameMinutes(minute), 'is-now':isNow(minute), 'is-disabled':!canPickMinute(minute)}"
+                      ng-click="setDate(minute)" ng-bind="minute|time"></span>
+            </div>
+        </div>
+    </div>
+</div>

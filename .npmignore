@@ -1,0 +1,16 @@
+node_modules/
+ng-bolt-app/
+build/
+www/
+web-app/
+public/
+demo/
+apps/
+.sass-cache/
+*.sublime*
+sublime*.*
+.sublime*.*
+.vscode/
+*.zip
+.idea/
+config/

@@ -1,0 +1,77 @@
+$hero-bg: $navy-blue-dark;
+
+#home-page {
+  .view-container {
+    display: flex;
+    background-color: $hero-bg;
+  }
+  
+  ng-view {
+    display: flex;
+    flex: 1 1;
+    background-color: darken($white, 5);
+    padding: 0;
+  }
+
+  .wrapper {
+    padding: 2rem !important;
+    max-width: 64rem;
+    margin: 0 auto;
+  }
+
+  .appbar-tab {
+    background-color: rgba($appbar-bg, 0);
+    border: 0;
+
+    &:hover {
+      background-color: darken($appbar-bg, 8);
+    }
+  }
+
+  .hero {
+    color: $font-secondary-light;
+    background-color: $hero-bg;
+    flex: 1 1;
+    // min-height: 90vh;
+    padding: 2rem;
+    padding-top: .125rem;
+    width: 100%;
+
+    &-logo {
+      text-align: center;
+
+      img {
+        width: 20%;
+        min-width: 16rem;
+        margin: 0 auto;
+      }
+    }
+
+    &-slogan {
+      font-size: 2.5rem;
+      font-weight: 200;
+      margin: 1.25em 0;
+    }
+
+    &-title {
+      color: $font-hint-light;
+      font-size: 3.5rem;
+      font-weight: 100;
+      letter-spacing: .125rem;
+      margin-bottom: .5rem;
+    }
+
+    &-subtitle {
+      font-size: 1.25rem;
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    &-cta > a {
+      @include btn-solid($hero-bg, true);
+      display: inline-block;
+      font-size: 1.125rem;
+      min-width: 10rem;
+    }
+  }
+}

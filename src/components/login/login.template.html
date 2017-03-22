@@ -1,0 +1,58 @@
+<div ng-class="{'login-hide':$ctrl.shown==false}">
+    <div class="login-container" ng-if="$ctrl.shown">
+        <div class="login-content">
+
+            <!-- App Icon/Logo -->
+            <div class="login-logo">
+                <img ng-src="@@logo">
+            </div>
+
+            <!-- Login Form -->
+            <form class="login-form" name="login" novalidate ng-submit="$ctrl.submitLogin()">
+
+                <div class="text-center login-reload-warning" ng-if="!$ctrl.pristine">
+                    <p>Page reload required. This should occur automatically.<br>Click <a href=""
+                                                                                          ng-click="$ctrl.reload()">here</a>
+                        to force a page reload.</p>
+                </div>
+
+                <div class="login-field" ng-class="{'login-field-empty': !$ctrl.login.username}">
+                    <label class="login-label">Username*</label>
+                    <input type="text"
+                           autocapitalize="none"
+                           class="login-input"
+                           ng-disabled="!$ctrl.pristine"
+                           ng-model="$ctrl.login.username"
+                           placeholder="Username" required>
+                    <p class="login-error">
+                        <span class="login-error-hide login-error-required">Username is required.</span>
+                    </p>
+                </div>
+                <hr class="login-form-divider">
+                <div class="login-field" ng-class="{'login-field-empty': !$ctrl.login.password}">
+                    <label class="login-label">Password*</label>
+                    <input type="password"
+                           class="login-input"
+                           ng-disabled="!$ctrl.pristine"
+                           ng-model="$ctrl.login.password"
+                           placeholder="Password" required>
+                    <p class="login-error">
+                        <span class="login-error-hide login-error-required">A password is required.</span>
+                    </p>
+                </div>
+                <button ng-disabled="!$ctrl.available || !$ctrl.pristine" type="submit" class="login-submit">Login
+                </button>
+
+                <div class="login-message-container" ng-show="$ctrl.pristine && !$ctrl.available && !$ctrl.error.show">
+                    <p class="login-message">Connecting <span class="fa fa-spin fa-spinner"></span></p>
+                </div>
+                <div class="login-message-container" ng-show="$ctrl.error.show">
+                    <p class="login-form-error">{{$ctrl.error.message}}</p>
+                </div>
+            </form>
+            <!-- App name and version -->
+            <p class="login-caption">@@title @@version</p>
+
+        </div>
+    </div>
+</div>

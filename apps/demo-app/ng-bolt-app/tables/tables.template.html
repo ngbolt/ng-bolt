@@ -1,0 +1,363 @@
+<div class="grid-content grid-wrapper">
+    <div class="grid-content">
+        <h2 class="font-title">Default Table</h2>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Comments</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell. <br>
+                        <span class='table-tag-solid'>solid tag</span>
+                        <span class='special-tag-solid'>special solid tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        This is another cell.
+                    </div>
+                </td>
+                <td class="table-dropdown table-shrink" data-label="Category">
+                    <div class="table-content">
+                        <form>
+                            <blt-dropdown data-label="Dropdown"
+                                          data-type="dropdown"
+                                          data-name="tableDropdown"
+                                          data-options="Tables.options"
+                                          data-model="Tables.dropdown"
+                                          data-autofocus="true">
+                            </blt-dropdown>
+                        </form>
+                    </div>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row table-content">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            <tr class="table-tr-active">
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell in an active row. <br>
+                        <span class='table-tag-solid'>solid tag</span>
+                        <span class="table-tag">reg-tag</span>
+                        <span class="special-tag">special-tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        Another cell, another row.
+                    </div>
+                </td>
+                <td class="table-dropdown table-shrink" data-label="Category">
+                    <div class="table-content">
+                        <form>
+                            <blt-dropdown data-label="Dropdown"
+                                          data-type="dropdown"
+                                          data-name="tableDropdown"
+                                          data-options="Tables.options"
+                                          data-model="Tables.dropdown"
+                                          data-autofocus="true">
+                            </blt-dropdown>
+                        </form>
+                    </div>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="table-tr-pending">
+                <td>This is a basic cell in a new row. <br>
+                    <span class="table-tag">reg-tag</span>
+                    <span class="special-tag">special-tag</span>
+                </td>
+                <td>Another cell, another row.</td>
+                <td class="table-dropdown table-shrink">
+                    <form>
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+                <td class="table-pending-msg" colspan="4">Loading... <span class='fa fa-spinner fa-pulse'></span></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-content">
+        <h2 class="font-title">Collapsed Table</h2>
+        <table class="table table-collapse">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Comments</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-divider">
+                <td data-label="Description">
+                    <div class="table-content">This is a basic cell. <br>
+                        <span class='table-tag-solid'>solid tag</span>
+                        <span class='special-tag-solid'>another solid tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        This is another cell.
+                    </div>
+                </td>
+                <td class="table-dropdown table-shrink" data-label="Category">
+                    <form class="table-content">
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell in a new row. <br>
+                        <span class="table-tag">reg-tag</span>
+                        <span class="special-tag">nother-reg-tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        Another cell, another row.
+                    </div>
+                </td>
+                <td class="table-dropdown table-td-shrink" data-label="Category">
+                    <form class="table-content">
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-content">
+        <h2 class="font-title">Collapsed Table - No Border</h2>
+        <table class="table table-collapse">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th>Comments</th>
+                <th>Category</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell. <br>
+                        <span class='table-tag-solid'>solid tag</span>
+                        <span class='special-tag-solid'>another solid tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        This is another cell.
+                    </div>
+                </td>
+                <td class="table-dropdown table-td-shrink">
+                    <form class="table-content">
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell in a new row. <br>
+                        <span class="table-tag">reg-tag</span>
+                        <span class="special-tag">nother-reg-tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">
+                        Another cell, another row.
+                    </div>
+                </td>
+                <td class="table-dropdown table-td-shrink" data-label="Category">
+                    <form class="table-content">
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-content">
+        <h2 class="font-title">Accordion Table</h2>
+        <table class="table table-accordion" ng-class="{'accordion-closed': !Tables.openAccordion}">
+            <thead>
+            <tr>
+                <th colspan="4">
+                    <div class="accordion-header">
+                        <div class="accordion-toggle" ng-click="Tables.openAccordion = !Tables.openAccordion">
+                            <span class="fa fa-caret-up"></span>Accordion Table Header
+                        </div>
+                        <div class="accordion-actions">
+                            <button class="btn-text">New</button>
+                            <button class="btn-text-submit">Run</button>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="table-divider">
+                <td data-label="Description">
+                    <div class="table-content">
+                        This is a basic cell. <br>
+                        <span class='table-tag-solid'>solid tag</span>
+                        <span class='special-tag-tag-solid'>another solid tag</span>
+                    </div>
+                </td>
+                <td data-label="Comments">
+                    <div class="table-content">This is another cell.</div>
+                </td>
+                <td class="table-dropdown table-td-shrink" data-label="Category">
+                    <form class="table-content">
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>This is a basic cell in a new row. <br>
+                    <span class="table-tag">reg-tag</span>
+                    <span class="special-tag">nother-reg-tag</span>
+                </td>
+                <td>Another cell, another row.</td>
+                <td class="table-dropdown table-shrink">
+                    <form>
+                        <blt-dropdown data-label="Dropdown"
+                                      data-type="dropdown"
+                                      data-name="tableDropdown"
+                                      data-options="Tables.options"
+                                      data-model="Tables.dropdown"
+                                      data-autofocus="true">
+                        </blt-dropdown>
+                    </form>
+                </td>
+                <td class="table-actions">
+                    <div class="btn-row">
+                        <button class="table-btn-icon"><span class="fa fa-check"></span></button>
+                        <button class="table-btn-icon"><span class="fa fa-times"></span></button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="grid-content">
+        <h2 class="font-title">Simple Table</h2>
+        <table class="table-simple">
+            <tr>
+                <td class="table-th">App Name</td>
+                <td>v1.0.0</td>
+                <td>March 20, 2015</td>
+            </tr>
+            <tr>
+                <td class="table-th">App Name 2</td>
+                <td>v1.0.0</td>
+                <td>March 21, 2015</td>
+            </tr>
+            <tr>
+                <td class="table-th">App Name 3</td>
+                <td>v1.0.0</td>
+                <td>March 22, 2015</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+////
+/// CSS properties for the login component 
+/// @group login 
+/// @since 2.0.0
+////
+
+///
+$login-bg: $global-bg !default;
+///
+$login-form-bg: $global-content-bg !default;
+
+@mixin login-output {
+  .ng-bolt {
+
+    .login-container {
+      @include grid-base(flex);
+      @include grid-fixed(0, 0, 0, 0);
+      @include grid-modifier(center);
+      background-color: $login-bg;
+      opacity: 1;
+      transition: opacity .35s linear;
+      z-index: 100000;
+    }
+    .login-content {
+      @include grid-block-base(content);
+      max-width: 25rem;
+      flex-basis: 25rem;
+      width: 100%;
+    }
+    .login-logo {
+      @include grid-base(flex);
+      @include grid-modifier(center);
+      flex: 1 1 auto;
+
+      img {
+        width: 15rem;
+        max-width: 100%;
+        display: block;
+      }
+    }
+
+    .login-form {
+      @include form-base;
+      margin: 3rem 0;
+    }
+
+    .login-field {
+      @include text-field($login-form-bg);
+      min-height: 3.5rem;
+    }
+
+    .login-input {
+      @include text-field-input('login', $login-form-bg);
+      &:disabled:hover {
+        border-bottom-color: transparent !important;
+      }
+    }
+
+    .login-label {
+      $color: isitlight($login-form-bg, $font-hint-dark, $font-hint-light);
+      @include text-field-small($color, $top: .5rem);
+    }
+
+    .login-submit {
+      @include form-submit($bg: $login-bg);
+      margin-top: 1rem;
+      width: 100%;
+    }
+
+    .login-field-empty {
+      @include text-field-empty('login');
+    }
+
+    .login-error {
+      @include text-field-small($color: $alert-color, $bottom: .5rem);
+      display: none;
+    }
+
+    .login-message-container {
+      text-align: center;
+      width: 100%;
+      height: auto;
+    }
+
+    .login-message {
+      color: isitlight($login-bg, $font-hint-dark, $font-hint-light);
+      font-size: .875rem;
+      margin-top: .5rem;
+      transition: all .35s ease;
+      span {
+        margin-top: .1rem;
+      }
+    }
+
+    .login-form-error {
+      color: $alert-color;
+      font-size: .875rem;
+      margin-top: .5rem;
+      transition: all .35s ease;
+    }
+
+    .login-reload-warning {
+      color: isitlight($login-bg, $font-hint-dark, $font-hint-light);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .login-form-divider {
+      @include form-divider($login-form-bg);
+    }
+
+    .login-caption {
+      color: isitlight($login-bg, $font-hint-dark, $font-hint-light);
+      font-size: .875rem;
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .login-hide .login-container {
+      opacity: 0;
+    }
+  }
+}

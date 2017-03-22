@@ -1,0 +1,138 @@
+// These are the docs section styles
+.docs-app {
+.api-header {
+  margin-bottom: 1.5rem;
+  &-title {
+    margin-bottom: 0;
+  }
+  &-divider {
+    margin: 0 .25rem;
+    color: rgba($black, .4);
+  }
+}
+
+.api-dependencies {
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  &-item {
+    display: block;
+    list-style: none;
+    margin-right: 1rem;
+    flex: 0 0 auto;
+    a {
+      display: block;
+      border: 1px solid rgba($black, .15);
+      box-shadow: 1px 1px 5px rgba($black, .1);
+      background-color: $white;
+      padding: 0 .5rem;
+      line-height: 2rem;
+      min-width: 6rem;
+      text-align: center;
+      transition: background-color .5s;
+
+      &:hover {
+        text-decoration: none;
+        background-color: darken($white, 3);
+      }
+    }
+  }
+}
+
+.api-method-name,
+.api-property-name {
+  code {
+    font-size: 1.25rem;
+    font-weight: bold;
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+.api-method-content,
+.api-property-content {
+  padding-left: 2rem;
+}
+
+.api-toc {
+  padding: 0;
+  &-summary {
+    color: $font-secondary-dark;
+    font-size: .875rem;
+  }
+  .material-icons {
+    color: $font-hint-dark;
+    margin: 0 .25rem;
+  }
+  .list-tile {
+    min-height: initial;
+  }
+  .list-actions,
+  .list-content {
+    padding: 0;
+  }
+  .list-content {
+    margin-left: 1rem;
+    margin-bottom: 1px;
+    // justify-content: initial;
+  }
+  p,
+  .font-caption {
+    margin: 0;
+  }
+}
+
+.api-params {
+  .table {
+    td:first-child {
+      white-space: nowrap;
+    }
+  }
+  .font-caption {
+    padding: 0;
+    line-height: 1.3;
+  }
+}
+
+.api-example {
+  .tabs {
+    background-color: rgba($black, .10);
+  }
+  .tabs-btn {
+    color: $font-hint-dark;
+    background-color: transparent;
+    border-bottom: 1px solid $code-border-color;
+  }
+  .tabs-active {
+    background-color: $code-bg;
+    border: 1px solid $code-border-color;
+    border-bottom: 0;
+    color: $global-link-color;
+  }
+  .runnable-example-demo {
+    background-color: $code-bg;
+    border: 1px solid $code-border-color;
+    border-top: 0;
+    padding: 2rem;
+  }
+
+  .tabs {
+    & ~ .runnable-example-css,
+    & ~ .runnable-example-html,
+    & ~ .runnable-example-javascript {
+      > pre > code {
+        border-left-width: 1px;
+        border-top: 0;
+      }
+    }
+  }
+  .runnable-example-html > pre,
+  .runnable-example-javascript > pre,
+  .runnable-example-css > pre {
+    margin: 0;
+  }
+}
+}

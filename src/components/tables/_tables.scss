@@ -1,0 +1,415 @@
+////
+/// CSS properties for the table component 
+/// @group tables
+/// @since 2.0.0
+////
+
+///
+$table-bg: transparent !default;
+///
+$table-th-bg: transparent !default;
+///
+$table-td-bg: $global-content-bg !default;
+///
+$table-td-bg-active: $global-link-color !default;
+///
+$table-border-color: isitlight($table-td-bg, transparentize($global-border-dark, .07), transparentize($global-border-light, .07)) !default;
+///
+$table-border: $global-border-width solid $table-border-color;
+///
+$table-accordion-bg: $table-td-bg !default;
+///
+$table-simple-padding: .25rem !default;
+
+@mixin cell($bg, $font-size, $padding) {
+  background: $bg;
+
+  @if $bg == transparent {
+    color: isitlight($body-bg, $font-primary-dark, $font-primary-light);
+  } @else {
+    color: isitlight($bg, $font-primary-dark, $font-primary-light);
+    transition: background-color .25s ease;
+  }
+
+  font-size: $font-size;
+  line-height: 1.2;
+  padding: $padding;
+
+}
+
+@mixin th($bg: $table-th-bg) {
+  @include cell($bg, $font-size: .8125rem, $padding: 0 .5rem);
+  text-align: left;
+}
+
+@mixin td($bg: $table-td-bg) {
+  @include cell($bg, $font-size-small, $padding: .5rem);
+}
+
+@mixin tables-output {
+  .ng-bolt {
+    th {
+      @include th;
+    }
+
+    td {
+      @include td;
+      @include screen-width(sm, only) {
+        $border: 1px solid opacify($table-border-color, 0.07);
+        border-top: $border;
+        &:last-child {
+          border-bottom: $border;
+        }
+        width: 100% !important;
+        display: flex;
+        min-height: 2.5rem;
+        align-items: center;
+
+        > .table-content {
+          flex: 2 2 auto;
+          text-align: left;
+        }
+
+        &:before {
+          content: attr(data-label);
+          font-weight: bold;
+          flex: 1 1 auto;
+        }
+      }
+    }
+
+    .table {
+      background-color: $table-bg;
+      border-collapse: separate;
+      border-spacing: 0 .5rem;
+      width: 100%;
+
+      .btn-text {
+        @include btn-text($table-td-bg)
+      }
+
+      .btn-text-submit {
+        @include btn-text($table-td-bg, true);
+      }
+
+      @include screen-width(sm, 'only') {
+        display: block;
+
+        tbody,
+        tr {
+          display: block;
+        }
+
+        thead {
+          display: none;
+        }
+
+        tr {
+          margin-bottom: .5rem;
+          // box-shadow: 1px 1px 5px $global-shadow-color;
+        }
+      }
+    }
+
+    .table-dropdown {
+      padding: 0;
+
+      @include screen-width(sm, 'only') {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+        &:before {
+          padding: 0.5rem 0;
+        }
+
+        .dropdown-toggle {
+          padding-left: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+    .table-actions {
+      padding: 0 .5rem;
+      width: 3rem;
+
+      @include screen-width(sm, only) {
+        border-top: 2px solid opacify($color: $table-border-color, $amount: 0.07) !important;
+      }
+
+      .btn-row {
+        flex-wrap: nowrap;
+      }
+    }
+
+    .table-shrink {
+      width: 1rem;
+      white-space: nowrap;
+    }
+
+    .table-pending-msg {
+      @include pending($table-td-bg);
+      display: none;
+      height: 3rem;
+
+      .fa {
+        float: right;
+      }
+
+    }
+
+    .table-tr-active {
+      @include screen-width(md, up) {
+        $color: isitlight($table-td-bg-active, $font-primary-dark, $font-primary-light);
+        $hover: isitlight($table-td-bg-active, $font-secondary-dark, $font-secondary-light);
+
+        td {
+          background-color: $table-td-bg-active;
+          color: $color;
+        }
+
+        .dropdown-toggle {
+          color: $color;
+
+          &:hover {
+            color: $hover;
+          }
+        }
+
+        .table-btn-icon {
+          @include btn-icon($table-td-bg-active);
+          margin-left: .25rem;
+          margin-right: .25rem;
+
+          @include screen-width(sm, only) {
+            margin-top: .25rem;
+            margin-bottom: .25rem;
+          }
+        }
+
+        .table-tag {
+          @include tag($table-td-bg-active);
+        }
+
+        .table-tag-solid {
+          @include tag($table-td-bg-active, $solid: true);
+        }
+      }
+
+      @include screen-width(sm, only) {
+        border: 2px solid $table-td-bg-active;
+        td {
+          &:first-child {
+            border-top: 0;
+          }
+          &:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .table-tr-pending {
+      > td {
+        display: none;
+      }
+
+      > .table-pending-msg {
+        display: table-cell;
+
+        @include screen-width(sm, only) {
+          display: flex;
+          &:before {
+            display: none;
+          }
+        }
+      }
+    }
+
+    .table-btn-icon {
+      @include btn-icon($table-td-bg);
+      margin-left: .25rem;
+      margin-right: .25rem;
+
+      @include screen-width(sm, 'only') {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    .table-tag {
+      @include tag($table-td-bg);
+    }
+
+    .table-tag-solid {
+      @include tag($table-td-bg, $solid: true);
+    }
+
+    .table-divider {
+      border-bottom: $table-border;
+    }
+
+    .table-link {
+      color: $btn-link-color;
+      cursor: pointer;
+    }
+
+    .table-collapse {
+      border-collapse: collapse;
+      margin-bottom: .5rem;
+
+      th {
+        padding-bottom: .5rem;
+        padding-top: .5rem;
+      }
+
+      @include screen-width(sm, only) {
+        tr {
+          margin-bottom: 0;
+          &:not(:last-child) {
+            border-bottom: .25rem solid opacify($color: $table-border-color, $amount: 0.07);
+          }
+
+          td {
+            border: 0;
+          }
+
+          &.table-divider {
+            & ~ tr td,
+            td:not(:first-child) {
+              border-top: 1px solid opacify($table-border-color, 0.07);
+
+              &.table-actions {
+                border-top-width: 2px !important;
+              }
+            }
+          }
+
+          .table-actions {
+            border-top-width: 1px !important;
+          }
+        }
+      }
+    }
+
+    .table-accordion {
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+
+      th {
+        padding: 0;
+        font-size: .875rem;
+      }
+
+      td {
+        background-color: $table-accordion-bg;
+        height: 3rem;
+
+        &:first-child {
+          padding-left: 2rem;
+        }
+      }
+
+      @include screen-width(sm, only) {
+        thead,
+        th {
+          display: block;
+        }
+
+        tr {
+          margin-bottom: 0;
+        }
+
+        thead tr {
+          margin-bottom: .25rem;
+        }
+
+        td {
+          padding-left: 2rem;
+          min-height: 3rem;
+        }
+
+        .table-divider {
+          border-width: .125rem;
+        }
+      }
+    }
+
+    .accordion-header {
+      color: isitlight($table-td-bg, $font-primary-dark, $font-primary-light);
+      display: flex;
+      margin-bottom: rem-calc(3);
+      position: relative;
+    }
+    .accordion-toggle {
+      display: flex;
+      align-items: center;
+      background-color: $table-td-bg;
+      font-size: .875rem;
+      flex: 1 1 auto;
+      cursor: pointer;
+      height: 3rem;
+      text-align: left;
+      transition: color .25s ease;
+
+      .fa-caret-up {
+        transition: transform .2s ease;
+        text-align: center;
+        width: 2rem;
+      }
+
+      &:hover {
+        color: $secondary-color;
+      }
+    }
+
+    .accordion-actions {
+      background-color: $table-td-bg;
+      flex: 0 0 auto;
+      display: flex;
+    }
+
+    .accordion-closed {
+      tbody {
+        display: none;
+      }
+
+      .fa-caret-up {
+        transform: rotate(0.5turn);
+      }
+    }
+
+    .table-simple {
+      @include screen-width(sm, up) {
+        display: table;
+        width: auto;
+
+        thead,
+        tbody {
+          display: table-row-group;
+        }
+        tr {
+          display: table-row;
+        }
+        td,
+        th {
+          display: table-cell;
+          width: auto !important;
+          border: 0;
+        }
+
+        border-collapse: collapse;
+        width: auto;
+
+        td {
+          background-color: transparent;
+          padding: $table-simple-padding;
+        }
+
+        .table-th {
+          font-weight: bolder;
+        }
+      }
+    }
+  }
+}

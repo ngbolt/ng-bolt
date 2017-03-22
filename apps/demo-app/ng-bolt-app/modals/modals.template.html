@@ -1,0 +1,111 @@
+<div class="grid-content grid-wrapper">
+    <h2 class="font-title">Modal Sizes</h2>
+    <hr class="spacer"></hr>
+
+    <div class="btn-row-left">
+        <button class="btn-solid" blt-open="defaultModal">Sm Modal (Default)</button>
+        <button class="btn-solid" blt-open="mediumModal">Md Modal</button>
+        <button class="btn-solid" blt-open="largeModal">Lg Modal</button>
+        <button class="btn-solid" ng-click="Modals.openFullScreenModal()">Full Screen Modal</button>
+    </div>
+
+    <hr class="spacer"></hr>
+    <h2 class="font-title">Modal Options</h2>
+    <hr class="spacer"></hr>
+
+    <div class="btn-row-left">
+        <button class="btn-solid" blt-open="flipModal">Flippin Modal</button>
+        <button class="btn-solid" blt-open="simpleModal">Simple Modal</button>
+    </div>
+
+    <hr class="spacer"></hr>
+    <h2 class="font-title">Panels</h2>
+    <hr class="spacer"></hr>
+
+    <div class="btn-row-left">
+        <button class="btn-solid" blt-open="rightPanel">Right Panel</button>
+        <button class="btn-solid" blt-open="leftPanel">Left Panel</button>
+        <button class="btn-solid" blt-open="topPanel">Top Panel</button>
+        <button class="btn-solid" blt-open="bottomPanel">Bottom Panel</button>
+    </div>
+
+    <!-- Default Modal -->
+    <blt-modal id="defaultModal">
+        <div class="modal-content" ng-include="'partials/modals/default-modal.template.html'"></div>
+    </blt-modal>
+
+    <!-- Medium Modal -->
+    <blt-modal id="mediumModal" data-size="medium">
+        <div class="modal-content" ng-include="'partials/modals/medium-modal.template.html'"></div>
+    </blt-modal>
+
+    <!-- Large Modal -->
+    <blt-modal id="largeModal" data-size="large">
+        <form class="modal-content" ng-include="'partials/modals/large-modal.template.html'"></form>
+    </blt-modal>
+
+    <!-- Full Modal -->
+    <blt-modal id="fullModal" data-size="full-screen">
+        <div class="modal-content" ng-include="'partials/modals/full-screen-modal.template.html'"></div>
+    </blt-modal>
+
+    <!-- Flip Modal -->
+    <blt-modal id="flipModal" data-flip="true" data-size="large">
+        <div class="modal-content">
+            <div class="modal-front">
+                <header class="modal-header">
+                    <h2 class="modal-title">Flip Modal Front</h2>
+                </header>
+                <section class="modal-body">
+                    <p class="modal-text">This is the front of a flippin' modal</p>
+                </section>
+                <footer class="modal-footer edge-top">
+                    <button class="modal-btn-text-submit" ng-click="Modals.flip('flipModal')">Over</button>
+                </footer>
+            </div>
+            <div class="modal-back">
+                <header class="modal-header">
+                    <h2 class="modal-title">Flip Modal Back</h2>
+                </header>
+                <section class="modal-body">
+                    <p class="modal-text">This is the back of a flippin' modal.</p>
+                </section>
+                <footer class="modal-footer edge-top">
+                    <button class="modal-btn-text" ng-click="Modals.flip('flipModal')">Cancel</button>
+                    <button class="modal-btn-text-submit" blt-close="">Close</button>
+                </footer>
+            </div>
+        </div>
+
+    </blt-modal>
+
+    <!-- Simple Modal -->
+    <blt-modal id="simpleModal" data-size="x-small">
+        <div class="modal-content">
+            <section class="modal-body">
+                <p class="modal-text">Sometimes you just need a small dialog window to get confirmation from the user.
+                    In these cases use a simple modal with no header and no border on the footer.</p>
+            </section>
+            <footer class="modal-footer">
+                <button class="modal-btn-text-submit" blt-close>Got It!</button>
+            </footer>
+        </div>
+    </blt-modal>
+
+    <!-- Panels -->
+    <blt-panel id="rightPanel" data-position="right" data-pending-message="Processing Data... One moment please.">
+        <div class="panel-content" ng-include="'partials/modals/right-panel.template.html'"></div>
+    </blt-panel>
+
+    <blt-panel id="leftPanel" data-position="left" data-pending-message="Processing Data... One moment please.">
+        <div class="panel-content" ng-include="'partials/modals/left-panel.template.html'"></div>
+    </blt-panel>
+
+    <blt-panel id="topPanel" data-position="top" data-pending-message="Processing Data... One moment please.">
+        <div class="panel-content" ng-include="'partials/modals/top-panel.template.html'"></div>
+    </blt-panel>
+
+    <blt-panel id="bottomPanel" data-position="bottom" data-pending-message="Processing Data... One moment please.">
+        <div class="panel-content" ng-include="'partials/modals/bottom-panel.template.html'"></div>
+    </blt-panel>
+</div>

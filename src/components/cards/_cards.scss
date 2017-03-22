@@ -1,0 +1,104 @@
+////
+/// CSS properties for cards component 
+/// @group cards
+/// @since 1.0.0
+////
+
+///
+$card-bg: $global-content-bg !default;
+///
+$card-shadow-color: $global-shadow-color !default;
+///
+$card-edge-color: isitlight($card-bg, rgba($black, .2), rgba($black, .35)) !default;
+///
+$card-padding: $global-padding/2 !default;
+
+@mixin cards-output {
+  .ng-bolt {
+    .card {
+      background-color: $card-bg;
+      border: 1px solid $card-edge-color;
+      box-shadow: 0 1px 6px 0 $card-shadow-color;
+      color: isitlight($card-bg, $font-primary-dark, $font-primary-light);
+      display: flex;
+      flex-direction: column;
+      margin: .5em;
+    }
+
+    .card-content {
+      display: flex;
+      flex: 1 1 auto;
+    }
+
+    .card-secondary {
+      display: flex;
+      flex: 0 0 auto;
+      flex-direction: column;
+      min-width: 3rem;
+    }
+
+    .card-primary {
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+    }
+
+    .card-header {
+      flex: 0 0 auto;
+      padding: $card-padding 0;
+    }
+
+    .card-body {
+      flex: 1 1 auto;
+      padding: $card-padding 0;
+    }
+
+    .card-collapse {
+      padding: 0;
+    }
+
+    .card-wrapper {
+      padding: $card-padding;
+    }
+
+    .card-footer {
+      flex: 0 0 auto;
+      display: flex;
+    }
+
+    .card-title {
+      @include font-sub-title($card-bg, false);
+    }
+
+    .card-text {
+      @include font-body($card-bg, false);
+    }
+
+    .card-caption {
+      @include font-caption($card-bg, false);
+    }
+
+    .card-actions {
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      height: rem-calc(48);
+    }
+
+    .card-btn {
+      @include btn-text($card-bg);
+    }
+
+    .card-btn-icon {
+      @include btn-icon($card-bg);
+    }
+
+    .card-btn-submit {
+      @include btn-text($bg: $card-bg, $submit: true);
+    }
+
+    .card-image {
+      max-width: 100%;
+    }
+  }
+}

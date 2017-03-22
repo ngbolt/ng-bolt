@@ -1,0 +1,19 @@
+{% import "lib/macros.html" as lib -%}
+
+{%- if doc.params %}
+<section class="api-params edge-top">
+  {% if doc.docType == 'directive' %}
+  <h2>Attributes</h2>
+  {% else %}
+  <h2>Arguments</h2>
+  {% endif %}
+  {$ lib.paramTable(doc.params) $}
+</section>
+{%- endif -%}
+
+{%- if doc.classnames %}
+<section class="api-params edge-top">
+  <h2>CSS Classes</h2>
+  {$ lib.paramTable(doc.classnames) $}
+</section>
+{%- endif -%}

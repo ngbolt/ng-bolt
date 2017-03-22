@@ -1,0 +1,113 @@
+////
+/// Global variables.
+/// @group global
+/// @since 2.0.0
+////
+
+/// Flat UI Alizarin
+$red: #e74c3c !default;
+/// Flat UI Pomegranate
+$red-dark: #c0392b !default;
+/// Flat UI Carrot
+$orange: #e67e22 !default;
+/// Flat UI Pumpkin
+$orange-dark: #d35400 !default;
+/// Flat UI Sun Flower
+$yellow: #f1c40f !default;
+/// Flat UI Oragne
+$amber: #f39c12 !default;
+/// Flat UI Turquoise
+$teal: #1abc9c !default;
+/// Flat UI Green Sea
+$teal-dark: #16a085 !default;
+/// Flat UI Emerald
+$green: #2ecc71 !default;
+/// Flat UI Nephritis
+$green-dark: #27ae60 !default;
+/// Lightened Flat UI Peter River
+$light-blue: #3dbdff !default;
+/// Flat UI Peter River
+$blue: #3498db !default;
+/// Flat UI Belize Hole
+$blue-dark: #2980b9 !default;
+/// Flat UI Amethyst
+$purple: #9b59b6 !default;
+/// Flat UI Wisteria
+$purple-dark: #8e44ad !default;
+/// Flat UI Wet Asphault
+$navy-blue: #34495e !default;
+/// Flat UI Midnight Blue
+$navy-blue-dark: #2c3e50 !default;
+/// Flat UI Silver
+$silver: #bdc3c7 !default;
+/// Default White
+$white: #fff !default;
+/// Default Black with a bluish hint.
+$black: #090a0a !default;
+/// Base gray
+$gray: $silver !default;
+/// Light gray
+$gray-light: #e6e9ea !default;
+/// Dark Gray
+$gray-dark: #869198 !default;
+/// Darker Gray
+$gray-darker: #545e64 !default;
+/// Primary application color
+$primary-color: $navy-blue !default;
+/// Secondary application color, used primary for links and action buttons.
+$secondary-color: $blue !default;
+/// Dark color
+/// @deprecated
+$dark-color: $navy-blue-dark !default;
+/// Error and alert colors signifying danger.
+$alert-color: $red !default;
+/// Success color signifying safe or good.
+$success-color: $green !default;
+/// Warning color signifying warning or OK.
+$warning-color: $yellow !default;
+/// Dark border color
+/// @deprecated
+$borders-dark: rgba($black, .15) !default;
+/// Light border color
+/// @deprecated
+$borders-light: rgba($white, .15) !default;
+/// Button and links color
+/// @deprecated
+$btn-link-color: $secondary-color !default;
+/// Dark border color
+/// @deprecated
+$divider-color-dark: $borders-dark !default;
+/// Light border color
+/// @deprecated
+$divider-color-light: $borders-light !default;
+/// Global color to use for the application background
+$global-bg: $gray-light;
+/// Global color to use for the background color of forms, tables, modals, panels, etc.
+$global-content-bg: isitlight($global-bg, $white, lighten($global-bg, 10)) !default;
+/// Global color to use as the background color for modal and panel headers, etc.
+$global-headers-bg: isitlight($global-bg, darken($global-bg, 10), lighten($global-bg, 10)) !default;
+/// Global color to use on box shadows.
+$global-shadow-color: rgba($black, .18) !default;
+/// Global color to use as the background color for overlays.
+$global-overlay-bg: isitlight($global-bg, rgba($black, .3), rgba($black, .7)) !default;
+/// Global dark border color
+$global-border-dark: rgba($black, .15) !default;
+/// Global light border color
+$global-border-light: rgba($white, .15) !default;
+/// Global border width
+$global-border-width: rem-calc(1) !default;
+/// Global link or action color
+$global-link-color: $blue !default;
+/// Global rem size
+$global-rem: 16px !default;
+/// The default font-size is set to 100% of the browser style sheet (usually 16px)
+/// for compatibility with browser-based text zoom or user-set defaults.
+$global-font-size: 100% !default;
+/// Global font family
+$global-font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif !default;
+/// Global Padding
+$global-padding: 1rem !default;
+/// Global Margin
+$global-margin: 1rem !default;
+/// Global Slide Animation Speed
+$global-slide-speed: .2s !default;

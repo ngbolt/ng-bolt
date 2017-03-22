@@ -1,0 +1,176 @@
+@import "textfield/textfield";
+@import "menu/menu";
+
+////
+/// CSS properties for the dropdown component
+/// @group dropdown
+/// @since 2.0.0
+////
+
+/// The background color of the dropdown element
+/// @type Color
+$dropdown-bg: $textfield-bg !default;
+/// The font color of the dropdown element
+/// @type Color
+$dropdown-color: $textfield-color !default;
+/// The box shadow properties of the dropdown options menu.
+/// @type List
+$dropdown-shadow: 0 0 .25rem 0 $global-shadow-color !default;
+/// The color of an active item in the dropdown options menu.
+/// @type Color
+$dropdown-active-color: $global-link-color !default;
+/// The color of a dropdown element label
+/// @type Color
+$dropdown-label-color: $textfield-label-color !default;
+/// The font color of a dropdown error.
+/// @type Color
+$dropdown-error-color: $textfield-error-color !default;
+/// The background color of the dropdown options menu
+/// @type Color
+$dropdown-options-bg: $dropdown-bg !default;
+/// The border properties of the dropdown options menu
+/// @type List
+/// @requires {function} isitlight
+$dropdown-options-border: $global-border-width solid isitlight($dropdown-options-bg, $global-border-dark, $global-border-light) !default;
+/// The color of a focused or hovered dropdown.
+/// @type Color
+$dropdown-focused-color: $global-link-color !default;
+
+// CSS output
+@mixin dropdown-output {
+  .ng-bolt {
+    .dropdown {
+      position: relative;
+      &-empty {
+        @include text-field-empty('dropdown');
+      }
+      &-field {
+        @include text-field($dropdown-bg);
+      }
+
+      @include screen-width(sm, only) {
+        &:after {
+          content: "";
+          display: block;
+          background-color: $global-overlay-bg;
+          position: fixed;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          z-index: 9;
+        }
+      }
+    }
+
+    .dropdown-error {
+      @include text-field-small($color: $dropdown-error-color, $bottom: .5rem);
+      display: none;
+
+      &-hide {
+        display: none;
+      }
+    }
+
+    .dropdown-input {
+      @include text-field-input('dropdown', $dropdown-bg);
+      -webkit-appearance: inherit;
+    }
+
+    .dropdown-select,
+    .dropdown-searchable {
+      .dropdown-icon {
+        @include text-field-icon($dropdown-bg, 'dropdown', 1.5rem);
+        bottom: 0;
+      }
+    }
+
+    .dropdown-label {
+      @include text-field-small($color: $dropdown-label-color, $top: .5rem);
+    }
+
+    .dropdown-options {
+      @include menu($dropdown-options-bg);
+      border: $dropdown-options-border;
+      box-shadow: $dropdown-shadow;
+      position: absolute;
+      max-height: 16.75rem;
+      width: 100%;
+      z-index: 10;
+      // -webkit-touch-callout: none;
+      // -webkit-user-select: none;
+      // -khtml-user-select: none;
+      // -moz-user-select: none;
+      // -ms-user-select: none;
+      user-select: none;
+
+      @include screen-width(sm, only) {
+        border-right: 0;
+        border-left: 0;
+      }
+    }
+
+    .dropdown-options-floating {
+      @extend .dropdown-options;
+      left: .5rem;
+      min-width: 7rem;
+      width: auto;
+
+      @include screen-width(sm, only) {
+        @include menu-panel(bottom, 'dropdown');
+        transform: translateY(0);
+      }
+    }
+
+    .dropdown-option {
+      @include menu-link($dropdown-color, $dropdown-options-bg);
+    }
+
+    .dropdown-toggle {
+      @include truncate-text;
+      color: $global-link-color;
+      font-size: .875rem;
+      padding: .5rem;
+
+      &:disabled {
+        opacity: .4;
+      }
+
+      .dropdown-icon {
+        margin-left: .25rem; 
+      }
+    }
+
+    .dropdown-active {
+      background-color: $dropdown-active-color !important;
+      color: isitlight($dropdown-active-color, $font-primary-dark, $font-primary-light);
+    }
+
+    .dropdown-closed {
+      .dropdown-overlay,
+      .dropdown-options,
+      .dropdown-options-floating {
+        display: none;
+      }
+
+      .dropdown-options-floating {
+        @include screen-width(sm, only) {
+          display: initial;
+          transform: translateY(100%);
+        }
+      }
+
+      .dropdown {
+        &:after {
+          @include screen-width(sm, only) {
+            display: none;
+          }
+        }
+      }
+    }
+
+    form.ng-submitted.ng-invalid .dropdown-container .dropdown .dropdown-input.ng-invalid.ng-touched {
+      @include text-field-invalid($classname: 'dropdown');
+    }
+  }
+}

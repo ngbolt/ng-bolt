@@ -1,0 +1,50 @@
+{% import "lib/macros.html" as lib -%}
+{%- if doc.methods %}
+<section class="api-methods edge-top">
+<h2>Methods</h2>
+  {%- for method in doc.methods %}
+  <div id="{$ method.name $}" class="api-method">
+    <h3 class="api-method-name">{$ lib.functionSyntax(method) $}</h3>
+    <div class="api-method-content">
+      <div>{$ method.description | marked $}</div>
+
+      {% if method.params %}
+      <h4>Parameters</h4>
+      {$ lib.paramTable(method.params) $}
+      {% endif %}
+
+      {% if method.this %}
+      <h4>Method's {% code %}this{% endcode %}</h4>
+      {$ method.this | marked $}
+      {% endif %}
+
+      {% if method.returns %}
+      <h4>Returns</h4>
+      {$ lib.typeInfo(method.returns) $}
+      {% endif %}
+
+      {% if method.examples %}
+
+        {%- if method.examples.length == 1 %}
+        <h4>Example</h4>
+        {% else %}
+        <h4>Examples</h4>
+        {% endif -%}
+
+        {%- for example in method.examples -%}
+        <div class="api-example">
+          {$ example | marked $}
+        </div>
+        {%- endfor -%}
+
+      {% endif %}
+
+      <!--Scroll to top button-->
+      <!-- TODO: get scroll to top working with ngView -->
+      <!--<a href="#top">Back to Top</a>-->
+    </div>
+    
+  </div>
+  {% endfor -%}
+</section>
+{%- endif -%}

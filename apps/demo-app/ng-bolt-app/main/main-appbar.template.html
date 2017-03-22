@@ -1,0 +1,33 @@
+<!-- Tabs -->
+<div class="appbar-section appbar-shrink appbar-collapse">
+    <button class="appbar-tab">Home</button>
+    <button class="appbar-tab"
+            ng-click="Main.openMenu = !Main.openMenu;">
+        Menu
+    </button>
+</div>
+
+<!-- Logo and Title -->
+<div class="appbar-section appbar-shrink">
+    <img class="appbar-logo" src="@@logo">
+    <h1 class="appbar-title appbar-vertical">ngBoltJS <span class="appbar-caption">v@@version</span></h1>
+</div>
+
+<!-- Text -->
+<div class="appbar-section appbar-vertical appbar-right">
+    <p class="appbar-text">Front-end framework for web applications</p>
+    <p class="appbar-caption">Built on AngularJs</p>
+</div>
+
+<!-- Search -->
+<div class="appbar-search">
+    <input class="appbar-search-field" type="search" placeholder="Search" ng-model="Main.searchValue">
+    <!--<button class="appbar-search-clear" ng-show="Main.searchValue" ng-click="Main.search.keyword = '';"><span class="fa fa-times-circle"></span></button>-->
+</div>
+
+<!-- Actions -->
+<div class="appbar-section appbar-shrink appbar-collapse-md-down">
+    <button class="appbar-icon" ng-click="Main.search()"><span class="fa fa-search"></span></button>
+    <button class="appbar-icon" ng-click="Main.notify()"><span class="fa fa-exclamation-triangle"></span></button>
+    <button class="appbar-icon" ng-click="Main.logout()"><span class="fa fa-sign-out"></span></button>
+</div>

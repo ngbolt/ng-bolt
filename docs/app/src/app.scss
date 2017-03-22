@@ -1,0 +1,33 @@
+$components-appbar: true;
+$components-cards: true;
+$components-textfield: true;
+$components-checkboxradio: true;
+$components-classificationbar: true;
+$components-counter: true;
+$components-datepicker: true;
+$components-dropdown: true;
+$components-fileloader: true;
+$components-lists: true;
+$components-menu: true;
+$components-tables: true;
+$components-tabs: true;
+$components-login: true;
+$components-modal: true;
+$components-notifications: true;
+$components-panel: true;
+$components-toggleswitch: true;
+$components-view: true;
+
+// Import normalize (css reset)
+@import 'normalize.css/normalize';
+// Import ng-bolt styles
+@import 'ng-bolt';
+// Import base styles
+@import 'main/main';
+// Import home page styles
+@import 'home/home';
+// Import guides section styles
+@import 'guides/guides';
+// Import docs section styles
+@import 'api/api';
+

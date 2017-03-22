@@ -1,0 +1,81 @@
+////
+/// Base CSS properties. All properties should be set on tags only, no classes or ids.
+/// @group base
+/// @since 2.0.0
+////
+
+/// The html and body element background color.
+/// @type Color
+$body-bg: $gray-light !default;
+/// Body font family. Inherited by every element except icons.
+/// @type List
+$body-font-family: $global-font-family !default;
+/// Default body font color based on the lightness of the body background color.
+/// @type Color
+/// @requires {function} isitlight
+$body-font-color: isitlight($body-bg, $font-primary-dark, $font-primary-light);
+/// Toggle antializing on fonts.
+/// @type Bool
+$body-antialiased: true !default;
+
+html,
+body {
+  font-size: $global-font-size;
+  // ngBoltJS apps use a flexbox grid. Both html and body elements need to be
+  // 100% of the viewport height to set up the grid correctly.
+  height: 100vh;
+}
+
+// Set box-sizing globally to handle padding and border widths
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background: $global-bg;
+  color: $body-font-color;
+  font-family: $body-font-family;
+  position: relative;
+
+  @if $body-antialiased {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+// Override browswer defaults for links, buttons and inputs
+a {
+  color: $global-link-color;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+button,
+input {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}
+
+hr {
+  border: 0;
+}

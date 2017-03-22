@@ -1,0 +1,298 @@
+////
+/// Button elements are used for actions and links in a ngBoltJS project.
+/// @group buttons
+/// @since 2.0.0
+////
+
+/// Amount to darken container background color for solid button
+/// @type Number
+$btn-solid-bg-darken: 20 !default;
+/// Amount to lighten container background color for solid button
+/// @type Number
+$btn-solid-bg-lighten: 35 !default;
+/// Button border radius
+/// @type Number
+/// @require {function} rem-calc
+$btn-radius: rem-calc(2) !default;
+/// Button font size
+/// @type Number
+$btn-font-size: $font-size-small !default;
+/// Button font weight
+/// @type Number | String
+$btn-font-weight: 600 !default;
+/// Percent to darken or lighten button background color when focused.
+/// @type Color
+$btn-focus-bg-adjust: 10 !default;
+/// Percent to darken or lighten button background color on hover.
+/// @type Number
+$btn-hover-bg-adjust: $btn-focus-bg-adjust !default;
+/// Primary action button color
+/// @type color
+$btn-submit-color: $global-link-color;
+/// Percent to lighten submit button on dark backgrounds
+/// @type Number
+$btn-submit-adjust: 9 !default;
+/// Default button padding
+/// @type List | Number
+$btn-padding: 0 .75rem;
+/// Default button margin
+/// @type List | Number
+$btn-margin: .5rem;
+
+/// Sets base CSS properties for a button.
+/// @require {mixin} truncate-text
+@mixin btn-base($bg: transparent) {
+  @include truncate-text;
+  background-color: $bg;
+  border-radius: $btn-radius;
+  cursor: pointer;
+  display: block;
+  flex: 0 0 auto;
+  font-size: $btn-font-size;
+  font-weight: $btn-font-weight;
+  line-height: 2.29em;
+  margin: .5rem;
+  min-height: 1.5rem;
+  min-width: 4rem;
+  padding: $btn-padding;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background-color .5s;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+/// Sets CSS properties for a disabled button
+/// @param {Color} $bg [$global-content-bg] - The background color of the containing element.
+/// @param {Bool} $solid [false] - Is the button a solid button or not.
+/// @require {function} isitlight
+@mixin btn-disabled {
+  opacity: .4;
+  // @if $solid {
+  // 	background-color: isitlight($bg, $global-border-dark, $global-border-light) !important;
+  // } @else {
+  // 	background-color: transparent !important;
+  // }
+  // color: isitlight($bg, $font-disabled-dark, $font-disabled-light);
+  cursor: default !important;
+}
+
+/// Properties for a text button
+/// @require {mixin} btn-base
+/// @require {function} isitlight
+/// @require {mixin} btn-disabled
+/// @param {color} $bg [$body-bg] - Background color of button container to determine 
+/// button background on hover.
+/// @param {bool} $submit [false] - Set to true if the button triggers a primary action.
+@mixin btn-text($bg: $global-content-bg, $submit: false) {
+  @include btn-base;
+  margin: .5rem .25rem;
+  @if $submit {
+    color: isitlight($bg, $btn-submit-color, lighten($btn-submit-color, $btn-submit-adjust));
+  } @else {
+    color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+  }
+
+  &:hover {
+    background-color: isitlight($bg, darken($bg, $btn-hover-bg-adjust), lighten($bg, $btn-hover-bg-adjust));
+  }
+
+  &[disabled],
+  &.btn-disabled {
+    @include btn-disabled;
+    background-color: transparent;
+  }
+}
+
+/// Properties for a solid button
+/// @require {mixin} btn-base
+/// @require {function} isitlight
+/// @require {function} rem-calc
+/// @require {mixin} btn-disabled
+/// @param {color} $bg [$body-bg] - Background color of the button container to determine
+/// button colors.
+/// @param {bool} $submit [false] - Set to true if the button triggers a primary action.
+@mixin btn-solid($bg: $global-content-bg, $submit: false) {
+  $btn-bg: transparent;
+  $color: $font-primary-dark;
+  @if $submit {
+    $btn-bg: isitlight($bg, $btn-link-color, lighten($btn-link-color, $btn-submit-adjust));
+    $color: isitlight($btn-bg, $font-primary-dark, $font-primary-light, 63%);
+  } @else {
+    $btn-bg: isitlight($bg, darken($bg, $btn-solid-bg-darken), lighten($bg, $btn-solid-bg-lighten));
+    $color: isitlight($btn-bg, $font-secondary-dark, $font-secondary-light, 55%);
+  }
+  @include btn-base($btn-bg);
+  color: $color;
+
+  &:hover,
+  &:focus {
+    background-color: isitlight($btn-bg, darken($btn-bg, $btn-focus-bg-adjust), lighten($btn-bg, $btn-focus-bg-adjust));
+  }
+
+  &[disabled],
+  &.btn-disabled {
+    @include btn-disabled;
+    background-color: $btn-bg;
+  }
+}
+
+/// Properties for an icon button
+/// @require {mixin} font-icon
+/// @require {mixin} btn-disabled
+/// @require {function} isitlight
+/// @param {color} $bg [$body-bg] - Color of button containers background in order
+/// to calculate the button's colors.
+@mixin btn-icon($bg: $global-content-bg) {
+  @include font-icon($bg);
+  $color: isitlight($bg, $font-primary-dark, $font-primary-light);
+  color: $color;
+  border-radius: $btn-radius;
+  margin: .5rem;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    color: isitlight($bg, $btn-submit-color, lighten($btn-submit-color, $btn-hover-bg-adjust));
+  }
+
+  &[disabled],
+  &.btn-disabled {
+    @include btn-disabled;
+    color: $color;
+  }
+}
+
+/// Alignment for a button group.
+/// @param {string} $type - The type of button group: 'row' or 'col'.
+/// @param {string} $align - The alignment for the button group: 'right', 'left', or 'center'.
+/// @output Either align-items property for columns or justify-content property for rows.
+@mixin btn-group-alignment($type, $align) {
+  $alignments: (
+          right: flex-end,
+          center: center,
+          left: flex-start
+  );
+
+  @if map-has-key($alignments, $align) {
+    $alignment: map-get($alignments, $align);
+
+    @if $type == col {
+      align-items: $alignment;
+
+    } @else if $type == row {
+      justify-content: $alignment;
+    }
+
+  } @else {
+    @error "$align must be #{map-keys($alignments)}, was #{$align}.";
+  }
+}
+
+/// Properties for a row or column of buttons
+/// @require {mixin} btn-group-alignment
+/// @param {string} $type [row] - The type of button group: 'row' or 'col'.
+/// @param {string} $align [right] - The alignment for the button group: 'right', 'left', or 'center'.
+/// @output The generated properties for either a btn-row or btn-col.
+@mixin btn-group($type: row, $align: right) {
+  display: flex;
+  flex-wrap: nowrap;
+
+  @if $type == col {
+    flex-direction: column;
+    justify-content: initial;
+    @include btn-group-alignment($type, $align);
+
+  } @else if $type == row {
+    flex-direction: initial;
+    align-items: initial;
+    max-width: 100%;
+    flex-wrap: wrap;
+    @include btn-group-alignment($type, $align);
+  } @else {
+    @error "$type must be 'row' or 'col', was #{$type}";
+  }
+}
+
+// CSS Output
+.ng-bolt {
+  .btn-text {
+    @include btn-text;
+  }
+
+  .btn-text-submit {
+    @include btn-text($submit: true);
+  }
+
+  .btn-solid {
+    @include btn-solid;
+  }
+
+  .btn-solid-submit {
+    @include btn-solid($submit: true);
+  }
+
+  .btn-icon {
+    @include btn-icon;
+  }
+
+  .btn-link {
+    @include btn-text($submit: true);
+    text-transform: none;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .btn-row,
+  .btn-row-right {
+    @include btn-group(row, right);
+  }
+
+  .btn-row-left {
+    @include btn-group(row, left);
+  }
+
+  .btn-row-center {
+    @include btn-group(row, left);
+  }
+
+  .btn-col-right {
+    @include btn-group(col, right);
+  }
+
+  .btn-col,
+  .btn-col-center {
+    @include btn-group(col, center);
+  }
+
+  .btn-col-left {
+    @include btn-group(col, left);
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+
+  // Button group screen width overrides
+  @each $type in ('row', 'col') {
+    @each $align in right, left, center {
+      @include for-screen-widths('.btn-#{$type}') {
+        @include btn-group($type);
+      }
+
+      @include for-screen-widths('.btn-#{$type}-#{$align}') {
+        @include btn-group($type, $align);
+      }
+    }
+  }
+  // @each $bp in map-keys($breakpoints) {
+  //   @each $dir in ('up', 'down', 'only') {
+  //     @include screen-width($bp, $dir) {
+
+  //     }
+  //   }
+  // }
+}

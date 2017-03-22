@@ -1,0 +1,253 @@
+////
+/// Defines mixins and CSS properties for global fonts.
+/// @group font
+/// @since 2.0.0
+////
+
+/// Largest font size 
+$font-size-xlarge: 2rem !default;
+/// Large font size
+$font-size-large: 1.5rem !default;
+/// Normal font size
+$font-size-normal: $global-font-size !default;
+/// Small font size
+$font-size-small: .875rem !default;
+/// Tiny font size
+$font-size-tiny: .75rem !default;
+/// Icon font size
+$font-size-icon: 1.5rem !default;
+/// Code font size
+$font-size-code: 1em !default;
+/// Default icon font line height
+$font-icon-line-height: 2rem !default;
+/// Primary font dark color
+$font-primary-dark: rgba($black, .9) !default;
+/// Primary font light color
+$font-primary-light: $white !default;
+/// Secondary font dark color
+$font-secondary-dark: rgba($black, .6) !default;
+/// Secondary font light color
+$font-secondary-light: rgba($white, .75) !default;
+/// Disabled font dark color
+$font-disabled-dark: rgba($black, .30) !default;
+/// Disabled font light color
+$font-disabled-light: rgba($white, .35) !default;
+/// Placeholder font dark color
+$font-hint-dark: $font-disabled-dark !default;
+/// Placeholder font light color
+$font-hint-light: $font-disabled-light !default;
+/// Icon dark font color
+$font-icon-dark: $font-secondary-dark !default;
+/// Icon light font color
+$font-icon-light: $font-secondary-light !default;
+
+/// Base font properties definition
+/// @param {color} $color - The font color
+/// @param {number} $line-height [1.2] - The font line-height
+/// @param {number | string} $weight [400] - The font weight
+/// @param {bool} $margins [false] - Add margins above and below font or not
+/// @requires {function} strip-unit
+@mixin font-base($color, $size, $line-height: 1.2, $weight: 400, $margins: false) {
+  color: $color;
+  font-size: $size;
+  font-weight: $weight;
+  @if unit($line-height) == 'px' {
+    @if unit($size) == 'rem' or unit($size) == 'em' {
+      $line-height: strip-unit($line-height) / strip-unit($size);
+    } @else if unit($size) == 'px' {
+      $size-in-rem: rem-calc($size);
+      $line-height: strip-unit($line-height) / strip-unit($size-in-rem);
+    }
+  }
+  line-height: $line-height;
+  @if $margins {
+    margin: 1em 0;
+    padding: 0 .5rem;
+  } @else {
+    margin: 0;
+  }
+
+}
+
+/// Title font properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @param {bool} $margins [true] - Toggle top and bottom margins on the title font element.
+/// @requires {function} isitlight
+/// @requires {mixin} font-base
+/// @requires {mixin} screen-resolution
+@mixin font-title($bg: $global-content-bg, $margins: true) {
+  $color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+  @include font-base($color, $font-size-large, 1.1, 300, $margins);
+  @include screen-resolution(2) {
+    font-weight: 200;
+  }
+}
+
+/// Subtitle CSS properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @param {bool} $margins [true] - Toggle top and bottom margins on the subtitle font element.
+/// @requires {function} isitlight
+/// @requires {mixin} font-base
+/// @requires {mixin} screen-resolution
+@mixin font-sub-title($bg: $global-content-bg, $margins: true) {
+  $color: isitlight($bg, $font-primary-dark, $font-primary-light);
+  @include font-base($color, $font-size-normal, 1.2, bold, $margins);
+  @include screen-resolution(2) {
+    font-weight: 600;
+  }
+}
+
+/// Body font CSS properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @param {bool} $margins [true] - Toggle top and bottom margins on the body font element.
+/// @requires {function} isitlight
+/// @requires {mixin} font-base
+@mixin font-body($bg: $global-content-bg, $margins: true) {
+  $color: isitlight($bg, $font-primary-dark, $font-primary-light);
+  @include font-base($color, $font-size-small, 1.3, normal, $margins);
+}
+
+/// Caption font CSS properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @param {bool} $margins [true] - Toggle top and bottom margins on the caption font element.
+/// @requires {function} isitlight
+/// @requires {mixin} font-base
+@mixin font-caption($bg: $global-content-bg, $margins: true) {
+  $color: isitlight($bg, $font-secondary-dark, $font-secondary-light);
+  @include font-base($color, $font-size-tiny, 1.1, 400, $margins);
+}
+
+/// Icon font CSS properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @requires {function} isitlight
+/// @requires {mixin} font-base
+@mixin font-icon($bg: $global-content-bg) {
+  $color: isitlight($bg, $font-icon-dark, $font-icon-light);
+  @include font-base($color, $font-size-icon, $font-icon-line-height);
+  text-align: center;
+  min-width: $font-icon-line-height;
+}
+
+/// Icon font CSS properties
+/// @param {color} $bg [$global-content-bg] - The background color of the containing element.
+/// @requires {function} isitlight
+@mixin font-code($bg: $global-content-bg) {
+  background-color: isitlight($bg, darken($bg, 15), lighten($bg, 15));
+  border-radius: 3px;
+  font-family: consolas, monospace;
+  font-size: $font-size-code;
+  padding: .125rem .25rem;
+}
+
+// CSS Output
+// The classes that will be ouputed to ng-bolt.css if included.
+.ng-bolt {
+  .font {
+    &-title {
+      @include font-title($global-bg);
+      @include screen-width(md, down) {
+        font-size: decimal-round($font-size-large * .83, 2);
+      }
+    }
+
+    &-sub-title {
+      @include font-sub-title;
+    }
+
+    &-body {
+      @include font-body;
+    }
+
+    &-caption {
+      @include font-caption;
+    }
+
+    &-icon {
+      @include font-icon;
+    }
+
+    &-xlarge {
+      font-size: $font-size-xlarge;
+      font-weight: 300;
+      line-height: 1.2;
+      margin: 1.2em 0;
+
+      @include screen-resolution(2) {
+        font-weight: 200;
+      }
+    }
+
+    &-large {
+      font-size: $font-size-large;
+      line-height: 1.2;
+      margin: 1.2em;
+    }
+
+    &-small {
+      font-size: $font-size-small;
+      line-height: 1.3;
+      margin: 1.3em 0;
+    }
+
+    &-tiny {
+      font-size: $font-size-tiny;
+      line-height: 1.1;
+      margin: 1.1em;
+    }
+
+    &-bolder {
+      font-weight: bolder !important;
+    }
+
+    &-lighter {
+      font-weight: lighter !important;
+    }
+
+    &-no-margin {
+      margin: 0 !important;
+    }
+
+    &-no-padding {
+      padding: 0 !important;
+    }
+
+    &-code {
+      @include font-code;
+    }
+
+    &-error {
+      color: $alert-color !important;
+    }
+
+    &-warning {
+      color: $warning-color !important;
+    }
+
+    &-success {
+      color: $success-color !important;
+    }
+  }
+
+  @include for-screen-widths('.font-bolder') {
+    font-weight: bolder !important;
+  }
+
+  @include for-screen-widths('.font-lighter') {
+    font-weight: lighter !important;
+  }
+
+  @include for-screen-widths('.font-no-padding') {
+    padding: 0 !important;
+  }
+
+  @include for-screen-widths('.font-no-margin') {
+    margin: 0 !important;
+  }
+
+  pre.font-code {
+    @include font-code;
+    padding: .5rem;
+    margin: 1rem .5rem;
+    border: 1px solid isitlight($global-content-bg, $global-border-dark, $global-border-light);
+  }
+}

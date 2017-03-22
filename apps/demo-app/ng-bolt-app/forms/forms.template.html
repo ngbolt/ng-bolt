@@ -1,0 +1,149 @@
+<div class="grid-block grid-content-sm-only">
+    <div class="grid-content grid-wrapper overflow-visible">
+        <h2 class="font-title">Dropdown</h2>
+        <form class="form" novalidate name="dropdownTests">
+            <blt-dropdown data-label="Dropdown"
+                          data-type="dropdown"
+                          data-name="dropdownTest"
+                          data-disabled="Forms.disabled"
+                          data-disabled="Forms.disabled"
+                          data-options="Forms.optionsArray"
+                          data-model="Forms.dropdownModel"
+                          data-autofocus="true">
+            </blt-dropdown>
+            <blt-dropdown data-label="Dropdown Select"
+                          data-type="select"
+                          data-name="dropdownSelectTest"
+                          data-disabled="Forms.disabled"
+                          data-options="Forms.optionsArray"
+                          data-model="Forms.dropdownSearchModel"
+                          data-change="Forms.onSelectModelChange()">
+            </blt-dropdown>
+            <hr class="form-divider">
+            <blt-dropdown data-select-none-label="-- None --"
+                          data-label="Dropdown Search"
+                          data-type="searchable"
+                          data-name="dropdownSearchTest"
+                          data-disabled="Forms.disabled"
+                          data-required="false"
+                          data-options="Forms.optionsModel"
+                          data-model="Forms.dropdownSearchModel"
+                          data-change="Forms.onSelectModelChange()">
+            </blt-dropdown>
+
+        <h2 class="font-title">Text Field</h2>
+        </form>
+        <form novalidate class="form">
+            <blt-textfield data-label="Text Field"
+                           data-type="text"
+                           data-name="textFieldTest"
+                           data-disabled="Forms.disabled"
+                           data-required="false"
+                           data-model="Forms.textModel">
+            </blt-textfield>
+        </form>
+
+        <h2 class="font-title">Date Picker</h2>
+
+        <form class="form" novalidate name="dateTests">
+            <blt-datepicker data-model="Forms.dateModel"
+                            data-label="Date Selection"
+                            data-min-date="Forms.minDate"
+                            data-max-date="Forms.maxDate"
+                            data-change="Forms.onDateSelected()"
+                            data-disabled="Forms.disabled"
+                            data-name="datepickerTest">"
+            </blt-datepicker>
+        </form>
+
+        <h2 class="font-title">File Loader</h2>
+        <form class="form" novalidate name="fileTest">
+            <blt-fileloader data-name="file-loader"
+                            data-disabled="Forms.disabled"
+                            data-label="Select Certificate"
+                            data-model="Form.myFile"
+                            data-required="true">
+            </blt-fileloader>
+        </form>
+    </div>
+
+    <div class="grid-content grid-wrapper">
+
+        <h2 class="font-title">Toggle Switch in Form</h2>
+        <form class="form" novalidate name="toggleTest">
+            <blt-toggle-switch data-model="Forms.toggle"
+                               tabindex="0"
+                               data-label="Disable Toggle Switch: {{Forms.disableToggle}}"
+                               data-disabled="Forms.disabled">
+            </blt-toggle-switch>
+        </form>
+
+        <h2 class="font-title">Toggle Switch not in Form</h2>
+        <blt-toggle-switch data-model="Forms.disabled"
+                           tabindex="0">
+        </blt-toggle-switch>
+
+        <h2 class="font-title">Checkbox-Radio</h2>
+        <form class="form" novalidate name="checkboxRadioTests">
+            <blt-checkbox-radio data-name="radioTest"
+                                data-disabled="Forms.disabled"
+                                data-label="{{option}}"
+                                data-model="Forms.radioTest"
+                                data-type="radio"
+                                data-value="{{option}}"
+                                data-required="true"
+                                ng-repeat="option in Forms.radioOptions">
+            </blt-checkbox-radio>
+
+            <h3 class="form-heading">Radio Group</h3>
+
+            <blt-checkbox-radio data-name="checkbox"
+                                data-disabled="Forms.disabled"
+                                data-required="true"
+                                data-label="Check me"
+                                data-autofocus="true"
+                                data-model="Forms.checked">
+            </blt-checkbox-radio>
+
+            <div class="form-row">
+                <blt-checkbox-radio data-name="radioTest"
+                                    data-disabled="Forms.disabled"
+                                    data-label="{{option}}"
+                                    data-model="Forms.radioTest"
+                                    data-type="radio"
+                                    data-value="{{option}}"
+                                    data-tabindex="{{$index}}"
+                                    data-required="true"
+                                    ng-repeat="option in Forms.radioOptions">
+                </blt-checkbox-radio>
+            </div>
+        </form>
+
+        <h2 class="font-title">Counter in ngBolt Form</h2>
+        <form class="form" novalidate>
+            <blt-counter data-model="Forms.counter1"
+                         data-name="counterEx"
+
+                         data-disabled="Forms.disabled"
+                         data-label="Counter in Form w/ min and max (Initial value NaN)"
+                         data-max="5"
+                         data-min="1">
+            </blt-counter>
+        </form>
+
+        <h2 class="font-title">Counter not in ngBolt Form</h2>
+        <p class="font-body">Counter must still be in HTML <code class="font-code">form</code> tag, but with <code
+                class="font-code">.form</code> class when using in a table, for example.</p>
+        <form novalidate>
+            <blt-counter data-model="Forms.counter2"
+                         data-name="counterEx2"
+                         data-disabled="Forms.disabled"
+                         data-label="Counter with Label no min or max">
+            </blt-counter>
+            <blt-counter data-model="Forms.counter3"
+                         data-name=counterEx3"
+                         data-disabled="Forms.disabled">
+            </blt-counter>
+        </form>
+    </div>
+</div>

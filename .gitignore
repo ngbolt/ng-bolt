@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+bower_components/
+
+# Web App file for testing components
+build/
+public/
+dist/
+tmp/ 
+cordova-app/
+
+# MAC stuff
+*.DS_Store'
+
+# Logs and caches
+npm-debug.log
+.sass-cache/
+
+# Sublime Project files
+**/*.sublime*
+sublime*.*
+.sublime*.*
+
+# Visual Studio Code
+.vscode/
+
+# Distribution packages
+*.zip
+
+# IntelliJ
+.idea/

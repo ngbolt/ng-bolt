@@ -1,0 +1,90 @@
+
+<div ng-class="{'dropdown-closed': $ctrl.open == false}">
+    <div class="dropdown-container">
+        <!-- Floating Dropdown -->
+        <div class="dropdown dropdown-dropdown" ng-if="$ctrl.type == 'dropdown'">
+            <button name="{{$ctrl.name}}"
+                    class="dropdown-toggle"
+                    ng-click="$ctrl.openOptions()"
+                    blt-autofocus="{{$ctrl.autofocus}}"
+                    blt-tabindex="{{$ctrl.tabindex}}"
+                    ng-disabled="$ctrl.disabled">{{$ctrl.select.model ? $ctrl.getLabelForValue($ctrl.select.model) :
+                $ctrl.label}}
+                <span class="dropdown-icon fa fa-caret-down"></span>
+            </button>
+            <ul class="dropdown-options-floating">
+                <li ng-repeat="option in $ctrl.filteredOptions track by $index">
+                    <a class="dropdown-option"
+                       id="{{option.key}}"
+                       ng-class="{'dropdown-active': $ctrl.select.model == option.value}"
+                       ng-click="$ctrl.selectOption(option)">{{option.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Select and Searchable Dropdown -->
+        <div class="dropdown dropdown-searchable dropdown-select" ng-if="$ctrl.type == 'select' || $ctrl.type == 'searchable'">
+            <div class="dropdown-field" ng-class="{'dropdown-empty': (!$ctrl.select.model && !$ctrl.search.model)}">
+
+                <label class="dropdown-label">{{$ctrl.required ? $ctrl.label + '*' : $ctrl.label}}</label>
+
+                <!-- Default Select Form Control -->
+                <select name="{{$ctrl.name}}"
+                        class="dropdown-input"
+                        ng-if="$ctrl.type == 'select'"
+                        ng-model="$ctrl.select.model"
+                        ng-change="$ctrl.onSelectChange()"
+                        blt-autofocus="{{$ctrl.autofocus}}"
+                        blt-tabindex="{{$ctrl.tabindex}}"
+                        ng-disabled="$ctrl.disabled">
+                    <option ng-if="!$ctrl.required" value="">{{$ctrl.label}}</option>
+                    <option value="{{key}}" ng-repeat="(key, value) in $ctrl.keyedOptionMap">{{value.label}}</option>
+                </select>
+
+                <!-- Searchable Dropdown -->
+                <input name="{{$ctrl.name}}"
+                       class="dropdown-input"
+                       type="text"
+                       placeholder="{{$ctrl.searchablePlaceholder()}}"
+                       autocomplete="off"
+                       ng-if="$ctrl.type == 'searchable'"
+                       ng-model="$ctrl.search.model"
+                       ng-click="$ctrl.openOptions()"
+                       ng-keydown="$ctrl.onKeyDown($event)"
+                       blt-autofocus="{{$ctrl.autofocus}}"
+                       blt-tabindex="{{$ctrl.tabindex}}"
+                       ng-disabled="$ctrl.disabled"/>
+
+                <span class="dropdown-icon fa fa-caret-down"></span>
+
+                <!-- Error Messages -->
+                <p class="dropdown-error">
+                    <span class="dropdown-error-hide dropdown-error-required">A selection is required.</span>
+                </p>
+
+            </div>
+
+            <!-- searchable <select> control options -->
+            <ul class="dropdown-options" ng-if="$ctrl.type == 'searchable'">
+
+                <li ng-show="!$ctrl.required">
+                    <a class="dropdown-option"
+                       ng-class="{'is-active': !$ctrl.currentSelection}"
+                       ng-mousedown="$ctrl.untouched()"
+                       ng-mouseup="$ctrl.selectOption(undefined)">{{$ctrl.selectNoneLabel}}
+                    </a>
+                </li>
+
+                <li ng-repeat="option in $ctrl.filteredOptions track by $index">
+                    <a class="dropdown-option"
+                       id="{{option.key}}"
+                       ng-class="{'dropdown-active': $ctrl.isSelected(option)}"
+                       ng-mousedown="$ctrl.untouched()"
+                       ng-mouseup="$ctrl.selectOption(option)">{{option.label}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

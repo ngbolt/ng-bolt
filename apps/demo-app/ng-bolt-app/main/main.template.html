@@ -1,0 +1,31 @@
+<blt-classificationbar classification="UNCLASSIFIED"
+                       custom-text="Classification level is: UNCLASSIFIED"></blt-classificationbar>
+
+<!-- Appbar -->
+<header class="appbar" ng-include="'partials/main/main-appbar.template.html'"></header>
+
+<!-- Main -->
+<div class="grid-block">
+
+    <!-- Sidebar -->
+    <div class="grid-block grid-shrink"
+         ng-include="'partials/main/main-sidebar.template.html'">
+    </div>
+
+    <!-- View -->
+    <blt-view></blt-view>
+
+    <!-- Full Screen Overlay -->
+    <div class="full-screen-bg" ng-show="Main.loading">
+        <p class="full-screen-msg">Welcome to the ngBoltJS Demo App</p>
+        <p class="full-screen-caption">What you see here is an example of the <code>full-screen-bg</code> that you can
+            use to show temporary loading screens.</span></p>
+        <hr class="spacer"></hr>
+        <a class="btn-solid-submit" ng-click="Main.getStarted()">Get Started Test</a>
+        <!--<a class="btn-solid-submit" blt-open-view="/base-styles">Get Started Test</a>-->
+    </div>
+
+</div>
+
+<!-- Notifications -->
+<blt-notifications></blt-notifications>

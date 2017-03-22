@@ -1,0 +1,124 @@
+<h1>View 2</h1>
+<button blt-open-view="view1">View 1</button>
+<button blt-open-view="view3">View 3</button>
+<div class="btn-row">
+    <a blt-open="full-modal">Full Screen Modal</a>
+    <a blt-open="normal-modal">Normal Modal</a>
+</div>
+<form class="form" novalidate>
+    <blt-select data-label="Selection from Array" data-searchable="false" data-name="testArraySelect"
+                data-options="Main.optionsTest" data-model="Main.selectArrayModel"
+                data-change="Main.onSelectArrayChange()"></blt-select>
+    <blt-select data-label="Selection from Model" data-searchable="false" data-name="testModelSelect"
+                data-options="Main.optionsModel" data-model="Main.selectModelModel"
+                data-change="Main.onSelectModelChange()"></blt-select>
+    <blt-select data-select-none-label="-- None --" data-label="Searchable from Array" data-searchable
+                name="testArraySearchable" data-options="Main.optionsTest" data-model="Main.searchableArrayModel"
+                data-change="Main.onSearchableArrayChange()"></blt-select>
+    <blt-select data-required="true" data-label="Searchable from Model" data-searchable name="testModelSearchable"
+                data-options="Main.optionsModel" data-model="Main.searchableModelModel"
+                data-change="Main.onSearchableModelChange()"></blt-select>
+
+</form>
+<!-- <div id="formControlsTest"> -->
+<form class="form" name="myForm" novalidate>
+    <!-- date picker -->
+    <div class="form-group collapse">
+        <blt-datepicker data-model="Main.testForm.fromDate" data-label="Date" data-format="short" data-required="true"
+                        data-auto-focus="true"></blt-datepicker>
+        <blt-datepicker data-model="Main.testForm.toDate" data-label="Date" data-format="short" data-required="true"
+                        data-auto-focus="true"></blt-datepicker>
+    </div>
+
+    <!-- email -->
+    <blt-textfield data-name="email1"
+                   data-label="Email"
+                   data-model="Main.testForm.email1"
+                   data-type="email"
+                   data-required="true">
+    </blt-textfield>
+
+    <blt-textfield data-name="textareaTest"
+                   data-label="Textarea Test"
+                   data-model="Main.testForm.textArea"
+                   data-rows="5"
+                   data-type="textarea">
+    </blt-textfield>
+
+    <blt-textfield data-name="validationTest"
+                   data-label="Validation Test"
+                   data-model="Main.testForm.text"
+                   data-type="text"
+                   data-required="true"
+                   data-validate="Main.test"
+                   data-disabled="true">
+    </blt-textfield>
+
+    <!-- checkbox -->
+    <div class="form-group">
+        <blt-checkbox-radio data-name="checkBoxTest"
+                            data-label="Checkbox Test"
+                            data-model="Main.testForm.checkbox"
+                            data-type="checkbox">
+        </blt-checkbox-radio>
+        <blt-textfield data-name="email2"
+                       data-label="Email"
+                       data-model="Main.testForm.email2"
+                       data-type="email">
+        </blt-textfield>
+    </div>
+
+    <h2 class="form-heading">Radio button tests <br>
+        <span class="form-error"
+              ng-show="myForm.$subbmitted || (myForm.radioTest.$error.required && myForm.radioTest.$touched)">A selection is required.</span>
+    </h2>
+
+
+    <!-- radio buttons -->
+    <div class="form-group vertical">
+        <blt-checkbox-radio data-name="radioTest"
+                            data-label="{{test}}"
+                            data-model="Main.testForm.radio"
+                            data-type="radio"
+                            data-value="{{test}}"
+                            data-required="true"
+                            ng-repeat="test in Main.radioTests">
+        </blt-checkbox-radio>
+    </div>
+
+    <blt-select data-name="selectTest"
+                data-required="true"
+                data-label="Select One"
+                data-model="Main.testForm.select"
+                data-options="Main.optionsTest"
+                data-searchable="true">
+    </blt-select>
+
+    <blt-select data-name="selectTest2"
+                data-required="true"
+                data-label="Select Another"
+                data-model="Main.testForm.select2"
+                data-options="Main.options2[Main.testForm.select]"
+                ng-if="Main.testForm.select">
+    </blt-select>
+
+    <!-- text field group  -->
+    <div class="form-group collapse">
+
+        <blt-text-field data-label="Last"
+                        data-name="lastName"
+                        data-model="Main.lastName"
+                        data-type="text"
+                        data-required="true">
+        </blt-text-field>
+    </div>
+
+
+    <!-- file loader -->
+    <blt-fileloader data-file="Main.file" data-auto-focus="true"></blt-fileloader>
+
+</form>
+
+<button class="form-submit" ng-click="Main.submitForm(myForm)">Submit</button>
+
+</div>

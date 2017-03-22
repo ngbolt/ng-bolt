@@ -1,0 +1,148 @@
+<!doctype html>
+<html ng-app="bltDocs">
+
+<head>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>ngBoltJS - Web Application Framework</title>
+
+  <link rel="stylesheet" href="assets/docsApp.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/atom-one-light.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- External JS -->
+  <script src="//use.fontawesome.com/3767854df0.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+  <!-- <script src="assets/angular-highlightjs.min.js"></script> -->
+
+  <!-- ngBoltJS App Js -->
+  <script src="assets/docsApp.js"></script>
+
+  <!-- page data -->
+  <!--Uncomment the following line to support css in runnable examples.-->
+  <link rel="stylesheet" href="data/example-css.css"/>
+  <script src="data/home-data.js"></script>
+  <script src="data/api-data.js"></script>
+  <script src="data/guides-data.js"></script>
+  <script src="data/app-api-data.js"></script>
+  <script src="data/example-javascript.js"></script>
+
+</head>
+
+<body class="ng-bolt docs-app" ng-controller="MainController as ctrl" id="{{ctrl.currentPage}}-page">
+  <div class="grid-frame grid-vertical">
+
+    <!-- Appbar -->
+    <div class="grid-block grid-shrink"
+          ng-controller="AppbarController as ctrl">
+      <header class="appbar">
+        <div class="appbar-section">
+          <img src="assets/logo.png" class="appbar-logo">
+          <h1 class="appbar-title">
+            <a href="/#/">ngBoltJS</a>
+          </h1>
+        </div>
+
+        <div class="appbar-section appbar-shrink appbar-collapse">
+          <a class="appbar-tab" 
+             ng-if="ctrl.guidesData.length > 0" 
+             href="/#/guides">
+             Guides
+          </a>
+          <a class="appbar-tab" 
+              href="/#/api"
+              ng-if="ctrl.apiData.length > 0">
+              <span ng-show="ctrl.appData.length > 0">BLT&nbsp;</span>Docs
+          </a>
+          <a class="appbar-tab" 
+              href="/#/app"
+              ng-if="ctrl.appData.length > 0">
+              <span ng-show="ctrl.apiData.length > 0">App&nbsp;</span>Docs
+          </a>
+        </div>
+      </header>
+    </div>
+
+    <div class="grid-block">
+
+      <!-- Sidebar -->
+      <div class="grid-block grid-shrink grid-vertical sidebar"
+            ng-controller="SidebarController as ctrl"
+            ng-show="ctrl.show">
+        <div class="grid-content grid-shrink">
+          <form class="edge-bottom" novalidate>
+            <blt-textfield data-label="Filter"
+                          data-name="sidebarFilter"
+                          data-model="ctrl.filter">
+            </blt-textfield>
+          </form>
+        </div>
+        <div class="grid-block sidebar-menu">
+          <ul class="menu">
+            <li ng-repeat="item in ctrl.list | filter: ctrl.filter"
+                class="menu-item menu-divider"
+                ng-class="{
+                  'menu-active': item.path == ctrl.activeItem
+                }">
+              <a ng-href="{{item.path}}"
+                  class="menu-link">
+                  <span class="menu-label">{{item.name}}</span>
+                  <span class="tag-deprecated" ng-if="item.deprecated"></span>
+                  <span class="tag-{{item.type}}"></span>
+              </a>
+              
+              <ul class="menu" ng-if="item.docs.length > 0">
+                <li ng-repeat="doc in item.docs | filter: ctrl.filter"
+                    class="menu-item"
+                    ng-class="{'menu-active': doc.path == ctrl.activeItem}">
+                  <a ng-href="{{doc.path}}"
+                    class="menu-link">
+                    <span class="menu-label">{{doc.name}}</span>
+                    <span class="tag-deprecated" ng-if="doc.deprecated"></span>
+                    <span class="tag-{{doc.type}}"></span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-block grid-vertical"
+           ng-class="{'edge-left': ctrl.currentPage != 'home'}">
+        
+        <!-- View -->
+        <div class="grid-content view-container">
+          <ng-view auto-scroll class="content"></ng-view>
+        </div>
+
+        <!-- Footer -->
+        <div class="grid-block grid-shrink edge-top">
+          <footer class="footer grid-block grid-vertical-md-down">
+            <div class="grid-block grid-align-center">
+              <p class="footer-copyright font-caption">Copyright &copy; 2017 <a href="https://github.com/orgs/ngbolt/people">ngBoltJS Contributors</a> and Penn State University.<br>Code licensed under the <a href="https://opensource.org/licenses/BSD-3-Clause">3-Clause BSD License</a>.</p>
+            </div>
+            <div class="grid-block grid-shrink">
+              <!--<nav class="btn-row">
+                <a class="btn-text" href="/">Github</a>
+                <a class="btn-text" href="/home/issues">Report Issues</a>
+                <a class="btn-text" href="/home/contribute">Contribute</a>
+                <a class="btn-text" href="/home/tools">Tools</a>
+              </nav>-->
+            </div>
+          </footer>
+        </div>
+      </div>
+    </div>  
+  </div>
+  <script>
+    // hljs.initHighlightingOnLoad();
+  </script>
+</body>
+
+</html>

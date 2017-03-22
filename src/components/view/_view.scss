@@ -1,0 +1,86 @@
+////
+/// CSS properties for view component 
+/// @group view 
+/// @since 1.11.0
+////
+
+@mixin view-output {
+  .ng-bolt {
+    .view {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: hidden;
+
+      &-content {
+        display: flex;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        margin-left: -3rem;
+        margin-right: -3rem;
+        border-left: 3rem solid rgba($black, .54);
+        border-right: 3rem solid rgba($black, .54);
+        overflow-y: auto;
+      }
+
+      &.fade {
+        .view-content {
+          transition: opacity 1s;
+
+          &.ng-enter {
+            opacity: 0;
+            &.ng-enter-active {
+              opacity: 1;
+            }
+          }
+          &.ng-leave {
+            opacity: 1;
+            &.ng-leave-active {
+              opacity: 0;
+            }
+          }
+        }
+      }
+
+      &.slide-right {
+        .view-content {
+          &.ng-enter {
+            transition: transform .5s ease;
+            transform: translateX(-100%);
+            &.ng-enter-active {
+              transform: translateX(0);
+            }
+          }
+          &.ng-leave {
+            transition: transform .5s ease;
+            transform: translateX(0);
+            &.ng-leave-active {
+              transform: translateX(100%);
+            }
+          }
+        }
+      }
+
+      &.slide-left {
+        .view-content {
+          &.ng-enter {
+            transition: transform .5s ease;
+            transform: translateX(100%);
+            &.ng-enter-active {
+              transform: translateX(0);
+            }
+          }
+          &.ng-leave {
+            transition: transform .5s ease;
+            transform: translateX(0);
+            &.ng-leave-active {
+              transform: translateX(-100%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

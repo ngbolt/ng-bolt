@@ -1,0 +1,81 @@
+////
+/// CSS properties for tabs component 
+/// @group tabs 
+/// @since 2.0.0
+////
+
+///
+$tabs-bg: isitlight($global-bg, $global-border-dark, $global-border-light) !default;
+///
+$tabs-color: isitlight($tabs-bg, $font-secondary-dark, $font-secondary-light) !default;
+///
+$tabs-caption-color: isitlight($tabs-bg, $font-primary-dark, $font-primary-light) !default;
+///
+$tabs-caption-size: rem-calc(10) !default;
+///
+$tabs-hover-color: $global-link-color !default;
+///
+$tabs-active-bg: $global-bg !default;
+///
+$tabs-active-color: isitlight($global-bg, $font-primary-dark, $font-primary-light) !default;
+
+@mixin tabs-output {
+  .ng-bolt {
+    .tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .tabs-btn {
+      background-color: $tabs-bg;
+      color: $tabs-color;
+      flex: 1;
+      font-size: rem-calc(14);
+      line-height: 2.5rem;
+      min-width: 0;
+      overflow: hidden;
+      padding: .25rem;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-height: 3rem;
+      cursor: pointer;
+      // width: 100%;
+
+      &:hover {
+        color: $tabs-hover-color;
+      }
+    }
+
+    .tabs-active {
+      background-color: $body-bg;
+      color: $tabs-active-color;
+    }
+
+    .tabs-icons {
+      .tabs-btn {
+        line-height: normal;
+      }
+
+      .tabs-icon {
+        display: block;
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+      }
+
+      .tabs-label {
+        color: $tabs-caption-color;
+        display: block;
+        font-size: $tabs-caption-size;
+        line-height: 1rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}

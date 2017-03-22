@@ -1,0 +1,46 @@
+<div class="counter" ng-class="{'counter-labelled': $ctrl.label}">
+    <!-- Label -->
+    <label class="counter-label" ng-if="$ctrl.label">{{$ctrl.label + $ctrl.asterisk}}</label>
+
+    <div class="counter-field">
+        <!-- Input -->
+        <input type="number"
+               class="counter-input"
+               id="{{$ctrl.id}}"
+               name="{{$ctrl.name}}"
+               ng-show="!$ctrl.NaN"
+               ng-disabled="$ctrl.disabled"
+               ng-change="$ctrl.onChange()"
+               ng-focus="$ctrl.onFocus()"
+               data-max="{{$ctrl.max}}"
+               data-min="{{$ctrl.min}}"
+               ng-class="{'counter-disabled': $ctrl.disabled}"
+               ng-model="$ctrl.model"
+               blt-autofocus="{{$ctrl.autofocus}}"
+               blt-validate="$ctrl.validate"
+               blt-required="{{$ctrl.required}}">
+
+        <!-- If NaN, just show a dash. -->
+        <span class="counter-input counter-input-empty"
+              ng-class="{'counter-disabled': $ctrl.disabled}"
+              ng-show="$ctrl.NaN">-</span>
+
+        <!-- Left Arrow -->
+        <span class="counter-btn fa {{$ctrl.leftIcon}} counter-left"
+              ng-disabled="$ctrl.disabled || $ctrl.model <= $ctrl.min"
+              ng-mousedown="$ctrl.mouseDown(-1, $event)"
+              ng-mouseup="$ctrl.mouseUp(-1)"
+              ng-mouseenter="$ctrl.mouseEnter($event)"
+              ng-mouseleave="$ctrl.mouseLeave($event)">
+      </span>
+
+        <!-- Right Arrow -->
+        <span class="counter-btn fa {{$ctrl.rightIcon}} counter-right"
+              ng-disabled="$ctrl.disabled || $ctrl.model >= $ctrl.max"
+              ng-mousedown="$ctrl.mouseDown(1, $event)"
+              ng-mouseup="$ctrl.mouseUp(1)"
+              ng-mouseenter="$ctrl.mouseEnter($event)"
+              ng-mouseleave="$ctrl.mouseLeave($event)">
+      </span>
+    </div>
+</div>

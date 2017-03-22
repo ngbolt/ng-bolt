@@ -1,0 +1,50 @@
+{% import "lib/macros.html" as lib %}
+{% extends "api/api.template.html" %}
+
+{% block toc %}
+<hr class="spacer">
+<p class="font-bolder">Public Methods</p>
+<ul class="list api-toc">
+  {%- for method in doc.methods %}
+  <li class="list-tile">
+    <div class="list-actions">
+      <a href="/#/{$ doc.path $}#{$ method.name $}"><code>{$ method.name $}</code></a>
+      {% if method.returns %}
+      <i class="material-icons">trending_flat</i> 
+      {$ lib.typeList(method.returns.typeList) $}
+      {% endif %}
+    </div>
+    <div class="list-content">
+      {% if method.summary %}
+      <div class="api-toc-summary">{$ method.summary | marked $}</div>
+      {% endif %}
+    </div>
+  </li>
+  {% endfor -%}
+</ul>
+{% endblock %}
+
+{% block additional %}
+
+  {% if doc.params or doc.returns or doc.this or doc.kind == 'function' -%}
+    <section class="api-usage edge-top">
+      <h2 id="usage">Usage</h2>
+      <div class="usage">
+      {% if doc.usage %}
+        {$ doc.usage | code $}
+      {% else %}
+        {$ lib.functionSyntax(doc) $}
+      {% endif %}
+      </div>
+    </section>
+
+    {% include "lib/params.template.html" %}
+    {% include "lib/this.template.html" %}
+    {% include "lib/returns.template.html" %}
+  {%- endif %}
+
+  {% include "lib/methods.template.html" %}
+  {% include "lib/events.template.html" %}
+  {% include "lib/properties.template.html" %}
+
+{% endblock %}
