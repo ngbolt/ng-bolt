@@ -22,7 +22,7 @@ into ngBoltJS. A solid understanding of the following technologies is highly rec
 ## Guides
 
 Review the guides listed below. For more information on specific components
-and services, visit the [ngBoltJS documentation](/api).
+and services, visit the [ngBoltJS documentation](/#/api).
 
 * {@link getting-started Getting Started}
 * {@link configuration Configuring your App}

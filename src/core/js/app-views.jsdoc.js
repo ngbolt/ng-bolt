@@ -5,9 +5,9 @@
  * @sortorder 3
  *
  * @description
- * * [Overview](#overview)
- * * [Defining Views](#defining-views)
- * * [Html5Mode](#html5mode)
+ * * [Overview](/#/api/blt_appViews#overview)
+ * * [Defining Views](/#/api/blt_appViews#defining-views)
+ * * [Html5Mode](/#/api/blt_appViews#html5mode)
  *
  * ----------------------------------------------------------------------------
  *
