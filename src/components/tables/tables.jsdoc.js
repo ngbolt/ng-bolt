@@ -52,7 +52,7 @@
  * @classname {element} [accordion-actions] A container for any action buttons to include on the header row of an accordion table. The actions should be used on the entire table. Should be used on an HTML `<div>` tag and must be a direct child of the `.accordion-header` element.
  *
  * @classname {element} [table-th] Bolds a table cell in a simple table. Must use on an HTML `<td>` element and only in simple tables.
- *
+ * 
  * @classname {modifier} [table-collapse] Remove padding and margin from table rows. This is a best practice when the
  * table will be displayed in a modal or panel or on smaller screens. Must be used on the `.table` element.
  *
@@ -67,6 +67,8 @@
  * @classname {modifier} [accordion-closed] Use this to show or hide the inner content of an accordion table. Use [ng-class](https://docs.angularjs.org/api/ng/directive/ngClass) to dynamically set the class (see example). Must be used on a `.table-accordion` element.
  *
  * @classname {modifier} [table-simple] Creates a simple table with minimal formatting for use in a block of text (see example). Must be used on an HTML `<table>` tag. **Do NOT use the `.table` class when using `.table-simple`.**
+ *
+ * @classname {modifier} [table-fixed-header] Allows table header to remain fixed while the table content is scrolled.
  *
  * @usage <caption>To use the bltTable component in your ngBoltJS application, include the relevant
  * class elements inside an HTML <code>&lt;table&gt;</code> element in your application.</p></caption>
@@ -180,14 +182,42 @@
  *                category: "one",
  *                description: "description of item 4.",
  *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item5",
+ *                comments: "comment for item 5.",
+ *                category: "one",
+ *                description: "description of item 5.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item6",
+ *                comments: "comment for item 6.",
+ *                category: "one",
+ *                description: "description of item 6.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item7",
+ *                comments: "comment for item 7.",
+ *                category: "one",
+ *                description: "description of item 7.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item8",
+ *                comments: "comment for item 8.",
+ *                category: "one",
+ *                description: "description of item 8.",
+ *                tags: ["cell", "tag"]
  *              }
  *            ]
  *          }
  *       }
  *   </javascript>
- *   <html>
+ *   <html> 
  *     <div ng-controller="TableExCtrl as ctrl">
- *     <table class="table">
+ *     <table class="table-fixed-header">
  *       <thead>
  *         <tr>
  *           <th>Description</th>
