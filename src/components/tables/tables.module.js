@@ -1,15 +1,24 @@
+(function() {
+    'use strict'
+
 /**
  * @ngdoc module
- * @name blt_table
+ * @name blt_tables
  * @description ngBoltJS Table component.
  * @since 2.0.0
  */
 
+ angular
+    .module('blt_tables', [])
+    .directive('bltTables',bltTables);
+
 /**
  * @ngdoc directive
- * @name bltTable
- * @module blt_table
- *
+ * @name bltTables
+ * @module blt_tables
+ * @since 2.0.0
+ * @restrict EA
+ * 
  * @description
  * The bltTable component is used to display data sets with multiple columns of data. If less than three columns
  * are required, consider using the {@link bltList} component instead. The presentation of the table options can be
@@ -105,11 +114,9 @@
  *       .controller("TableExCtrl", TableExCtrl)
  *     ;
  *
- *     TableExCtrl.$inject = ['$timeout'];
- *     function TableExCtrl($timeout){
+ *     function TableExCtrl(){
  *          var ctrl = this;
- *
- *
+ * 
  *          ctrl.categories = ["one", "two", "three", "four"]
  *          ctrl.deleteItem =  deleteItem;
  *          ctrl.approveItem = approveItem;
@@ -217,7 +224,8 @@
  *   </javascript>
  *   <html> 
  *     <div ng-controller="TableExCtrl as ctrl">
- *     <table class="table-fixed-header">
+ *     <div blt-tables>
+ *     <table class="fixed-header">
  *       <thead>
  *         <tr>
  *           <th>Description</th>
@@ -226,6 +234,9 @@
  *           <th></th>
  *         </tr>
  *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto">
+ *     <table class="fixed-header-content">
  *       <tbody>
  *         <!-- Using tags, dropdown, and actions -->
  *         <tr ng-repeat="item in ctrl.tableItems">
@@ -255,6 +266,27 @@
  *         </tr>
  *       </tbody>
  *     </table>
+ *     </div>
+ *      <table class="fixed-header">
+ *       <thead>
+ *         <tr>
+ *           <th>Description</th>
+ *           <th>Comments</th>
+ *         </tr>
+ *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto; padding-top:1.5em;">
+ *     <table class="fixed-header-content">
+ *       <tbody>
+ *         <tr ng-repeat="item in ctrl.tableItems">
+ *           <td><div class="table-content">{{item.description}}<br>
+ *           </td>
+ *           <td><div class="table-content">{{item.comments}}</div></td>
+ *         </tr>
+ *       </tbody>
+ *     </table>
+ *     </div>
+ *     </div>
  *     </div>
  *   </html>
  * </example>
@@ -413,3 +445,44 @@
  *   </html>
  * </example>
  */
+function bltTables() {
+    var directive = {
+        restrict: 'EA',
+        compile: compile
+    };
+    
+    return directive;
+
+    function compile() {
+        console.log('compile');
+        return {
+            pre : link
+        };
+    }
+
+    function link() {
+        console.log('Link function called');
+        var headers;
+        var tables;
+        var currentHeaderColumn;
+        var currentTableRow;
+        console.log(document.readyState);
+        var interval = setInterval(function() {
+            if(document.readyState == 'complete' || document.readyState == 'interactive') {
+                //clearInterval(interval);
+                headers = document.getElementsByClassName("fixed-header");
+                tables = document.getElementsByClassName("fixed-header-content");    
+                for(var i=0; i < headers.length; i++) {
+                    currentHeaderColumn = headers[i].getElementsByTagName("th");
+                    currentTableRow = tables[i].getElementsByTagName("tr");
+                    for(var j=0; j < currentHeaderColumn.length; j++) {
+                        //console.log("Set: "+ i + " Before\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                        currentHeaderColumn[j].style.width = window.getComputedStyle(currentTableRow[0].children[j]).width;
+                        //console.log("Set: "+ i + " After\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                    } 
+                }            
+            }
+        },500)
+    }
+}
+})();

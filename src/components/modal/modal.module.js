@@ -347,7 +347,7 @@
    *
    * @example <caption>Often you may want to have a small form in a modal. In order to tap into the default AngularJS
    * functionality of validating and submitting forms, you must use the form tag on the `.modal-content` element.</caption>
-   * <example>
+   * <example runnable="true">
    *   <html>
    *     <blt-modal id="myFormModal">
    *       <form class="modal-content" ng-submit="Main.submitMyModal()" novalidate>
