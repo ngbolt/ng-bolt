@@ -267,7 +267,7 @@
  *       </tbody>
  *     </table>
  *     </div>
- *      <table class="fixed-header">
+ *      <table class="fixed-header" style="margin-top:2em;">
  *       <thead>
  *         <tr>
  *           <th>Description</th>
@@ -275,7 +275,7 @@
  *         </tr>
  *       </thead>
  *      </table>
- *     <div style="height:200px; overflow-y:auto; padding-top:1.5em;">
+ *     <div style="height:200px; overflow-y:auto;">
  *     <table class="fixed-header-content">
  *       <tbody>
  *         <tr ng-repeat="item in ctrl.tableItems">
@@ -452,37 +452,53 @@ function bltTables() {
     };
     
     return directive;
-
+    /**
+     * Compile function invoked by Angular during the compilation phase. The only thing we do here is register
+     * link function.
+     * 
+     * @returns {link} Our link function
+     */
     function compile() {
-        console.log('compile');
-        return {
-            pre : link
-        };
-    }
+        return link;
+    
+        /**
+         * Table Resize function. We use this function to set the width of the fixed-header table columns to
+         * the same width as the fixed-header-content table columns. 
+         */
+        function tableResize() {
+            var headers;
+            var tables;
+            var currentHeaderColumn;
+            var currentTableRow;
+            headers = document.getElementsByClassName("fixed-header");
+            tables = document.getElementsByClassName("fixed-header-content");    
+            for(var i=0; i < headers.length; i++) {
+                currentHeaderColumn = headers[i].getElementsByTagName("th");
+                currentTableRow = tables[i].getElementsByTagName("tr");
+                for(var j=0; j < currentHeaderColumn.length; j++) {
+                    //console.log("Set: "+ i + " Before\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                    currentHeaderColumn[j].style.width = window.getComputedStyle(currentTableRow[0].children[j]).width;
+                    //console.log("Set: "+ i + " After\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                } 
+            }  
+        }
 
-    function link() {
-        console.log('Link function called');
-        var headers;
-        var tables;
-        var currentHeaderColumn;
-        var currentTableRow;
-        console.log(document.readyState);
-        var interval = setInterval(function() {
-            if(document.readyState == 'complete' || document.readyState == 'interactive') {
-                //clearInterval(interval);
-                headers = document.getElementsByClassName("fixed-header");
-                tables = document.getElementsByClassName("fixed-header-content");    
-                for(var i=0; i < headers.length; i++) {
-                    currentHeaderColumn = headers[i].getElementsByTagName("th");
-                    currentTableRow = tables[i].getElementsByTagName("tr");
-                    for(var j=0; j < currentHeaderColumn.length; j++) {
-                        //console.log("Set: "+ i + " Before\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
-                        currentHeaderColumn[j].style.width = window.getComputedStyle(currentTableRow[0].children[j]).width;
-                        //console.log("Set: "+ i + " After\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
-                    } 
-                }            
-            }
-        },500)
+        /**
+         * Link Function. We use this function to determine fixed-header and fixed-hearder-content tables need
+         * to be resized. Link function calls table resize function once when the document is in the complete or interactive
+         * state and whenever the window is resized.
+         */
+        function link() {
+            var interval = setInterval(function() {
+                if(document.readyState == 'complete' || document.readyState == 'interactive') {
+                    clearInterval(interval);
+                    tableResize();         
+                }
+            },500)
+            window.onresize = function(event) {
+                tableResize();
+            } 
+        }
     }
 }
 })();
