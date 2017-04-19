@@ -77,7 +77,9 @@
  *
  * @classname {modifier} [table-simple] Creates a simple table with minimal formatting for use in a block of text (see example). Must be used on an HTML `<table>` tag. **Do NOT use the `.table` class when using `.table-simple`.**
  *
- * @classname {modifier} [table-fixed-header] Allows table header to remain fixed while the table content is scrolled.
+ * @classname {modifier} [fixed-header] Place on table that holds fixed headers.
+ * 
+ * @classname {modifier} [fixed-header-content] Place on table that holds fixed header content.
  *
  * @usage <caption>To use the bltTable component in your ngBoltJS application, include the relevant
  * class elements inside an HTML <code>&lt;table&gt;</code> element in your application.</p></caption>
@@ -107,7 +109,7 @@
  </table>
  * ```
  *
- * @example <caption><h4>Common Use Cases</h4></caption>
+ * @example <caption><h3>Common Use Cases</h3></caption>
  * <example runnable="true">
  *   <javascript>
  *     angular.module("bltDocs")
@@ -189,34 +191,6 @@
  *                category: "one",
  *                description: "description of item 4.",
  *                tags: ["cell", "tag"]
- *              },
- *              {
- *                id: "item5",
- *                comments: "comment for item 5.",
- *                category: "one",
- *                description: "description of item 5.",
- *                tags: ["cell", "tag"]
- *              },
- *              {
- *                id: "item6",
- *                comments: "comment for item 6.",
- *                category: "one",
- *                description: "description of item 6.",
- *                tags: ["cell", "tag"]
- *              },
- *              {
- *                id: "item7",
- *                comments: "comment for item 7.",
- *                category: "one",
- *                description: "description of item 7.",
- *                tags: ["cell", "tag"]
- *              },
- *              {
- *                id: "item8",
- *                comments: "comment for item 8.",
- *                category: "one",
- *                description: "description of item 8.",
- *                tags: ["cell", "tag"]
  *              }
  *            ]
  *          }
@@ -224,9 +198,8 @@
  *   </javascript>
  *   <html> 
  *     <div ng-controller="TableExCtrl as ctrl">
- *     <div blt-tables>
- *     <table class="fixed-header">
- *       <thead>
+ *       <table class="table">
+ *        <thead>
  *         <tr>
  *           <th>Description</th>
  *           <th>Comments</th>
@@ -234,9 +207,6 @@
  *           <th></th>
  *         </tr>
  *       </thead>
- *      </table>
- *     <div style="height:200px; overflow-y:auto">
- *     <table class="fixed-header-content">
  *       <tbody>
  *         <!-- Using tags, dropdown, and actions -->
  *         <tr ng-repeat="item in ctrl.tableItems">
@@ -266,27 +236,6 @@
  *         </tr>
  *       </tbody>
  *     </table>
- *     </div>
- *      <table class="fixed-header" style="margin-top:2em;">
- *       <thead>
- *         <tr>
- *           <th>Description</th>
- *           <th>Comments</th>
- *         </tr>
- *       </thead>
- *      </table>
- *     <div style="height:200px; overflow-y:auto;">
- *     <table class="fixed-header-content">
- *       <tbody>
- *         <tr ng-repeat="item in ctrl.tableItems">
- *           <td><div class="table-content">{{item.description}}<br>
- *           </td>
- *           <td><div class="table-content">{{item.comments}}</div></td>
- *         </tr>
- *       </tbody>
- *     </table>
- *     </div>
- *     </div>
  *     </div>
  *   </html>
  * </example>
@@ -443,6 +392,190 @@
  *       </tbody>
  *     </table>
  *   </html>
+ * </example>
+ *
+ * @example <caption><h3>Fixed Headers</h3><p>Explanation of fixed headers</p></caption>
+ * <example runnable="true">
+ *   <javascript>
+ *     angular.module("bltDocs")
+ *       .controller("TableExCtrl", TableExCtrl)
+ *     ;
+ *
+ *     function TableExCtrl(){
+ *          var ctrl = this;
+ * 
+ *          ctrl.categories = ["one", "two", "three", "four"]
+ *          ctrl.deleteItem =  deleteItem;
+ *          ctrl.approveItem = approveItem;
+ *
+ *          activate();
+ *
+ *
+ *          function activate(){
+ *            ctrl.tableItems = items();
+ *          }
+ *
+ *          function approveItem(itemId){
+ *            var item = itemLookup(itemId);
+ *            if(item){
+ *              item.approved = true;
+ *            }
+ *          }
+ *
+ *          function deleteItem(itemId){
+ *            var idx = itemIdxLookup(itemId);
+ *            if(idx >= 0){
+ *              ctrl.tableItems.splice(idx, 1);
+ *            }
+ *          }
+ *
+ *          function itemLookup(itemId){
+ *            var idx = itemIdxLookup(itemId);
+ *            if(idx > -1){
+ *              return ctrl.tableItems[idx];
+ *            }
+ *          }
+ *
+ *          function itemIdxLookup(itemId){
+ *            for(var idx in ctrl.tableItems){
+ *              if(ctrl.tableItems[idx].id == itemId){
+ *                return idx;
+ *              }
+ *            }
+ *            return -1;
+ *          }
+ *
+ *          //Normally we would use the data api to retrieve items from a data endpoint. For this example we will
+ *          //just use a hard coded list of items.
+ *          function items(){
+ *            return [
+ *              {
+ *                id: "item1",
+ *                comments: "comment for item 1.",
+ *                category: "one",
+ *                description: "description of item 1.",
+ *                tags: ["cell", "item", "tag"]
+ *              },
+ *              {
+ *                id: "item2",
+ *                comments: "comment for item 2.",
+ *                category: "two",
+ *                description: "description of item 2.",
+ *                tags: ["cell", "item", "tag"]
+ *              },
+ *              {
+ *                id: "item3",
+ *                comments: "comment for item 3.",
+ *                category: "two",
+ *                description: "description of item 3.",
+ *                tags: ["item", "tag"]
+ *              },
+ *              {
+ *                id: "item4",
+ *                comments: "comment for item 4.",
+ *                category: "one",
+ *                description: "description of item 4.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item5",
+ *                comments: "comment for item 5.",
+ *                category: "one",
+ *                description: "description of item 5.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item6",
+ *                comments: "comment for item 6.",
+ *                category: "one",
+ *                description: "description of item 6.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item7",
+ *                comments: "comment for item 7.",
+ *                category: "one",
+ *                description: "description of item 7.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item8",
+ *                comments: "comment for item 8.",
+ *                category: "one",
+ *                description: "description of item 8.",
+ *                tags: ["cell", "tag"]
+ *              }
+ *            ]
+ *          }
+ *       }
+ *   </javascript>
+ *   <html> 
+ *     <div ng-controller="TableExCtrl as ctrl">
+ *     <blt-tables>
+ *      <table class="fixed-header">
+ *       <thead>
+ *         <tr>
+ *           <th>Description</th>
+ *           <th>Comments</th>
+ *           <th>Category</th>
+ *           <th></th>
+ *         </tr>
+ *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto">
+ *      <table class="fixed-header-content">
+ *       <tbody>
+ *         <!-- Using tags, dropdown, and actions -->
+ *         <tr ng-repeat="item in ctrl.tableItems">
+ *           <!-- To place tags under text content use the <br> tag -->
+ *           <td><div class="table-content">{{item.description}}<br>
+ *             <!-- use ng-repeat to iterate over multiple tags -->
+ *             <span class='table-tag-solid' ng-repeat="tag in item.tags">{{tag}}</span></div>
+ *           </td>
+ *           <td><div class="table-content">{{item.comments}}</div></td>
+ *           <td class="table-dropdown table-shrink">
+ *             <!-- dropdowns must be included inside a <form> -->
+ *             <form class="table-content">
+ *               <blt-dropdown data-label="Category"
+ *                 data-type="dropdown"
+ *                 data-name="category"
+ *                 data-options="ctrl.categories"
+ *                 data-model="item.category">
+ *               </blt-dropdown>
+ *             </form>
+ *           </td>
+ *           <td class="table-actions">
+ *             <div class="btn-row">
+ *               <button class="table-btn-icon" ng-click="ctrl.approveItem(item.id)"><span class="fa fa-check"></span></button>
+ *               <button class="table-btn-icon" ng-click="ctrl.deleteItem(item.id)"><span class="fa fa-times"></span></button>
+ *             </div>
+ *           </td>
+ *         </tr>
+ *       </tbody>
+ *     </table>
+ *     </div>
+ *      <table class="fixed-header" style="margin-top:2em;">
+ *       <thead>
+ *         <tr>
+ *           <th>Description</th>
+ *           <th>Comments</th>
+ *         </tr>
+ *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto;">
+ *      <table class="fixed-header-content">
+ *       <tbody>
+ *         <tr ng-repeat="item in ctrl.tableItems">
+ *           <td><div class="table-content">{{item.description}}<br>
+ *           </td>
+ *           <td><div class="table-content">{{item.comments}}</div></td>
+ *         </tr>
+ *       </tbody>
+ *      </table>
+ *     </div>
+ *    <blt-tables>
+ *   </div>
+ *  </html>
  * </example>
  */
 function bltTables() {
