@@ -394,7 +394,9 @@
  *   </html>
  * </example>
  *
- * @example <caption><h3>Fixed Headers</h3><p>Explanation of fixed headers</p></caption>
+ * @example <caption><h3>Fixed Headers</h3><p>Tables will have have fixed headers while content can be scrolled. This is done by placing the table headers and table content in seperate tables and using javascript
+ * to adjust column width. The table that contains the fixed headers must have the <code>fixed-headers</code> class and the table containg the content must have the <code>fixed-header-content</code> class. Both of 
+ * these table should be placed inside a blt-tables element.</p></caption>
  * <example runnable="true">
  *   <javascript>
  *     angular.module("bltDocs")
@@ -573,7 +575,7 @@
  *       </tbody>
  *      </table>
  *     </div>
- *    <blt-tables>
+ *    </blt-tables>
  *   </div>
  *  </html>
  * </example>
