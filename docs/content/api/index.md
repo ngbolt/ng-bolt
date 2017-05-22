@@ -59,7 +59,7 @@ The remaining modules provide optional services and components for your Applicat
 | {@link blt_modal} |  <span class="tag-module"></span> | |
 | {@link blt_notifications} |  <span class="tag-module"></span> | |
 | {@link blt_panel} |  <span class="tag-module"></span> | |
-| {@link blt_table} |  <span class="tag-module"></span> | |
+| {@link blt_tables} |  <span class="tag-module"></span> | |
 | {@link blt_tab} |  <span class="tag-module"></span> | |
 | {@link blt_textfield} |  <span class="tag-module"></span> | |
 | {@link blt_toggleswitch} |  <span class="tag-module"></span> | |

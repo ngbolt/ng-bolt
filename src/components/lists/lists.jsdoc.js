@@ -17,7 +17,7 @@
  *
  * * If more than two lines of text are required to display, or images need to be displayed, use the {@link bltCard}
  * component instead.
- * * If multiple columns need to be displayed, use the {@link bltTable} component.
+ * * If multiple columns need to be displayed, use the {@link bltTables} component.
  *
  * The presentation of the list options can be customized by using the class elements and modifiers supported by the
  * component. To use the bltList component in your ngBoltJS application, include the relevant class elements inside

@@ -90,7 +90,7 @@
  * | notifications | `true` | Use {@link blt_notifications} module in your application. |
  * | panel | `true` | Use {@link blt_panel} module in your application. |
  * | dropdown | `true` | Use {@link blt_dropdown} module in your application. |
- * | tables | `true` | Use {@link blt_table} module in your application. |
+ * | tables | `true` | Use {@link blt_tables} module in your application. |
  * | tabs | `true` | Use {@link blt_tab} module in your application. |
  * | textfield | `true` | Use {@link blt_textfield} module in your application. |
  * | toggleswitch | `true` | Use {@link blt_toggleswitch} module in your application. |
