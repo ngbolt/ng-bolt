@@ -139,6 +139,7 @@
         get returnType()   { return returnType; },
         get retryMax()     { return retryMax; },
         get retryDelay()   { return retryDelay; },
+        get routeTable()   { return routeTable; },
         getRouteData : getRouteData
       });
 
