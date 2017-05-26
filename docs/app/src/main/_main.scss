@@ -102,8 +102,8 @@ $code-border-color: $gray;
     > .menu {
       // padding: .5rem 0;
       > .menu-item {
-        margin: .5rem 0;
-        padding-bottom: .5rem;
+        margin: 0;
+        padding-bottom: 0;
       }
     }
     .menu-divider {
@@ -121,13 +121,14 @@ $code-border-color: $gray;
 
           .menu-link {
             padding-left: 1.25rem;
+            line-height: 2rem;
           }
         }
       }
     }
     .menu-link {
       height: auto;
-      line-height: 2rem;
+      line-height: 3rem;
     }
     .tag {
       &-service::after {
