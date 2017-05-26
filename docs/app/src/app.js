@@ -133,6 +133,15 @@
   }
 
   function normalizePath(path){
+    
+    //Polyfill that  provides .startsWith functionality in IE 11
+    if (!String.prototype.startsWith) {
+      String.prototype.startsWith = function(searchString, position) {
+      position = position || 0;
+      return this.indexOf(searchString, position) === position;
+      };
+    }
+    
     if( !path.startsWith('/') ){
       path = '/' + path;
     }
