@@ -167,13 +167,6 @@
   "menu-min-width": "rem-calc(200)",
   "menu-sub-bg": "isitlight($menu-bg, rgba($black, .05), rgba($white, .05))",
   "menu-panel-slide-speed": "$global-slide-speed",
-  "breakpoints": {
-    "sm": "0",
-    "md": "600",
-    "lg": "900",
-    "xl": "1200",
-    "xxl": "1800"
-  },
   "bp-ranges": "up, down, only",
   "modal-overlay-bg": "$global-overlay-bg",
   "modal-header-bg": "$global-headers-bg",
