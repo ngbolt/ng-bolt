@@ -57,13 +57,28 @@ npm config set msvs_version 2015 -  -global
 
 ## Quick Start
 
-<!-- TODO: update cli url -->
 1. Install the [ngBoltJS CLI](https://github.com/ngbolt/ng-bolt-cli) globally.
-    * If you already have the ngBoltJS CLI installed globally, make sure you are running version 2.0+. If you are not, we recommend you uninstall your old version `$ npm rm ng-bolt-cli -g` and then install the current version.
+```bash
+$ npm install ng-bolt-cli -g
+```
+<div class="note-warning">
+If you participated in ngBoltJS pre-release testing and already have the ngBoltJS CLI installed globally we recommend you uninstall your old version and then install the current version.
+</div>
+```bash
+$ bolt version
+    ng-bolt-cli:   2.0.0-23
+$ npm remove ng-bolt-cli -g 
+```
 
 2. After ngBoltJS CLI has installed successfully, run the following to start a new project.
 ```bash
 $ bolt new
+```
+<div class="note-tip"> 
+**NOTE** If this is your first time creating an ngBoltJS application, we recommend using the [Example Template](https://github.com/ngbolt/ng-bolt-example) which provides several example views and controls.
+</div>
+```bash
+$ bolt new --template https://github.com/ngbolt/ng-bolt-example.git
 ```
 
 3. You will be asked a few questions by the installer, after which the installer will download the ngBoltJS boilerplate template and install all dependencies. When the process has completed, you are ready to run the ngBoltJS application. Do so by running the following in your command line:
