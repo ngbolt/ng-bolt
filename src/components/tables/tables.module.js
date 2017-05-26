@@ -1,15 +1,24 @@
+(function() {
+    'use strict'
+
 /**
  * @ngdoc module
- * @name blt_table
+ * @name blt_tables
  * @description ngBoltJS Table component.
  * @since 2.0.0
  */
 
+ angular
+    .module('blt_tables', [])
+    .directive('bltTables',bltTables);
+
 /**
  * @ngdoc directive
- * @name bltTable
- * @module blt_table
- *
+ * @name bltTables
+ * @module blt_tables
+ * @since 2.0.0
+ * @restrict EA
+ * 
  * @description
  * The bltTable component is used to display data sets with multiple columns of data. If less than three columns
  * are required, consider using the {@link bltList} component instead. The presentation of the table options can be
@@ -52,7 +61,7 @@
  * @classname {element} [accordion-actions] A container for any action buttons to include on the header row of an accordion table. The actions should be used on the entire table. Should be used on an HTML `<div>` tag and must be a direct child of the `.accordion-header` element.
  *
  * @classname {element} [table-th] Bolds a table cell in a simple table. Must use on an HTML `<td>` element and only in simple tables.
- *
+ * 
  * @classname {modifier} [table-collapse] Remove padding and margin from table rows. This is a best practice when the
  * table will be displayed in a modal or panel or on smaller screens. Must be used on the `.table` element.
  *
@@ -69,6 +78,10 @@
  * @classname {modifier} [table-mobile] Use this to add automatic mobile responsive styling to tables. Should be applied to the HTML `<table>` tag.
  *
  * @classname {modifier} [table-simple] Creates a simple table with minimal formatting for use in a block of text (see example). Must be used on an HTML `<table>` tag. **Do NOT use the `.table` class when using `.table-simple`.**
+ *
+ * @classname {modifier} [fixed-header] Place on table that holds fixed headers.
+ * 
+ * @classname {modifier} [fixed-header-content] Place on table that holds fixed header content.
  *
  * @usage <caption>To use the bltTable component in your ngBoltJS application, include the relevant
  * class elements inside an HTML <code>&lt;table&gt;</code> element in your application.</p></caption>
@@ -98,18 +111,16 @@
  </table>
  * ```
  *
- * @example <caption><h4>Common Use Cases</h4></caption>
+ * @example <caption><h3>Common Use Cases</h3></caption>
  * <example runnable="true">
  *   <javascript>
  *     angular.module("bltDocs")
  *       .controller("TableExCtrl", TableExCtrl)
  *     ;
  *
- *     TableExCtrl.$inject = ['$timeout'];
- *     function TableExCtrl($timeout){
+ *     function TableExCtrl(){
  *          var ctrl = this;
- *
- *
+ * 
  *          ctrl.categories = ["one", "two", "three", "four"]
  *          ctrl.deleteItem =  deleteItem;
  *          ctrl.approveItem = approveItem;
@@ -187,10 +198,10 @@
  *          }
  *       }
  *   </javascript>
- *   <html>
+ *   <html> 
  *     <div ng-controller="TableExCtrl as ctrl">
- *     <table class="table">
- *       <thead>
+ *       <table class="table">
+ *        <thead>
  *         <tr>
  *           <th>Description</th>
  *           <th>Comments</th>
@@ -384,4 +395,247 @@
  *     </table>
  *   </html>
  * </example>
+ *
+ * @example <caption><h3>Fixed Headers</h3><p>Tables will have have fixed headers while content can be scrolled. This is done by placing the table headers and table content in seperate tables and using javascript
+ * to adjust column width. The table that contains the fixed headers must have the <code>fixed-headers</code> class and the table containg the content must have the <code>fixed-header-content</code> class. Both of 
+ * these table should be placed inside a blt-tables element.</p></caption>
+ * <example runnable="true">
+ *   <javascript>
+ *     angular.module("bltDocs")
+ *       .controller("TableExCtrl", TableExCtrl)
+ *     ;
+ *
+ *     function TableExCtrl(){
+ *          var ctrl = this;
+ * 
+ *          ctrl.categories = ["one", "two", "three", "four"]
+ *          ctrl.deleteItem =  deleteItem;
+ *          ctrl.approveItem = approveItem;
+ *
+ *          activate();
+ *
+ *
+ *          function activate(){
+ *            ctrl.tableItems = items();
+ *          }
+ *
+ *          function approveItem(itemId){
+ *            var item = itemLookup(itemId);
+ *            if(item){
+ *              item.approved = true;
+ *            }
+ *          }
+ *
+ *          function deleteItem(itemId){
+ *            var idx = itemIdxLookup(itemId);
+ *            if(idx >= 0){
+ *              ctrl.tableItems.splice(idx, 1);
+ *            }
+ *          }
+ *
+ *          function itemLookup(itemId){
+ *            var idx = itemIdxLookup(itemId);
+ *            if(idx > -1){
+ *              return ctrl.tableItems[idx];
+ *            }
+ *          }
+ *
+ *          function itemIdxLookup(itemId){
+ *            for(var idx in ctrl.tableItems){
+ *              if(ctrl.tableItems[idx].id == itemId){
+ *                return idx;
+ *              }
+ *            }
+ *            return -1;
+ *          }
+ *
+ *          //Normally we would use the data api to retrieve items from a data endpoint. For this example we will
+ *          //just use a hard coded list of items.
+ *          function items(){
+ *            return [
+ *              {
+ *                id: "item1",
+ *                comments: "comment for item 1.",
+ *                category: "one",
+ *                description: "description of item 1.",
+ *                tags: ["cell", "item", "tag"]
+ *              },
+ *              {
+ *                id: "item2",
+ *                comments: "comment for item 2.",
+ *                category: "two",
+ *                description: "description of item 2.",
+ *                tags: ["cell", "item", "tag"]
+ *              },
+ *              {
+ *                id: "item3",
+ *                comments: "comment for item 3.",
+ *                category: "two",
+ *                description: "description of item 3.",
+ *                tags: ["item", "tag"]
+ *              },
+ *              {
+ *                id: "item4",
+ *                comments: "comment for item 4.",
+ *                category: "one",
+ *                description: "description of item 4.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item5",
+ *                comments: "comment for item 5.",
+ *                category: "one",
+ *                description: "description of item 5.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item6",
+ *                comments: "comment for item 6.",
+ *                category: "one",
+ *                description: "description of item 6.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item7",
+ *                comments: "comment for item 7.",
+ *                category: "one",
+ *                description: "description of item 7.",
+ *                tags: ["cell", "tag"]
+ *              },
+ *              {
+ *                id: "item8",
+ *                comments: "comment for item 8.",
+ *                category: "one",
+ *                description: "description of item 8.",
+ *                tags: ["cell", "tag"]
+ *              }
+ *            ]
+ *          }
+ *       }
+ *   </javascript>
+ *   <html> 
+ *     <div ng-controller="TableExCtrl as ctrl">
+ *     <blt-tables>
+ *      <table class="fixed-header">
+ *       <thead>
+ *         <tr>
+ *           <th>Description</th>
+ *           <th>Comments</th>
+ *           <th>Category</th>
+ *           <th></th>
+ *         </tr>
+ *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto">
+ *      <table class="fixed-header-content">
+ *       <tbody>
+ *         <!-- Using tags, dropdown, and actions -->
+ *         <tr ng-repeat="item in ctrl.tableItems">
+ *           <!-- To place tags under text content use the <br> tag -->
+ *           <td><div class="table-content">{{item.description}}<br>
+ *             <!-- use ng-repeat to iterate over multiple tags -->
+ *             <span class='table-tag-solid' ng-repeat="tag in item.tags">{{tag}}</span></div>
+ *           </td>
+ *           <td><div class="table-content">{{item.comments}}</div></td>
+ *           <td class="table-dropdown table-shrink">
+ *             <!-- dropdowns must be included inside a <form> -->
+ *             <form class="table-content">
+ *               <blt-dropdown data-label="Category"
+ *                 data-type="dropdown"
+ *                 data-name="category"
+ *                 data-options="ctrl.categories"
+ *                 data-model="item.category">
+ *               </blt-dropdown>
+ *             </form>
+ *           </td>
+ *           <td class="table-actions">
+ *             <div class="btn-row">
+ *               <button class="table-btn-icon" ng-click="ctrl.approveItem(item.id)"><span class="fa fa-check"></span></button>
+ *               <button class="table-btn-icon" ng-click="ctrl.deleteItem(item.id)"><span class="fa fa-times"></span></button>
+ *             </div>
+ *           </td>
+ *         </tr>
+ *       </tbody>
+ *     </table>
+ *     </div>
+ *      <table class="fixed-header" style="margin-top:2em;">
+ *       <thead>
+ *         <tr>
+ *           <th>Description</th>
+ *           <th>Comments</th>
+ *         </tr>
+ *       </thead>
+ *      </table>
+ *     <div style="height:200px; overflow-y:auto;">
+ *      <table class="fixed-header-content">
+ *       <tbody>
+ *         <tr ng-repeat="item in ctrl.tableItems">
+ *           <td><div class="table-content">{{item.description}}<br>
+ *           </td>
+ *           <td><div class="table-content">{{item.comments}}</div></td>
+ *         </tr>
+ *       </tbody>
+ *      </table>
+ *     </div>
+ *    </blt-tables>
+ *   </div>
+ *  </html>
+ * </example>
  */
+function bltTables() {
+    var directive = {
+        restrict: 'EA',
+        compile: compile
+    };
+    
+    return directive;
+    /**
+     * Compile function invoked by Angular during the compilation phase. The only thing we do here is register
+     * link function.
+     * 
+     * @returns {link} Our link function
+     */
+    function compile() {
+        return link;
+    
+        /**
+         * Table Resize function. We use this function to set the width of the fixed-header table columns to
+         * the same width as the fixed-header-content table columns. 
+         */
+        function tableResize() {
+            var headers;
+            var tables;
+            var currentHeaderColumn;
+            var currentTableRow;
+            headers = document.getElementsByClassName("fixed-header");
+            tables = document.getElementsByClassName("fixed-header-content");    
+            for(var i=0; i < headers.length; i++) {
+                currentHeaderColumn = headers[i].getElementsByTagName("th");
+                currentTableRow = tables[i].getElementsByTagName("tr");
+                for(var j=0; j < currentHeaderColumn.length; j++) {
+                    //console.log("Set: "+ i + " Before\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                    currentHeaderColumn[j].style.width = window.getComputedStyle(currentTableRow[0].children[j]).width;
+                    //console.log("Set: "+ i + " After\nHeader width: " + window.getComputedStyle(currentHeaderColumn[j]).width + "Table width: " + window.getComputedStyle(currentTableRow[0].children[j]).width);
+                } 
+            }  
+        }
+
+        /**
+         * Link Function. We use this function to determine fixed-header and fixed-hearder-content tables need
+         * to be resized. Link function calls table resize function once when the document is in the complete or interactive
+         * state and whenever the window is resized.
+         */
+        function link() {
+            var interval = setInterval(function() {
+                if(document.readyState == 'complete' || document.readyState == 'interactive') {
+                    clearInterval(interval);
+                    tableResize();         
+                }
+            },500)
+            window.onresize = function(event) {
+                tableResize();
+            } 
+        }
+    }
+}
+})();
