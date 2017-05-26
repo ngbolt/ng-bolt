@@ -66,6 +66,8 @@
  *
  * @classname {modifier} [accordion-closed] Use this to show or hide the inner content of an accordion table. Use [ng-class](https://docs.angularjs.org/api/ng/directive/ngClass) to dynamically set the class (see example). Must be used on a `.table-accordion` element.
  *
+ * @classname {modifier} [table-mobile] Use this to add automatic mobile responsive styling to tables. Should be applied to the HTML `<table>` tag.
+ *
  * @classname {modifier} [table-simple] Creates a simple table with minimal formatting for use in a block of text (see example). Must be used on an HTML `<table>` tag. **Do NOT use the `.table` class when using `.table-simple`.**
  *
  * @usage <caption>To use the bltTable component in your ngBoltJS application, include the relevant

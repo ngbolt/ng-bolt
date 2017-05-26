@@ -54,29 +54,9 @@ $table-simple-padding: .25rem !default;
 
     td {
       @include td;
-      @include screen-width(sm, only) {
-        $border: 1px solid opacify($table-border-color, 0.07);
-        border-top: $border;
-        &:last-child {
-          border-bottom: $border;
-        }
-        width: 100% !important;
-        display: flex;
-        min-height: 2.5rem;
-        align-items: center;
-
-        > .table-content {
-          flex: 2 2 auto;
-          text-align: left;
-        }
-
-        &:before {
-          content: attr(data-label);
-          font-weight: bold;
-          flex: 1 1 auto;
-        }
-      }
     }
+
+
 
     .table {
       background-color: $table-bg;
@@ -92,50 +72,247 @@ $table-simple-padding: .25rem !default;
         @include btn-text($table-td-bg, true);
       }
 
-      @include screen-width(sm, 'only') {
-        display: block;
-
-        tbody,
-        tr {
+      &.table-mobile {
+        @include screen-width(sm, 'only') {
           display: block;
+
+          tbody,
+          tr {
+            display: block;
+          }
+
+          thead {
+            display: none;
+          }
+
+          tr {
+            margin-bottom: .5rem;
+            // box-shadow: 1px 1px 5px $global-shadow-color;
+          }
         }
 
-        thead {
-          display: none;
+        td {
+          @include screen-width(sm, only) {
+            $border: 1px solid opacify($table-border-color, 0.07);
+            border-top: $border;
+            &:last-child {
+              border-bottom: $border;
+            }
+            width: 100% !important;
+            display: flex;
+            min-height: 2.5rem;
+            align-items: center;
+
+            > .table-content {
+              flex: 2 2 auto;
+              text-align: left;
+            }
+
+            &:before {
+              content: attr(data-label);
+              font-weight: bold;
+              flex: 1 1 auto;
+            }
+          }
         }
 
-        tr {
-          margin-bottom: .5rem;
-          // box-shadow: 1px 1px 5px $global-shadow-color;
+        .table-dropdown {
+          @include screen-width(sm, 'only') {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+
+            &:before {
+              padding: 0.5rem 0;
+            }
+
+            .dropdown-toggle {
+              padding-left: 0;
+              padding-right: 0;
+            }
+          }
+        }
+
+        .table-actions {
+          @include screen-width(sm, only) {
+            border-top: 2px solid opacify($color: $table-border-color, $amount: 0.07) !important;
+          }
+
+        }
+
+        .table-collapse {
+          @include screen-width(sm, only) {
+            tr {
+              margin-bottom: 0;
+              &:not(:last-child) {
+                border-bottom: .25rem solid opacify($color: $table-border-color, $amount: 0.07);
+              }
+
+              td {
+                border: 0;
+              }
+
+              &.table-divider {
+                & ~ tr td,
+                td:not(:first-child) {
+                  border-top: 1px solid opacify($table-border-color, 0.07);
+
+                  &.table-actions {
+                    border-top-width: 2px !important;
+                  }
+                }
+              }
+
+              .table-actions {
+                border-top-width: 1px !important;
+              }
+            }
+          }
+        }
+
+        .table-tr-pending {
+          > .table-pending-msg {
+            @include screen-width(sm, only) {
+              display: flex;
+              &:before {
+                display: none;
+              }
+            }
+          }
+        }
+
+        .table-btn-icon {
+          @include screen-width(sm, 'only') {
+            margin-top: 0;
+            margin-bottom: 0;
+          }
+        }
+
+        .table-accordion {
+          @include screen-width(sm, only) {
+            thead,
+            th {
+              display: block;
+            }
+
+            tr {
+              margin-bottom: 0;
+            }
+
+            thead tr {
+              margin-bottom: .25rem;
+            }
+
+            td {
+              padding-left: 2rem;
+              min-height: 3rem;
+            }
+
+            .table-divider {
+              border-width: .125rem;
+            }
+          }
+        }
+
+        .table-tr-active {
+
+          @include screen-width(md, up) {
+            $color: isitlight($table-td-bg-active, $font-primary-dark, $font-primary-light);
+            $hover: isitlight($table-td-bg-active, $font-secondary-dark, $font-secondary-light);
+
+            td {
+              background-color: $table-td-bg-active;
+              color: $color;
+            }
+
+            .dropdown-toggle {
+              color: $color;
+
+              &:hover {
+                color: $hover;
+              }
+            }
+
+            .table-btn-icon {
+              @include btn-icon($table-td-bg-active);
+              margin-left: .25rem;
+              margin-right: .25rem;
+
+              @include screen-width(sm, only) {
+                margin-top: .25rem;
+                margin-bottom: .25rem;
+              }
+            }
+
+            .table-tag {
+              @include tag($table-td-bg-active);
+            }
+
+            .table-tag-solid {
+              @include tag($table-td-bg-active, $solid: true);
+            }
+          }
+
+          @include screen-width(sm, only) {
+            border: 2px solid $table-td-bg-active;
+            td {
+              &:first-child {
+                border-top: 0;
+              }
+              &:last-child {
+                border-bottom: 0;
+              }
+            }
+          }
+        }
+      }
+
+      &:not(.table-mobile) {
+        .table-tr-active {
+          $color: isitlight($table-td-bg-active, $font-primary-dark, $font-primary-light);
+          $hover: isitlight($table-td-bg-active, $font-secondary-dark, $font-secondary-light);
+
+          td {
+            background-color: $table-td-bg-active;
+            color: $color;
+          }
+
+          .dropdown-toggle {
+            color: $color;
+
+            &:hover {
+              color: $hover;
+            }
+          }
+
+          .table-btn-icon {
+            @include btn-icon($table-td-bg-active);
+            margin-left: .25rem;
+            margin-right: .25rem;
+
+            @include screen-width(sm, only) {
+              margin-top: .25rem;
+              margin-bottom: .25rem;
+            }
+          }
+
+          .table-tag {
+            @include tag($table-td-bg-active);
+          }
+
+          .table-tag-solid {
+            @include tag($table-td-bg-active, $solid: true);
+          }
         }
       }
     }
 
     .table-dropdown {
       padding: 0;
-
-      @include screen-width(sm, 'only') {
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-
-        &:before {
-          padding: 0.5rem 0;
-        }
-
-        .dropdown-toggle {
-          padding-left: 0;
-          padding-right: 0;
-        }
-      }
     }
 
     .table-actions {
       padding: 0 .5rem;
       width: 3rem;
-
-      @include screen-width(sm, only) {
-        border-top: 2px solid opacify($color: $table-border-color, $amount: 0.07) !important;
-      }
 
       .btn-row {
         flex-wrap: nowrap;
@@ -158,57 +335,6 @@ $table-simple-padding: .25rem !default;
 
     }
 
-    .table-tr-active {
-      @include screen-width(md, up) {
-        $color: isitlight($table-td-bg-active, $font-primary-dark, $font-primary-light);
-        $hover: isitlight($table-td-bg-active, $font-secondary-dark, $font-secondary-light);
-
-        td {
-          background-color: $table-td-bg-active;
-          color: $color;
-        }
-
-        .dropdown-toggle {
-          color: $color;
-
-          &:hover {
-            color: $hover;
-          }
-        }
-
-        .table-btn-icon {
-          @include btn-icon($table-td-bg-active);
-          margin-left: .25rem;
-          margin-right: .25rem;
-
-          @include screen-width(sm, only) {
-            margin-top: .25rem;
-            margin-bottom: .25rem;
-          }
-        }
-
-        .table-tag {
-          @include tag($table-td-bg-active);
-        }
-
-        .table-tag-solid {
-          @include tag($table-td-bg-active, $solid: true);
-        }
-      }
-
-      @include screen-width(sm, only) {
-        border: 2px solid $table-td-bg-active;
-        td {
-          &:first-child {
-            border-top: 0;
-          }
-          &:last-child {
-            border-bottom: 0;
-          }
-        }
-      }
-    }
-
     .table-tr-pending {
       > td {
         display: none;
@@ -216,13 +342,6 @@ $table-simple-padding: .25rem !default;
 
       > .table-pending-msg {
         display: table-cell;
-
-        @include screen-width(sm, only) {
-          display: flex;
-          &:before {
-            display: none;
-          }
-        }
       }
     }
 
@@ -230,11 +349,6 @@ $table-simple-padding: .25rem !default;
       @include btn-icon($table-td-bg);
       margin-left: .25rem;
       margin-right: .25rem;
-
-      @include screen-width(sm, 'only') {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
     }
 
     .table-tag {
@@ -262,34 +376,6 @@ $table-simple-padding: .25rem !default;
         padding-bottom: .5rem;
         padding-top: .5rem;
       }
-
-      @include screen-width(sm, only) {
-        tr {
-          margin-bottom: 0;
-          &:not(:last-child) {
-            border-bottom: .25rem solid opacify($color: $table-border-color, $amount: 0.07);
-          }
-
-          td {
-            border: 0;
-          }
-
-          &.table-divider {
-            & ~ tr td,
-            td:not(:first-child) {
-              border-top: 1px solid opacify($table-border-color, 0.07);
-
-              &.table-actions {
-                border-top-width: 2px !important;
-              }
-            }
-          }
-
-          .table-actions {
-            border-top-width: 1px !important;
-          }
-        }
-      }
     }
 
     .table-accordion {
@@ -309,30 +395,6 @@ $table-simple-padding: .25rem !default;
           padding-left: 2rem;
         }
       }
-
-      @include screen-width(sm, only) {
-        thead,
-        th {
-          display: block;
-        }
-
-        tr {
-          margin-bottom: 0;
-        }
-
-        thead tr {
-          margin-bottom: .25rem;
-        }
-
-        td {
-          padding-left: 2rem;
-          min-height: 3rem;
-        }
-
-        .table-divider {
-          border-width: .125rem;
-        }
-      }
     }
 
     .accordion-header {
@@ -341,6 +403,7 @@ $table-simple-padding: .25rem !default;
       margin-bottom: rem-calc(3);
       position: relative;
     }
+
     .accordion-toggle {
       display: flex;
       align-items: center;
@@ -380,35 +443,33 @@ $table-simple-padding: .25rem !default;
     }
 
     .table-simple {
-      @include screen-width(sm, up) {
-        display: table;
-        width: auto;
+      display: table;
+      width: auto;
 
-        thead,
-        tbody {
-          display: table-row-group;
-        }
-        tr {
-          display: table-row;
-        }
-        td,
-        th {
-          display: table-cell;
-          width: auto !important;
-          border: 0;
-        }
+      thead,
+      tbody {
+        display: table-row-group;
+      }
+      tr {
+        display: table-row;
+      }
+      td,
+      th {
+        display: table-cell;
+        width: auto !important;
+        border: 0;
+      }
 
-        border-collapse: collapse;
-        width: auto;
+      border-collapse: collapse;
+      width: auto;
 
-        td {
-          background-color: transparent;
-          padding: $table-simple-padding;
-        }
+      td {
+        background-color: transparent;
+        padding: $table-simple-padding;
+      }
 
-        .table-th {
-          font-weight: bolder;
-        }
+      .table-th {
+        font-weight: bolder;
       }
     }
   }
