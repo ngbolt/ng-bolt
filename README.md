@@ -1,5 +1,5 @@
 # ngBoltJS Framework
-
+#
 The ngBoltJS Framework is a front-end framework developed by the Applied Research Laboratory at Penn State University for rapid development of modern Web Applications. The framework is influenced by Material Design by Google, runs on AngularJS and includes the following dependencies:
 
 * [Angular JS](https://angularjs.org) 
