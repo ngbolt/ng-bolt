@@ -122,7 +122,9 @@
    *                      <h2 class="modal-title">Full Screen Modal</h2>
    *                    </header>
    *                    <div class="modal-body">
-   *                      <p class="modal-text">Some simple content here, maybe asking for confirmation before taking an action.
+   *                      <p class="modal-text">Large modals are good for more complex content, such as tables. Full
+   *                      screen modals expand to the full size of the window except for 1.5rem of padding around the
+   *                      edge to maintain the modal look.
    *                    </div>
    *                    <footer class="modal-footer">
    *                      <button class="modal-btn-text-submit" blt-close="">Close</button>
@@ -159,8 +161,8 @@
    * 		</blt-modal>  
    * 		
    * 		<div class="btn-row-left">
+   *    		 <button class="btn-solid-submit" blt-open="simpleModal">X-small Modal</button>
    *             <button class="btn-solid-submit" blt-open="mediumModal">Medium Modal</button>
-   *             <button class="btn-solid-submit" blt-open="simpleModal">Simple x-small Modal</button>
    *             <button class="btn-solid-submit" blt-open="fullScreenModal">Full Screen Modal</button>
    *             <button class="btn-solid-submit" blt-open="flipModal">Flipping Modal</button>
    *        </div>
@@ -446,7 +448,7 @@
    *
    * @example <caption>Often you may want to have a small form in a modal. In order to tap into the default AngularJS
    * functionality of validating and submitting forms, you must use the form tag on the `.modal-content` element.</caption>
-   * <example runnable="true">
+   * <example>
    *   <html>
    *     <blt-modal id="myFormModal">
    *       <form class="modal-content" ng-submit="Main.submitMyModal()" novalidate>
