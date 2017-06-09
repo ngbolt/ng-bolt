@@ -129,7 +129,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    *
    */
-  function bltCheckboxRadioController( api, $timeout ) {
+  function bltCheckboxRadioController( $timeout ) {
 
     var validTypes = ['checkbox', 'radio'];
 
@@ -147,15 +147,15 @@
     function init() {
       // Confirm input name
       if ( !ctrl.name ) {
-        api.error('missing name attribute for blt-checkbox-radio. See: ' + window.location + '/blt.checkboxradio.bltCheckboxRadio.html');
+        // api.error('missing name attribute for blt-checkbox-radio. See: ' + window.location + '/blt.checkboxradio.bltCheckboxRadio.html');
         return;
       }
 
       // Validate / set default input type
       if ( angular.isDefined(ctrl.type) ) {
         if ( validTypes.indexOf(ctrl.type) < 0 ) {
-          api.error('invalid type attribute for blt-checkbox-radio: ' + ctrl.name + '. Type provided: ' + ctrl.type + '. Valid types: '
-            + angular.toJson(validTypes) + '. See: ' + window.location + '/blt.checkboxradio.bltCheckboxRadio.html');
+          // api.error('invalid type attribute for blt-checkbox-radio: ' + ctrl.name + '. Type provided: ' + ctrl.type + '. Valid types: '
+          //   + angular.toJson(validTypes) + '. See: ' + window.location + '/blt.checkboxradio.bltCheckboxRadio.html');
           return;
         }
       } else {
@@ -190,5 +190,5 @@
     };
   }
 
-  bltCheckboxRadioController.$inject = ['BltApi', '$timeout'];
+  bltCheckboxRadioController.$inject = ['$timeout'];
 })();
