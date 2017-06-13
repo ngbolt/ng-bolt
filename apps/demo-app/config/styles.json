@@ -167,7 +167,7 @@
   "menu-min-width": "rem-calc(200)",
   "menu-sub-bg": "isitlight($menu-bg, rgba($black, .05), rgba($white, .05))",
   "menu-panel-slide-speed": "$global-slide-speed",
-  "breakpoints": {
+   "breakpoints": {
     "sm": "0",
     "md": "600",
     "lg": "900",
