@@ -80,6 +80,7 @@ module.exports = function( gulp, config ) {
    */
   function getBreakpoints() {
     var styles = require(path.join(config.root, 'config/styles.json'));
+
     return {
       sm: getBreakpoint(styles, 'sm', 0),
       md: getBreakpoint(styles, 'md', 600),
@@ -102,7 +103,8 @@ module.exports = function( gulp, config ) {
     var em = /em$/i;
     var num = /\d+\.?\d*/;
     var breakpoint;
-    if ( styles.breakpoints[bp] !== undefined ) {
+
+    if ( styles.breakpoints !== undefined && styles.breakpoints[bp] !== undefined ) {
       try {
         if ( styles.breakpoints[bp].match(em) ) {
           breakpoint = parseFloat(styles.breakpoints[bp].match(num)[0]) * 16;
@@ -111,12 +113,14 @@ module.exports = function( gulp, config ) {
           breakpoint = parseFloat(styles.breakpoints[bp].match(num)[0]);
         }
       } catch( e ) {
-        console.warn("Unable to handle breakpoint size " + bp + ": " + styles.breakpoints[bp] + ". Defaulting to: " + def + ".");
+          console.warn("Unable to handle breakpoint size " + bp + ": " + styles.breakpoints[bp] + ". Defaulting to: " + def + ".");
       }
     }
-    if ( breakpoint === undefined ) {
-      breakpoint = def;
+
+    if (breakpoint === undefined) {
+           breakpoint = def;
     }
+
     return breakpoint;
   }
 
