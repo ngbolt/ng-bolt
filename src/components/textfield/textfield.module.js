@@ -251,7 +251,7 @@
         autocorrect: '<',
         spellcheck: '<',
         disabled: '<',
-        pattern: '<',
+        pattern: '@',
         tabindex: '<',
         step: '<'
       }
