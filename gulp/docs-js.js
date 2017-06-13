@@ -102,7 +102,8 @@ module.exports = function( gulp, config ) {
     var em = /em$/i;
     var num = /\d+\.?\d*/;
     var breakpoint;
-    if ( styles.breakpoints[bp] !== undefined ) {
+
+    if ( styles.breakpoint !== undefined && styles.breakpoints[bp] !== undefined ) {
       try {
         if ( styles.breakpoints[bp].match(em) ) {
           breakpoint = parseFloat(styles.breakpoints[bp].match(num)[0]) * 16;
