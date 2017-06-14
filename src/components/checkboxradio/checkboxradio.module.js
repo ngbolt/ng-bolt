@@ -114,7 +114,7 @@
         type: '@',
         value: '@',
         required: '<',
-        tabindex: '@',      // doesn't do what we want it to do - gets rid of all options except "check me"
+        tabindex: '<',
         change: '&'
       }
     };
