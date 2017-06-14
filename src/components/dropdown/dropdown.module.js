@@ -285,6 +285,8 @@
         var keyedOption = ctrl.keyedOptionMap[ctrl.select.model];
         if ( keyedOption ) {
           ctrl.model = getOptionValue(keyedOption);
+        } else {
+          ctrl.model = undefined;
         }
       }
       onChange();
@@ -309,6 +311,9 @@
      * @param {object|string} option The displayed option to select.
      */
     function selectOption( option ) {
+      if( ctrl.searchable ) {
+        ctrl.form[ctrl.name].$setTouched();
+      }
       var value = getOptionValue(option);
       if ( ctrl.model != value ) {
         ctrl.model = value;
@@ -498,14 +503,6 @@
       }
       updateInternalModel();
 
-      //If this dropdown is required, we need to make sure the value is never cleared, therefore if the
-      //the current scope.model is undefined set the model to the first available option.
-      if ( (ctrl.required && angular.isUndefined(ctrl.model)) ) {
-        if ( ctrl.keyedOptions.length > 0 ) {
-          selectOption(ctrl.keyedOptions[0]);
-        }
-      }
-
       //Update our filtered options to reflect the new options, filtering them with the current
       //search model if our options are currently open.
       if ( ctrl.open ) {
@@ -603,26 +600,39 @@
     function scrollCurrentSelectionIntoView() {
       $timeout(function() {
         if ( ctrl.searchable && ctrl.open ) {
+          var active;
           if ( ctrl.currentSelection ) {
-            var active = document.getElementById(ctrl.currentSelection.key);
-            if ( active && active.parentElement ) {
-              active = active.parentElement;
-              var scrollTop = active.parentElement.scrollTop;
-              var scrollBottom = scrollTop + active.parentElement.clientHeight;
-              var selectedTop = active.offsetTop;
-              var selectedBottom = selectedTop + active.clientHeight;
-              if ( selectedTop < (scrollTop + 4) ) { //If the top of our selected element is above the top of the
-                // scroll window, shift the view up.
-                active.parentElement.scrollTop = selectedTop - 4;
-              } else if ( selectedBottom > (scrollBottom + 4) ) { //Else if the bottom of the selected element is
-                // below the bottom of the scroll window, shift the view down
-                active.parentElement.scrollTop = scrollTop + ((selectedBottom - scrollBottom) + 4);
-              }
-            }
+            active = document.getElementById(ctrl.currentSelection.key);
+          } else if(!ctrl.required) {
+            active = document.getElementById("searchable-select-none");
           }
+          scrollToElement(active);
         }
       });
     };
+
+    /**
+     * @private
+     * @description Scrolls the given element into view. If the element is above the current view, it will
+     * scroll up into view. If it's below, it will scroll down until the element is fully in view. We do this
+     * inside of a timeout to allow the current apply cycle to finish before analyzing and applying the scroll.
+     */
+    function scrollToElement(elem){
+      if ( elem && elem.parentElement ) {
+        elem = elem.parentElement;
+        var scrollTop = elem.parentElement.scrollTop;
+        var scrollBottom = scrollTop + elem.parentElement.clientHeight;
+        var selectedTop = elem.offsetTop;
+        var selectedBottom = selectedTop + elem.clientHeight;
+        if ( selectedTop < (scrollTop + 4) ) { //If the top of our selected element is above the top of the
+          // scroll window, shift the view up.
+          elem.parentElement.scrollTop = selectedTop - 4;
+        } else if ( selectedBottom > (scrollBottom + 4) ) { //Else if the bottom of the selected element is
+          // below the bottom of the scroll window, shift the view down
+          elem.parentElement.scrollTop = scrollTop + ((selectedBottom - scrollBottom) + 4);
+        }
+      }
+    }
 
     /**
      * @private
@@ -701,7 +711,7 @@
     function onDocumentClick( e ) {
       $scope.$apply(function() {
         if ( ctrl.open && e.target.name != ctrl.name
-          && e.target.id != 'select-none'
+          && e.target.id != 'searchable-select-none'
           && !ctrl.keyedOptionMap.hasOwnProperty(e.target.id) ) {
           ctrl.closeOptions();
         }
