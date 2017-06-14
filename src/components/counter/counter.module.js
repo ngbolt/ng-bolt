@@ -95,18 +95,18 @@
       templateUrl: 'components/counter/counter.template.html',
       controller: bltCounterController,
       bindings: {
-        model: '=',
-        name: '@',
-        label: '@',
+        model: '=',         //
+        name: '@',          //
+        label: '@',         //
         size: '@',
-        disabled: '=?',
-        change: '&',
+        disabled: '<',      //
+        change: '&',        //
         minVal: '@min',
         maxVal: '@max',
         selectOnFocus: '@',
-        required: '@',
-        autofocus: '@',
-        validate: '=',
+        required: '<',      //
+        autofocus: '<',     //
+        validate: '<',      //
         leftIcon: '@',
         rightIcon: '@'
       }
