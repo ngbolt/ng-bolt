@@ -6,8 +6,8 @@
             <button name="{{$ctrl.name}}"
                     class="dropdown-toggle"
                     ng-click="$ctrl.openOptions()"
-                    blt-autofocus="{{$ctrl.autofocus}}"
-                    blt-tabindex="{{$ctrl.tabindex}}"
+                    ng-attr-autofocus="{{$ctrl.autofocus}}"
+                    ng-attr-tabindex="{{$ctrl.tabindex}}"
                     ng-disabled="$ctrl.disabled">{{$ctrl.select.model ? $ctrl.getLabelForValue($ctrl.select.model) :
                 $ctrl.label}}
                 <span class="dropdown-icon fa fa-caret-down"></span>
@@ -35,8 +35,8 @@
                         ng-if="$ctrl.type == 'select'"
                         ng-model="$ctrl.select.model"
                         ng-change="$ctrl.onSelectChange()"
-                        blt-autofocus="{{$ctrl.autofocus}}"
-                        blt-tabindex="{{$ctrl.tabindex}}"
+                        ng-attr-autofocus="{{$ctrl.autofocus}}"
+                        ng-attr-tabindex="{{$ctrl.tabindex}}"
                         ng-disabled="$ctrl.disabled">
                     <option ng-if="!$ctrl.required" value="">{{$ctrl.label}}</option>
                     <option value="{{key}}" ng-repeat="(key, value) in $ctrl.keyedOptionMap">{{value.label}}</option>
@@ -52,8 +52,8 @@
                        ng-model="$ctrl.search.model"
                        ng-click="$ctrl.openOptions()"
                        ng-keydown="$ctrl.onKeyDown($event)"
-                       blt-autofocus="{{$ctrl.autofocus}}"
-                       blt-tabindex="{{$ctrl.tabindex}}"
+                       ng-attr-autofocus="{{$ctrl.autofocus}}"
+                       ng-attr-tabindex="{{$ctrl.tabindex}}"
                        ng-disabled="$ctrl.disabled"/>
 
                 <span class="dropdown-icon fa fa-caret-down"></span>

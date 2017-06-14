@@ -140,12 +140,12 @@
         label: '@',
         options: '<',
         change: '&',
-        selectNoneLabel: "@",
+        selectNoneLabel: '@',
         type: '@',
-        required: '@',
-        tabindex: '@',
-        autofocus: '@',
-        disabled: '=?'
+        required: '<',
+        tabindex: '<',
+        autofocus: '<',
+        disabled: '<'
       }
     };
   }
