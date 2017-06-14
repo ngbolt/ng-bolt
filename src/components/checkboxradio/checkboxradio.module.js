@@ -107,14 +107,14 @@
       controller: bltCheckboxRadioController,
       bindings: {
         model: '=',
-        autofocus: '@',
-        disabled: '=?',
+        autofocus: '<',
+        disabled: '<',
         name: '@',
         label: '@',
         type: '@',
         value: '@',
-        required: '@',
-        tabindex: '@',
+        required: '<',
+        tabindex: '@',      // doesn't do what we want it to do - gets rid of all options except "check me"
         change: '&'
       }
     };

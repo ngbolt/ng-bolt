@@ -11,9 +11,9 @@
                ng-keyup="$ctrl.toggle()"
                ng-disabled="$ctrl.disabled"
                value="{{$ctrl.value}}"
-               blt-tabindex="{{$ctrl.tabindex}}"
-               blt-required="{{$ctrl.required}}"
-               blt-autofocus="{{$ctrl.autofocus}}"/>
+               ng-attr-tabindex="{{$ctrl.tabindex}}"
+               ng-attr-required="{{$ctrl.required}}"
+               ng-attr-autofocus="{{$ctrl.autofocus}}"/>
 
         <div class="checkbox-radio-input" ng-class="{'disabled': $ctrl.disabled}">
             <span class="checkbox-radio-icon fa"
