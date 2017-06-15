@@ -50,6 +50,8 @@
    * @param {date} [data-max] The maximum date to display on the calendar. Any date above the specified date will be disabled.
    * @param {date} [data-min] The minimum date to display on the calendar. Any date below the specified date will be disabled. If `data-model` is null when the datepicker opens, it will open the calendar to minimum specified date.
    * @param {boolean} [data-required=false] Specifies if the form field is required.
+   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be disabled.
+   * @param {number} [data-tabindex] Specifies the tab order of an element.
    *
    * @example
    * <example runnable="true">
