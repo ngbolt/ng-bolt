@@ -79,7 +79,7 @@
    *           <div class="form-divider-vertical"></div>
    *           <blt-datepicker data-model="ctrl.dateModel2"
    *                           data-label="Date Selection with Restrictions"
-   *                           data-min-date="ctrl.mindate"
+   *                           data-min="ctrl.mindate"
    *                           data-first-view="{{ctrl.firstview}}"
    *                           data-name="datepickerTest2">
    *           </blt-datepicker>
@@ -105,15 +105,16 @@
         model: '=',
         name: '@',
         label: '@',
-        autoFocus: '@?',
-        change: '&?',
-        format: '@?',
-        firstView: '@?',
-        lastView: '@?',
-        max: '=maxDate',
-        min: '=minDate',
-        required: '@?',
-        disabled: '=?'
+        autofocus: '<',
+        change: '&',
+        format: '@',
+        firstView: '@',
+        lastView: '@',
+        max: '<',
+        min: '<',
+        required: '<',
+        disabled: '<',
+        tabindex: '<'
       },
       link: link
     }
@@ -132,18 +133,9 @@
      * @param {object} attrs The raw attributes applied to our directive.
      */
     function link( scope, element, attrs ) {
-
-      // Set up our input element based on the attributes applied to our direcitive element.
-      if ( scope.autoFocus ) {
-        element.find('input').attr('autofocus', true);
-      }
-      if ( scope.required ) {
-        element.find('input').attr('required', true);
-      }
-
       // If the user defined a minDate binding, set the initial value of our scope minDate and set up a watcher
       // to update this value as the model binding updates.
-      if ( attrs.minDate != undefined ) {
+      if ( attrs.min != undefined ) {
         scope.minDate = toDate(scope.min);
         if ( angular.isFunction(scope.min) ) {
           scope.$watch(function() {
@@ -158,7 +150,7 @@
 
       // If the user defined a maxDate binding, set the initial value of our scope maxDate and set up a watcher
       // to update this value as the model binding updates.
-      if ( attrs.maxDate != undefined ) {
+      if ( attrs.max != undefined ) {
         scope.maxDate = toDate(scope.max);
         if ( angular.isFunction(scope.max) ) {
           scope.$watch(function() {

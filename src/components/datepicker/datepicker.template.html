@@ -3,17 +3,23 @@
      ng-class="{'is-empty': !model}">
 
     <!-- Input Field -->
-    <label class="datepicker-label">{{label}}</label>
-    <input type="text" 
+    <label class="datepicker-label">{{$ctrl.required ? $ctrl.label + '*' : $ctrl.label}}</label>
+    <input name="{{$ctrl.name}}"
+           type="text" 
            class="datepicker-input-hidden" 
-           ng-model="model" 
-           ng-disabled="disabled" 
+           ng-model="$ctrl.model" 
+           ng-change="$ctrl.onChange()"
+           ng-disabled="$ctrl.disabled"
+           ng-attr-tabindex="{{$ctrl.tabindex}}"
+           ng-attr-autofocus="{{$ctrl.autofocus}}"
+           ng-attr-required="{{$ctrl.required}}"
+           blt-validate="$ctrl.validate" 
            ng-click="activate($event)" 
            ng-keypress="activate($event)"
            id="blt-datepicker-input">
     <span class="datepicker-toggle" 
           ng-class="{'disabled': disabled}" 
-          ng-click="activate($event)">{{ (model|date:format) || label}}
+          ng-click="activate($event)">{{(model|date:format) || label}}
     </span>
 
     <!-- Overlay -->
