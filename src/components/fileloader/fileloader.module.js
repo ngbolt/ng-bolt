@@ -72,10 +72,10 @@
         name: '@',
         data: '=model',
         label: "@",
-        disabled: '=?',
-        autofocus: '@',
-        required: '@',
-        tabindex: '@'
+        disabled: '<',
+        autofocus: '<',
+        required: '<',
+        tabindex: '<'
       }
     };
   }
