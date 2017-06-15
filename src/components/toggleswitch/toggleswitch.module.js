@@ -110,8 +110,8 @@
     var directive = {
       restrict: 'E',
       scope: {
-        disabled: '=?',
-        label: '@?',
+        disabled: '<',
+        label: '@',
         model: '=',
         change: '&'
       },
