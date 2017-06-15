@@ -628,7 +628,7 @@
               outDate = new Date(msFromEpoch);
             }
           } else if ( angular.isNumber(inDate) ) {
-            outDate = new Date(~~inDate);
+            outDate = new Date(Math.floor(inDate));
           } else if ( angular.isDate(inDate) ) {
             outDate = new Date(inDate.getTime());
           } else if ( angular.isFunction(inDate) ) {
