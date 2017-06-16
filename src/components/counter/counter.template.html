@@ -11,14 +11,14 @@
                ng-show="!$ctrl.NaN"
                ng-disabled="$ctrl.disabled"
                ng-change="$ctrl.onChange()"
-               ng-focus="$ctrl.onFocus()"
-               data-max="{{$ctrl.max}}"
-               data-min="{{$ctrl.min}}"
                ng-class="{'counter-disabled': $ctrl.disabled}"
                ng-model="$ctrl.model"
-               blt-autofocus="{{$ctrl.autofocus}}"
-               blt-validate="$ctrl.validate"
-               blt-required="{{$ctrl.required}}">
+               ng-focus="$ctrl.onFocus()"
+               ng-attr-max="{{$ctrl.max}}"
+               ng-attr-min="{{$ctrl.min}}"
+               ng-attr-autofocus="{{$ctrl.autofocus}}"
+               ng-attr-validate="{{$ctrl.validate}}"
+               ng-attr-required="{{$ctrl.required}}">
 
         <!-- If NaN, just show a dash. -->
         <span class="counter-input counter-input-empty"

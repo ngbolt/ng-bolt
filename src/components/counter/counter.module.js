@@ -95,15 +95,15 @@
       templateUrl: 'components/counter/counter.template.html',
       controller: bltCounterController,
       bindings: {
-        model: '=',         //
-        name: '@',          //
-        label: '@',         //
-        size: '@',
+        model: '=',         
+        name: '@',          
+        label: '@',         
+        size: '<',          ////
         disabled: '<',      //
-        change: '&',        //
-        minVal: '@min',
-        maxVal: '@max',
-        selectOnFocus: '@',
+        change: '&',        
+        min: '<',
+        max: '<',
+        selectOnFocus: '<', ////
         required: '<',      //
         autofocus: '<',     //
         validate: '<',      //
@@ -179,11 +179,11 @@
 
       // Set min
       $scope.$watch(function() {
-        return ctrl.minVal;
+        return ctrl.min;
       }, function() {
         var min;
-        if ( angular.isDefined(ctrl.minVal) ) {
-          min = parseFloat(ctrl.minVal);
+        if ( angular.isDefined(ctrl.min) ) {
+          min = parseFloat(ctrl.min);
           if ( isFinite(min) ) {
             ctrl.min = min;
             if ( min > 0 ) {
@@ -205,10 +205,10 @@
 
       // set max
       $scope.$watch(function() {
-        return ctrl.maxVal;
+        return ctrl.max;
       }, function() {
-        if ( angular.isDefined(ctrl.maxVal) ) {
-          var max = parseFloat(ctrl.maxVal);
+        if ( angular.isDefined(ctrl.max) ) {
+          var max = parseFloat(ctrl.max);
           if ( isFinite(max) ) {
             if ( !isFinite(ctrl.min) || max >= ctrl.min ) {
               ctrl.max = max;

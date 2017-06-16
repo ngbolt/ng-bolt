@@ -75,7 +75,7 @@
     ctrl.onSelectModelChange = onSelectModelChange;
     ctrl.onSelectArrayChange = onSelectArrayChange;
     ctrl.submitForm = submitForm;
-    ctrl.validate = validate;
+    ctrl.validate = validate(5);
 
     activate();
 
