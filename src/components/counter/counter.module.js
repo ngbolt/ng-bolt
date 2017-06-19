@@ -98,15 +98,15 @@
         model: '=',         
         name: '@',          
         label: '@',         
-        size: '<',          ////
-        disabled: '<',      //
+        size: '<',          
+        disabled: '<', 
         change: '&',        
         min: '<',
         max: '<',
-        selectOnFocus: '<', ////
-        required: '<',      //
-        autofocus: '<',     //
-        validate: '<',      //
+        selectOnFocus: '<',
+        required: '<',     
+        autofocus: '<',  
+        validate: '<',  
         leftIcon: '@',
         rightIcon: '@'
       }
