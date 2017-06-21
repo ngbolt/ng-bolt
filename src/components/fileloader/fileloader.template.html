@@ -7,10 +7,12 @@
     <!-- Input -->
     <label>
         <input type="file"
+               ng-change="File.change"
                ng-model="File.data" blt-filemodel
+               ng-required="File.required"
                ng-disabled="File.disabled"
-               blt-autofocus="{{File.autofocus}}"
-               blt-tabindex="{{File.tabindex}}">
+               ng-attr-autofocus="{{File.autofocus}}"
+               ng-attr-tabindex="{{File.tabindex}}">
 
         <div class="fileloader-input" ng-class="{'disabled': File.disabled}">
             <span class="placeholder">{{File.label || "Select File"}}{{File.required ? "*" : ""}}</span>

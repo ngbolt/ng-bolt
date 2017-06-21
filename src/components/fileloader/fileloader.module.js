@@ -48,6 +48,10 @@
    *
    * @restrict E
    *
+   * @param {expression} [data-change] This attribute is used to bind an expression in the containing scope that
+   * will be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
+   * directive.
+   * @param {string} data-label This attribute specifies the label for this component.
    * @param {string} data-name This attribute indicates the name of this form element and will be used during form
    * traversal by the ngBoltJS framework.
    * @param {expression} data-model This attribute is used to bind the value of this component to a property in the
@@ -57,6 +61,9 @@
    * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    * @param {value} [data-required] Indicates whether or not this field is required.
    * @param {value} [data-tabindex] Specifies the tab order of an element
+   * @param {expression} [data-validate] An expression that gets passed through to an instance of the bltValidate
+   * directive to invoke custom validation on this component value. See documentation for bltValidate for more
+   * information.
    *
    * @requires BltApi
    */
@@ -69,13 +76,16 @@
       controllerAs: 'File',
       templateUrl: 'components/fileloader/fileloader.template.html',
       bindings: {
+        change: '&',
         name: '@',
         data: '=model',
-        label: "@",
+        label: '@',
         disabled: '<',
         autofocus: '<',
+        model: '=',
         required: '<',
-        tabindex: '<'
+        tabindex: '<',
+        validate: '<'
       }
     };
   }
@@ -95,9 +105,11 @@
     var ctrl = this;
     ctrl.$onInit = init;
     ctrl.getFileExtension = getFileExtension;
+    ctrl.onChange = onChange;
     ctrl.data = null;
     ctrl.fileExt = '';
     ctrl.charsLimit = 30;
+
 
     /**
      * @private
@@ -127,6 +139,19 @@
         }
       }
     };
+
+    /**
+     * @name bltFileloaderController#onChange
+     * @description This function will be bound to ng-change on our actual input element. When invoked, check for
+     * existence of ctrl.change. If it is defined, invoke it in a $timeout, which ensures that our parent
+     * model has had time to update.
+     */
+     function onChange() {
+          if ( ctrl.change ) {
+              $timeout(ctrl.change, 0);
+          }
+      };
+
   }
 
   /**
