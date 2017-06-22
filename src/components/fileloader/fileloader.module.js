@@ -47,10 +47,15 @@
    * </example>
    *
    * @restrict E
-   *
-   * @param {string} data-name This attribute indicates the name of this form element and will be used during form
+   * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
+   * @param {expression} [data-change] This attribute is used to bind an expression in the containing scope that
+   * will be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
+   * directive.
+   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
+   * disabled.
+   * @param {string} [data-name] This attribute indicates the name of this form element and will be used during form
    * traversal by the ngBoltJS framework.
-   * @param {expression} data-model This attribute is used to bind the value of this component to a property in the
+   * @param {expression} [data-model] This attribute is used to bind the value of this component to a property in the
    * containing scope. Functionality is based on the Angular ngModel directive.
    * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
    * disabled.
@@ -69,13 +74,15 @@
       controllerAs: 'File',
       templateUrl: 'components/fileloader/fileloader.template.html',
       bindings: {
+        change: '&',
         name: '@',
         data: '=model',
         label: "@",
-        disabled: '=?',
-        autofocus: '@',
-        required: '@',
-        tabindex: '@'
+        disabled: '<',
+        autofocus: '<',
+        model: '=',
+        required: '<',
+        tabindex: '<'
       }
     };
   }
