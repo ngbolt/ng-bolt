@@ -105,8 +105,6 @@
    * @param {number} [data-tabindex] Specifies the tab order of an element.
    * @param {string} [data-justify] An optional value to justify the Toggle Switch and label (if applicable) to the 'left'
    * (default), 'right', or 'center'.
-   * @param {number} [data-tabindex] Specifies the tab order of an element.
-   * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    *
    * @restrict E
    *
@@ -121,7 +119,6 @@
         label: '@',
         name: '@',
         model: '=',
-        tabindex: "<",
         change: '&',
         tabindex: '<'
       },
