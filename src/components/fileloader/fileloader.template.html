@@ -12,7 +12,9 @@
                ng-required="File.required"
                ng-disabled="File.disabled"
                ng-attr-autofocus="{{File.autofocus}}"
-               ng-attr-tabindex="{{File.tabindex}}">
+               ng-attr-tabindex="{{File.tabindex}}"
+               blt-validate="File.validate"
+        >
 
         <div class="fileloader-input" ng-class="{'disabled': File.disabled}">
             <span class="placeholder">{{File.label || "Select File"}}{{File.required ? "*" : ""}}</span>
@@ -26,9 +28,12 @@
 
         <!-- Error Messages -->
         <p class="fileloader-error">
-      <span class="fileloader-error-hide fileloader-error-required">
-        This field is required.
-      </span>
+            <span class="fileloader-error-hide fileloader-error-required">
+                This field is required.
+            </span>
+            <span ng-show="$ctrl.form[$ctrl.name].$viewValue && $ctrl.form[$ctrl.name].$error[$ctrl.validate.name]">
+                {{$ctrl.errorMsg}}
+            </span>
         </p>
     </label>
 </div>
