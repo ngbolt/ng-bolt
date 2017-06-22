@@ -82,7 +82,6 @@
         label: '@',
         disabled: '<',
         autofocus: '<',
-        model: '=',
         required: '<',
         tabindex: '<',
         validate: '<'
