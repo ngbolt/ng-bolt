@@ -86,12 +86,8 @@
         change: '&',
         data: '=model',
         disabled: '<',
-<<<<<<< HEAD
         label: '@',
         name: '@',
-=======
-        autofocus: '<',
->>>>>>> ac3927ff77cff3053df716b87c3f2d660aa00c2d
         required: '<',
         tabindex: '<',
         validate: '<'
