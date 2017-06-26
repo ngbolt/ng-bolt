@@ -57,14 +57,6 @@
    * @param {string} data-label This attribute specifies the label for this component.
    * @param {string} data-name This attribute indicates the name of this form element and will be used during form
    * traversal by the ngBoltJS framework.
-<<<<<<< HEAD
-=======
-   * @param {expression} [data-model] This attribute is used to bind the value of this component to a property in the
-   * containing scope. Functionality is based on the Angular ngModel directive.
-   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
-   * disabled.
-   * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
->>>>>>> ac3927ff77cff3053df716b87c3f2d660aa00c2d
    * @param {value} [data-required] Indicates whether or not this field is required.
    * @param {value} [data-tabindex] Specifies the tab order of an element
    * @param {expression} [data-validate] An expression that gets passed through to an instance of the bltValidate
@@ -127,6 +119,16 @@
         api.error('missing name attribute for blt-fileloader. See: '
           + window.location + '/blt.fileloader.bltFileloader.html');
       }
+      // Set validator
+      var validateAttr = File.validate;
+      if ( validateAttr ) {
+        if ( ctrl.validate.msg ) {
+          ctrl.errorMsg = File.validate.msg;
+        } else {
+          ctrl.errorMsg = 'Not the right file type.';
+        }
+      }
+
     }
 
     /**
