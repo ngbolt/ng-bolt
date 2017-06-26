@@ -2,12 +2,11 @@
 <div class="checkbox-radio">
     <!-- Checkbox or Radio Button -->
     <label>
-        <!--TODO: Implement bolt directives to handle optional attributes-->
         <input name="{{$ctrl.name}}"
                type="{{$ctrl.type}}"
                class="checkbox-radio-input-hidden"
                ng-model="$ctrl.model"
-               ng-change="$ctrl.onChange()"
+               ng-change="$ctrl.onChange()"                                                             
                ng-keyup="$ctrl.toggle()"
                ng-disabled="$ctrl.disabled"
                value="{{$ctrl.value}}"
