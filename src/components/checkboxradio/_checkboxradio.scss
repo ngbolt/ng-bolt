@@ -86,8 +86,7 @@ $checkbox-error-color: $textfield-error-color !default;
       position: absolute;
 
       &:focus {
-        ~ .checkbox-radio-icon,
-        ~ .checkbox-radio-label {
+        &~.checkbox-radio-input .checkbox-radio-icon{
           color: $checkbox-focused-color;
         }
       }
