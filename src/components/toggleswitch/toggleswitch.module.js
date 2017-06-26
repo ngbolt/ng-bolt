@@ -146,9 +146,10 @@
         throw new Error("'data-model' attribute on blt-toggle-switch component is required but was undefined.");
       }
 
-      // Add toggle-switch class to our element and set role to checkbox
+      // Add toggle-switch class to our element and set role to checkbox, and allow tabindex functionality
       elem.addClass('toggle-switch');
       elem.attr('role', 'checkbox');
+      elem.attr('tabindex', scope.tabindex || 0);
 
       if ( attrs.justify && attrs.justify == 'right' ) {
         elem.addClass('toggle-right');
