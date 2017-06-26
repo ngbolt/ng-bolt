@@ -48,15 +48,21 @@
    *
    * @restrict E
    *
+   * @param {string} data-label This attribute specifies the label for this component.
+   * @param {string} data-name This attribute indicates the name of this form element and will be used during form
+   * traversal by the ngBoltJS framework.
    * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    * @param {expression} [data-change] This attribute is used to bind an expression in the containing scope that
    * will be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
    * directive.
    * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
    * disabled.
+<<<<<<< HEAD
    * @param {string} data-label This attribute specifies the label for this component.
    * @param {string} data-name This attribute indicates the name of this form element and will be used during form
    * traversal by the ngBoltJS framework.
+=======
+>>>>>>> 5dbb817e4c0709728f261a8a10d48564c719b7b7
    * @param {value} [data-required] Indicates whether or not this field is required.
    * @param {value} [data-tabindex] Specifies the tab order of an element
    * @param {expression} [data-validate] An expression that gets passed through to an instance of the bltValidate
