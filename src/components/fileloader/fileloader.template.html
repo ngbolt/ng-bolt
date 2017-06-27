@@ -1,5 +1,5 @@
 
-<div class="fileloader" ng-class="{'fileloader-empty': !File.data, 'disabled': File.disabled}">
+<div class="fileloader" ng-class="{'fileloader-empty': !File.form[File.name].$viewValue, 'disabled': File.disabled}">
 
     <!-- Label -->
     <span class="fileloader-label">{{File.label || "Filename"}}{{File.required ? "*" : ""}}</span>
@@ -7,20 +7,22 @@
     <!-- Input -->
     <label>
         <input type="file"
-               ng-change="File.change"
-               ng-model="File.data" blt-filemodel
+               name="{{File.name}}"
+               ng-change="File.onChange()"
+               ng-model="File.data"
+               blt-filemodel
                ng-required="File.required"
                ng-disabled="File.disabled"
                ng-attr-autofocus="{{File.autofocus}}"
                ng-attr-tabindex="{{File.tabindex}}"
-               ng-attr-validate="File.validate"
+               blt-validate="File.validate"
         >
 
         <div class="fileloader-input" ng-class="{'disabled': File.disabled}">
             <span class="placeholder">{{File.label || "Select File"}}{{File.required ? "*" : ""}}</span>
             <span class="filename"
-                  title="{{ File.data.name }}">
-                  {{ File.data.name | characters:File.charsLimit:true || 'No File Selected.' }}{{ File.fileExt }}
+                  title="{{ File.form[File.name].$viewValue.name }}">
+                  {{ File.form[File.name].$viewValue.name | characters:File.charsLimit:true || 'No File Selected.' }}{{ File.fileExt }}
             </span>
         </div>
 
@@ -31,8 +33,8 @@
             <span class="fileloader-error-hide fileloader-error-required">
                 This field is required.
             </span>
-            <span ng-show="$ctrl.form[$ctrl.name].$viewValue && $ctrl.form[$ctrl.name].$error[$ctrl.validate.name]">
-                {{$ctrl.errorMsg}}
+            <span ng-show="File.form[File.name].$viewValue && File.form[File.name].$error[File.validate.name]">
+                {{File.errorMsg}}
             </span>
         </p>
     </label>

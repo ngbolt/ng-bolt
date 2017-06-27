@@ -64,6 +64,7 @@
    * information.
    *
    * @requires BltApi
+   * @requires https://docs.angularjs.org/api/ng/service/$timeout
    */
   function bltFileloader() {
     return {
@@ -97,7 +98,7 @@
    * @requires BltApi
    *
    */
-  function bltFileloaderController( api ) {
+  function bltFileloaderController( api, $timeout ) {
 
     var ctrl = this;
     ctrl.$onInit = init;
@@ -120,12 +121,11 @@
           + window.location + '/blt.fileloader.bltFileloader.html');
       }
       // Set validator
-      var validateAttr = File.validate;
-      if ( validateAttr ) {
+      if ( ctrl.validate ) {
         if ( ctrl.validate.msg ) {
-          ctrl.errorMsg = File.validate.msg;
+          ctrl.errorMsg = ctrl.validate.msg;
         } else {
-          ctrl.errorMsg = 'Not the right file type.';
+          ctrl.errorMsg = 'Invalid file.';
         }
       }
 
@@ -242,5 +242,5 @@
   }
 
   bltFilemodel.$inject = ['$timeout'];
-  bltFileloaderController.$inject = ['BltApi'];
+  bltFileloaderController.$inject = ['BltApi', '$timeout'];
 })();
