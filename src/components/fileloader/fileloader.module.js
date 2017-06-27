@@ -47,23 +47,24 @@
    * </example>
    *
    * @restrict E
+   *
+   * @param {string} data-label This attribute specifies the label for this component.
+   * @param {string} data-name This attribute indicates the name of this form element and will be used during form
+   * traversal by the ngBoltJS framework.
    * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    * @param {expression} [data-change] This attribute is used to bind an expression in the containing scope that
    * will be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
    * directive.
    * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
    * disabled.
-   * @param {string} [data-name] This attribute indicates the name of this form element and will be used during form
-   * traversal by the ngBoltJS framework.
-   * @param {expression} [data-model] This attribute is used to bind the value of this component to a property in the
-   * containing scope. Functionality is based on the Angular ngModel directive.
-   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
-   * disabled.
-   * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    * @param {value} [data-required] Indicates whether or not this field is required.
    * @param {value} [data-tabindex] Specifies the tab order of an element
+   * @param {expression} [data-validate] An expression that gets passed through to an instance of the bltValidate
+   * directive to invoke custom validation on this component value. See documentation for bltValidate for more
+   * information.
    *
    * @requires BltApi
+   * @requires https://docs.angularjs.org/api/ng/service/$timeout
    */
   function bltFileloader() {
     return {
@@ -74,15 +75,15 @@
       controllerAs: 'File',
       templateUrl: 'components/fileloader/fileloader.template.html',
       bindings: {
-        change: '&',
-        name: '@',
-        data: '=model',
-        label: "@",
-        disabled: '<',
         autofocus: '<',
-        model: '=',
+        change: '&',
+        data: '=model',
+        disabled: '<',
+        label: '@',
+        name: '@',
         required: '<',
-        tabindex: '<'
+        tabindex: '<',
+        validate: '<'
       }
     };
   }
@@ -97,14 +98,16 @@
    * @requires BltApi
    *
    */
-  function bltFileloaderController( api ) {
+  function bltFileloaderController( api, $timeout ) {
 
     var ctrl = this;
     ctrl.$onInit = init;
     ctrl.getFileExtension = getFileExtension;
+    ctrl.onChange = onChange;
     ctrl.data = null;
     ctrl.fileExt = '';
     ctrl.charsLimit = 30;
+
 
     /**
      * @private
@@ -117,6 +120,15 @@
         api.error('missing name attribute for blt-fileloader. See: '
           + window.location + '/blt.fileloader.bltFileloader.html');
       }
+      // Set validator
+      if ( ctrl.validate ) {
+        if ( ctrl.validate.msg ) {
+          ctrl.errorMsg = ctrl.validate.msg;
+        } else {
+          ctrl.errorMsg = 'Invalid file.';
+        }
+      }
+
     }
 
     /**
@@ -134,6 +146,19 @@
         }
       }
     };
+
+    /**
+     * @name bltFileloaderController#onChange
+     * @description This function will be bound to ng-change on our actual input element. When invoked, check for
+     * existence of ctrl.change. If it is defined, invoke it in a $timeout, which ensures that our parent
+     * model has had time to update.
+     */
+     function onChange() {
+          if ( ctrl.change ) {
+              $timeout(ctrl.change, 0);
+          }
+      };
+
   }
 
   /**
@@ -217,5 +242,5 @@
   }
 
   bltFilemodel.$inject = ['$timeout'];
-  bltFileloaderController.$inject = ['BltApi'];
+  bltFileloaderController.$inject = ['BltApi', '$timeout'];
 })();

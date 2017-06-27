@@ -127,7 +127,7 @@
    *        data-label="Comments Field"
    *        data-model="MyCtrl5.commentsField1"
    *        data-rows="5"
-   *        data-max-length="255">
+   *        data-maxlength="255">
    *      </blt-textfield>
    *    </form>
    *   </html>
