@@ -96,7 +96,6 @@
    *
    * @param {expression} data-model This attribute is used to bind the value of this directive to a property in the
    * containing scope. Must be a boolean value.
-   * @param {boolean} [data-autofocus] Indicates whether or not this field should autofocus on page load.
    * @param {boolean} [data-disabled] Disables the switch. A property in the containing scope that will disable the
    * control if truthy. The Toggle Switch can be disabled in the off or on state.
    * @param {string} [data-label] An optional value to display a form control label above the Toggle Switch.
@@ -114,7 +113,6 @@
     var directive = {
       restrict: 'E',
       scope: {
-        autofocus: '<',
         disabled: '<',
         label: '@',
         name: '@',
