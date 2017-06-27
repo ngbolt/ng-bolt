@@ -25,14 +25,14 @@ $datepicker-hover: $datepicker-header-bg !default;
   .ng-bolt {
     .datepicker-field {
       background-color: $datepicker-bg;
-      padding: rem-calc(21) .5rem rem-calc(8);
+      padding: rem-calc(17) .5rem rem-calc(17);
       position: relative;
       width: 100%;
       transition: padding .15s ease, background-color .3s ease;
       white-space: nowrap;
       // border-bottom: $datepicker-field-border;
       &.is-empty {
-        padding: 1rem 1rem rem-calc(13);
+        padding: rem-calc(17) .5rem rem-calc(17);
         label {
           display: none;
         }
@@ -69,10 +69,11 @@ $datepicker-hover: $datepicker-header-bg !default;
       &:focus + .datepicker-toggle,
       &:hover + .datepicker-toggle{
         border-bottom-color: $datepicker-focused-color;
+        transition: border-color .5s;
       }
     }
     .datepicker-toggle {
-      line-height: rem-calc(24);
+      line-height: rem-calc(20);
       display: block;
       width: 100%;
       border-bottom: 2px solid $datepicker-bg;
