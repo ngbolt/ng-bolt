@@ -30,7 +30,7 @@
    * interested in the month and year of birth, you would set this value to `month`.
    *
    * You can also set a min and max date available for user selection. To set the min or max date, you simply bind one
-   * of the attributes `data-min-date` or `data-max-date` to a model in your controller containing a date of some sort.
+   * of the attributes `data-min` or `data-max` to a model in your controller containing a date of some sort.
    * Valid formats include any value that can successfully be interpreted as a a date, including seconds from epoch as a
    * string or integer, or a JavaScript date object.
    *
@@ -515,18 +515,18 @@
 
 
       /**
-       * Checks to see if the given date is after the time specified in the data-min-date directive attribute.
+       * Checks to see if the given date is after the time specified in the data-min directive attribute.
        * @param date - The date to check.
-       * @returns {boolean} True if the given date is after our data-min-date directive attribute.
+       * @returns {boolean} True if the given date is after our data-min directive attribute.
        */
       function isAfter( date ) {
         return !!(scope.minDate) && utils.isAfter(date, scope.minDate);
       };
 
       /**
-       * Checks to see if the given date is prior to the time specified in the data-max-date directive attribute.
+       * Checks to see if the given date is prior to the time specified in the data-max directive attribute.
        * @param date - The date to check.
-       * @returns {boolean} True if the given date is prior to our data-max-date directive attribute.
+       * @returns {boolean} True if the given date is prior to our data-max directive attribute.
        */
       function isBefore( date ) {
         return !!(scope.maxDate) && utils.isBefore(date, scope.maxDate);
