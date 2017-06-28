@@ -1,32 +1,40 @@
-
-<div class="datepicker-field" 
+<div class="datepicker-field"
      ng-class="{'is-empty': !model}">
 
     <!-- Input Field -->
-    <label class="datepicker-label">{{$ctrl.required ? $ctrl.label + '*' : $ctrl.label}}</label>
-    <input name="{{$ctrl.name}}"
-           type="text" 
+    <label class="datepicker-label">{{getLabel()}}</label>
+    <input name="{{name}}"
+           type="date"
            class="datepicker-input-hidden" 
-           ng-model="$ctrl.model" 
-           ng-change="$ctrl.onChange()"
-           ng-disabled="$ctrl.disabled"
-           ng-attr-tabindex="{{$ctrl.tabindex}}"
-           ng-attr-autofocus="{{$ctrl.autofocus}}"
-           ng-attr-required="{{$ctrl.required}}"
-           blt-validate="$ctrl.validate" 
-           ng-click="activate($event)" 
-           ng-keypress="activate($event)"
-           id="blt-datepicker-input">
-    <span class="datepicker-toggle" 
-          ng-class="{'disabled': disabled}" 
-          ng-click="activate($event)">{{(model|date:format) || label}}
+           ng-model="current.date"
+           ng-change="onChange()"
+           ng-disabled="disabled"
+           ng-attr-autofocus="{{autofocus}}"
+           ng-required="required"
+           blt-validate="validate"
+           max="{{maxDate|date:'yyyy-MM-dd'}}"
+           min="{{minDate|date:'yyyy-MM-dd'}}">
+    <span class="datepicker-toggle"
+          id="datepicker-toggle-{{name}}"
+          ng-class="{'active': active, 'disabled': disabled}"
+          ng-attr-tabindex="{{tabindex || 0}}"
+          ng-blur="blur()"
+          ng-keyup="activate($event)"
+          ng-click="activate($event)">{{(model|date:format) || getLabel()}}
     </span>
+
+    <!-- Form Field Error Messages -->
+    <p class="datepicker-error">
+        <span class="datepicker-error-hide datepicker-error-required">This field is required.</span>
+        <span class="datepicker-error-hide datepicker-error-min">Cannot be before {{min|date:format}}.</span>
+        <span class="datepicker-error-hide datepicker-error-max">Cannot be after {{max|date:format}}.</span>
+        <span class="datepicker-error-hide datepicker-error-invalid-date">Invalid date.</span>
+    </p>
 
     <!-- Overlay -->
     <div class="datepicker-overlay" 
-         ng-click="close()" 
-         ng-show="active" 
-         ng-keypress="test()">
+         ng-click="close(true)"
+         ng-show="active">
     </div>
 
     <!-- Picker -->

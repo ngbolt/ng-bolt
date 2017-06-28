@@ -102,6 +102,9 @@
   function bltDatepicker( utils, api, $timeout, $document ) {
     var directive = {
       restrict: 'E',
+      require: {
+        form: '^form'
+      },
       templateUrl: 'components/datepicker/datepicker.template.html',
       scope: {
         model: '=',
@@ -134,7 +137,7 @@
      * @param {DOMelement} element Our directive element.
      * @param {object} attrs The raw attributes applied to our directive.
      */
-    function link( scope, element, attrs ) {
+    function link( scope, element, attrs, formCtrl ) {
       // If the user defined a minDate binding, set the initial value of our scope minDate and set up a watcher
       // to update this value as the model binding updates.
       if ( attrs.min != undefined ) {
@@ -165,17 +168,24 @@
         }
       }
 
-
       // Public view state / model
       scope.active = false;
-      scope.current = {};
-      scope.current.view = scope.firstView || 'year';
+      scope.current = {
+        date: scope.model ? toDate(scope.model) : undefined,
+        view: scope.firstView || 'year'
+      };
       scope.format = scope.format ? scope.format : 'short';
+
+      scope.$watch(function(){
+        return scope.model;
+      }, function(){
+        if(!scope.active){
+          scope.current.date = scope.model ? toDate(scope.model) : undefined;
+        }
+      })
 
       // Private view and date state
       var views = ['year', 'month', 'date', 'hours', 'minutes'];
-      var step = 5;
-      var now = new Date();
       var lastViewIndex = scope.lastView ? views.indexOf(scope.lastView) : (views.length - 1);
       var selectedDate = {};
 
@@ -188,12 +198,14 @@
       scope.canPickHour = canPickHour;
       scope.canPickMinute = canPickMinute;
       scope.close = close;
+      scope.blur = blur;
       scope.isNow = isNow;
       scope.isSameDay = isSameDay;
       scope.isSameHour = isSameHour;
       scope.isSameMinutes = isSameMinutes;
       scope.isSameMonth = isSameMonth;
       scope.isSameYear = isSameYear;
+      scope.getLabel = getLabel;
       scope.next = next;
       scope.prev = prev;
       scope.setDate = setDate;
@@ -205,35 +217,65 @@
        */
       function activate(event) {
         if( !scope.disabled ) {
-          if ( event.type == 'click' || (event.type == 'keypress' && event.keyCode == 13) ) {
+          if ( event.type == 'click' || (event.type == 'keyup' && event.keyCode == 13) ) {
             // set the current date
             if ( scope.model ) {
               scope.current.date = toDate(scope.model);
+              selectedDate.year = scope.current.date.getFullYear();
+              selectedDate.month = scope.current.date.getMonth();
+              selectedDate.date = scope.current.date.getDate();
+              selectedDate.hours = scope.current.date.getHours();
+              selectedDate.minutes = scope.current.date.getMinutes();
             } else {
-              scope.current.date = new Date();
+              selectedDate.year = null;
+              selectedDate.month = null;
+              selectedDate.date = null;
+              selectedDate.hours = null;
+              selectedDate.minutes = null;
             }
-
-            // If editing previously selected date, build the selected Date object
-            // else build an empty selected date object.
-            selectedDate.year = scope.model ? scope.current.date.getFullYear() : null;
-            selectedDate.month = scope.model ? scope.current.date.getMonth() : null;
-            selectedDate.date = scope.model ? scope.current.date.getDate() : null;
-            selectedDate.hours = scope.model ? scope.current.date.getHours() : null;
-            selectedDate.minutes = scope.model ? scope.current.date.getMinutes() : null;
-
-            document.getElementById('blt-datepicker-input').blur();
-
             update();
-
+            if ( !scope.active ) {
+              scope.active = true;
+              element.addClass('enter');
+              $timeout(function() {
+                setUntouched();
+                element.removeClass('enter');
+              }, 300);
+            }
             // add event listerner for keyup to close on esc keypress.
             $document.on('keyup', function( e ) {
               if ( e.keyCode == 27 ) {
-                scope.close();
+                scope.close(true);
               }
             });
+          } else if( event.type == 'keyup' ){
+            if( event.keyCode == 8 ){
+              scope.model = undefined;
+            }
           }
         }
-      };
+      }
+
+      function blur(){
+        if( !scope.active ){
+          setTouched();
+        }
+      }
+
+      function setTouched(){
+        formCtrl.form[scope.name].$setTouched();
+      }
+
+      function setUntouched(){
+        formCtrl.form[scope.name].$setUntouched();
+      }
+
+      function getLabel(){
+        if(scope.required && scope.required !== 'false'){
+          return scope.label + '*'
+        }
+        return scope.label;
+      }
 
       /**
        * Evaluates the given date and returns a boolean value dictating whether or not the year of the given date
@@ -348,6 +390,9 @@
           case 'minutes':
             if ( canPickMinute(date) ) {
               selectedDate.minutes = date.getMinutes();
+              if( !scope.current.date ){
+                scope.current.date = new Date();
+              }
               scope.current.date.setMinutes(date.getMinutes());
               openNextView();
             }
@@ -355,6 +400,9 @@
           case 'hours':
             if ( canPickHour(date) ) {
               selectedDate.hours = date.getHours();
+              if( !scope.current.date ){
+                scope.current.date = new Date();
+              }
               scope.current.date.setHours(date.getHours());
               openNextView();
             }
@@ -362,6 +410,9 @@
           case 'date':
             if ( canPickDay(date) ) {
               selectedDate.date = date.getDate();
+              if( !scope.current.date ){
+                scope.current.date = new Date();
+              }
               scope.current.date.setDate(date.getDate());
               openNextView();
             }
@@ -369,6 +420,9 @@
           case 'month':
             if ( canPickMonth(date) ) {
               selectedDate.month = date.getMonth();
+              if( !scope.current.date ){
+                scope.current.date = new Date();
+              }
               scope.current.date.setMonth(date.getMonth());
               openNextView();
             }
@@ -376,6 +430,9 @@
           case 'year':
             if ( canPickYear(date) ) {
               selectedDate.year = date.getFullYear();
+              if( !scope.current.date ){
+                scope.current.date = new Date();
+              }
               scope.current.date.setFullYear(date.getFullYear());
               openNextView();
             }
@@ -388,7 +445,7 @@
        * Closes the date picker. Returns focus to our input field and resets the current view. Deregisters the
        * keyup listener.
        */
-      function close() {
+      function close(canceled) {
         element.addClass('leave');
 
         // reset date picker after closing animation
@@ -396,13 +453,24 @@
           // deactivate
           scope.active = false;
 
+          // focus input field
+          document.getElementById('datepicker-toggle-'+scope.name).focus();
+
+
           // reset view to first view
           scope.current.view = scope.firstView ? scope.firstView : 'year';
 
-          // focus input field
-          document.getElementById('blt-datepicker-input').focus();
+          if( canceled ){
+            if( scope.model ){
+              scope.current.date = toDate(scope.model);
+            } else {
+              scope.current.date = undefined;
+            }
+          }
 
           element.removeClass('leave');
+
+          setTouched();
 
           // remove keyup event listener
           $document.off('keyup');
@@ -415,7 +483,7 @@
        * @param delta - (Optional) The number to advance the date component by. Defaults to 1 if not provided.
        */
       function next( delta ) {
-        var date = scope.current.date;
+        var date = scope.current.date || new Date();
         delta = delta || 1;
         switch ( scope.current.view ) {
           case 'year':
@@ -544,7 +612,7 @@
        * Updates the scope's visible date UI elements based on the current date.
        */
       function update() {
-        var date = scope.current.date;
+        var date = scope.current.date || new Date();
 
         switch ( scope.current.view ) {
           case 'year':
@@ -562,15 +630,6 @@
           case 'minutes':
             scope.minutes = utils.getVisibleMinutes(date, 5);
             break;
-        }
-
-        if ( !scope.active ) {
-          scope.active = true;
-
-          element.addClass('enter');
-          $timeout(function() {
-            element.removeClass('enter');
-          }, 300);
         }
       }
 

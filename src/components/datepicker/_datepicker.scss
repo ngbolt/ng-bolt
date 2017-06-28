@@ -25,22 +25,47 @@ $datepicker-hover: $datepicker-header-bg !default;
   .ng-bolt {
     .datepicker-field {
       background-color: $datepicker-bg;
-      padding: rem-calc(17) .5rem rem-calc(17);
       position: relative;
       width: 100%;
-      transition: padding .15s ease, background-color .3s ease;
+      padding: .5rem;
       white-space: nowrap;
-      // border-bottom: $datepicker-field-border;
       &.is-empty {
-        padding: rem-calc(17) .5rem rem-calc(17);
         label {
           display: none;
         }
         .datepicker-toggle {
-          color: isitlight($datepicker-bg, $gray-dark, $gray-light);
-        }
+          color: $datepicker-now-bg;
+          margin: .5rem 0;
+        }                                                   
       }
     }
+
+    .datepicker-error {
+      @include text-field-small($color: $textfield-error-color, $bottom: .5rem);
+      display: none;
+    }
+
+    .datepicker-error-hide {
+      display: none;
+    }
+    
+    form.ng-submitted.ng-invalid .datepicker-field .datepicker-input-hidden.ng-invalid,
+    .datepicker-input-hidden.ng-touched.ng-invalid {
+      @include text-field-invalid($classname: 'datepicker');
+      &.ng-invalid-required {
+        + .datepicker-toggle {
+          margin: 0 0 1rem;
+        }
+      }
+      + .datepicker-toggle {
+        border-bottom-color: $textfield-error-color;
+        margin: 1rem 0;
+      }
+      &.ng-invalid-date ~ .datepicker-error .datepicker-error-invalid-date {
+        display: inline;
+      }
+    }
+
     .datepicker-overlay {
       background-color: $datepicker-overlay-bg;
       opacity: 1;
@@ -52,36 +77,40 @@ $datepicker-hover: $datepicker-header-bg !default;
       transition: opacity .35s ease;
       z-index: 100;
     }
+    
     .datepicker-label {
-      font-size: rem-calc(12);
-      // font-weight: bold;
-      color: $gray-dark;
+      font-size: .75rem;
+      line-height: .75rem;
+      color: $textfield-label-color;
       position: absolute;
       top: .5rem;
       left: .5rem;
     }
+
     .datepicker-input-hidden {
-      opacity: 0;
+      display: none;
+      width: 0;
+      height: 0;
       position: absolute;
-      width: auto !important;
-      left: 1rem;
-      right: 1rem;
-      &:focus + .datepicker-toggle,
-      &:hover + .datepicker-toggle{
-        border-bottom-color: $datepicker-focused-color;
-        transition: border-color .5s;
-      }
     }
+
     .datepicker-toggle {
       line-height: rem-calc(20);
       display: block;
       width: 100%;
+      margin: .875rem 0 .125rem;
       border-bottom: 2px solid $datepicker-bg;
+      transition: padding .15s ease, background-color .3s, ease border-color .5s;
       &.disabled {
         border-bottom-color: transparent !important;
         opacity: .4;
       }
+      &.active, &:hover, &:focus {
+        outline: none;
+        border-bottom-color: $datepicker-focused-color !important;
+      }
     }
+
     .datepicker-container {
       position: absolute;
       left: 1rem;
