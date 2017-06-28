@@ -63,8 +63,14 @@ $datepicker-hover: $datepicker-header-bg !default;
     .datepicker-input-hidden {
       opacity: 0;
       position: absolute;
-      width: auto !important;
-      left: 1rem;
+      border-top: 2px solid transparent;
+      border-bottom: 2px solid transparent;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      top: 8px;
+      height:20px;
+      width: 580px;
+      left: .5rem;
       right: 1rem;
       &:focus + .datepicker-toggle,
       &:hover + .datepicker-toggle{
