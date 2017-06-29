@@ -4,21 +4,21 @@
     <!-- Input Field -->
     <label class="datepicker-label">{{getLabel()}}</label>
     <input name="{{name}}"
-           type="date"
+           type="number"
            class="datepicker-input-hidden" 
-           ng-model="current.date"
+           ng-model="current.ms"
            ng-change="onChange()"
            ng-disabled="disabled"
-           ng-attr-autofocus="{{autofocus}}"
            ng-required="required"
            blt-validate="validate"
-           max="{{maxDate|date:'yyyy-MM-dd'}}"
-           min="{{minDate|date:'yyyy-MM-dd'}}">
+           max="{{maxDate ? maxDate.getTime() : ''}}"
+           min="{{minDate ? minDate.getTime() : ''}}">
     <span class="datepicker-toggle"
           id="datepicker-toggle-{{name}}"
           ng-class="{'active': active, 'disabled': disabled}"
           ng-attr-tabindex="{{tabindex || 0}}"
           ng-blur="blur()"
+          ng-attr-autofocus="{{autofocus}}"
           ng-keyup="activate($event)"
           ng-click="activate($event)">{{(model|date:format) || getLabel()}}
     </span>

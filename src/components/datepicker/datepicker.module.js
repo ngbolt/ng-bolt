@@ -180,7 +180,7 @@
         return scope.model;
       }, function(){
         if(!scope.active){
-          scope.current.date = scope.model ? toDate(scope.model) : undefined;
+          setCurrentDate(scope.model);
         }
       })
 
@@ -215,18 +215,19 @@
        * and set up our selectedDate context model. Register 'esc' to cancel close the date picker session. This
        * function will be attached to the keypress and click listeners on our input field.
        */
+
       function activate(event) {
         if( !scope.disabled ) {
           if ( event.type == 'click' || (event.type == 'keyup' && event.keyCode == 13) ) {
             // set the current date
             if ( scope.model ) {
-              scope.current.date = toDate(scope.model);
               selectedDate.year = scope.current.date.getFullYear();
               selectedDate.month = scope.current.date.getMonth();
               selectedDate.date = scope.current.date.getDate();
               selectedDate.hours = scope.current.date.getHours();
               selectedDate.minutes = scope.current.date.getMinutes();
             } else {
+              setCurrentDate(new Date());
               selectedDate.year = null;
               selectedDate.month = null;
               selectedDate.date = null;
@@ -390,56 +391,76 @@
           case 'minutes':
             if ( canPickMinute(date) ) {
               selectedDate.minutes = date.getMinutes();
-              if( !scope.current.date ){
-                scope.current.date = new Date();
-              }
-              scope.current.date.setMinutes(date.getMinutes());
+              setCurrentDate(date.getMinutes(), scope.current.view);
               openNextView();
             }
             break;
           case 'hours':
             if ( canPickHour(date) ) {
               selectedDate.hours = date.getHours();
-              if( !scope.current.date ){
-                scope.current.date = new Date();
-              }
-              scope.current.date.setHours(date.getHours());
+              setCurrentDate(date.getHours(), scope.current.view);
               openNextView();
             }
             break;
           case 'date':
             if ( canPickDay(date) ) {
               selectedDate.date = date.getDate();
-              if( !scope.current.date ){
-                scope.current.date = new Date();
-              }
-              scope.current.date.setDate(date.getDate());
+              setCurrentDate(date.getDate(), scope.current.view);
               openNextView();
             }
             break;
           case 'month':
             if ( canPickMonth(date) ) {
               selectedDate.month = date.getMonth();
-              if( !scope.current.date ){
-                scope.current.date = new Date();
-              }
-              scope.current.date.setMonth(date.getMonth());
+              setCurrentDate(date.getMonth(), scope.current.view);
               openNextView();
             }
             break;
           case 'year':
             if ( canPickYear(date) ) {
               selectedDate.year = date.getFullYear();
-              if( !scope.current.date ){
-                scope.current.date = new Date();
-              }
-              scope.current.date.setFullYear(date.getFullYear());
+              setCurrentDate(date.getFullYear(), scope.current.view);
               openNextView();
             }
             break;
         }
+      }
 
-      };
+      /**
+       * Sets the current context model with the given date based on the given value and view.
+       */
+      function setCurrentDate(value, view){
+        if( value ) {
+          if ( !scope.current.date ) {
+            scope.current.date = new Date();
+          }
+          if ( view ) {
+            switch ( view ) {
+              case 'minutes':
+                scope.current.date.setMinutes(value);
+                break;
+              case 'hours':
+                scope.current.date.setHours(value);
+                break;
+              case 'date':
+                scope.current.date.setDate(value);
+                break;
+              case 'month':
+                scope.current.date.setMonth(value);
+                break;
+              case 'year':
+                scope.current.date.setFullYear(value);
+                break;
+            }
+          } else {
+            scope.current.date.setTime(toDate(value).getTime());
+          }
+          scope.current.ms = scope.current.date.getTime();
+        } else {
+          scope.current.date = undefined;
+          scope.current.ms = undefined;
+        }
+      }
 
       /**
        * Closes the date picker. Returns focus to our input field and resets the current view. Deregisters the
@@ -461,11 +482,7 @@
           scope.current.view = scope.firstView ? scope.firstView : 'year';
 
           if( canceled ){
-            if( scope.model ){
-              scope.current.date = toDate(scope.model);
-            } else {
-              scope.current.date = undefined;
-            }
+            setCurrentDate(scope.model);
           }
 
           element.removeClass('leave');
@@ -647,6 +664,7 @@
           var newModel = scope.current.date.getTime().toString();
           if ( newModel != scope.model ) {
             scope.model = newModel;
+            scope.current.date = toDate(scope.model);
             onChange();
           }
           // Close the date picker
@@ -693,6 +711,9 @@
           } else if ( angular.isFunction(inDate) ) {
             outDate = toDate(inDate());
           }
+          outDate.setMinutes(Math.floor(outDate.getMinutes() / 5) * 5);
+          outDate.setSeconds(0);
+          outDate.setMilliseconds(0);
         }
         return outDate;
       }
