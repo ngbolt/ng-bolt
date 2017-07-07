@@ -47,7 +47,7 @@
    * @param {boolean} [data-required] Indicates whether or not this field is required.
    * @param {string} [data-type] Specifies the dropdown type (dropdown, select, or searchable).
    * @param {value} [data-tabindex] Specifies the tab order of an element.
-   * @param {value} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
+   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
    * disabled.
    *
    * @example <caption>Standard select dropdown. The user will be presented with the options contained in the
