@@ -68,12 +68,12 @@ describe('toggleswitch', function() {
             expect(element[0].children[0].classList.value.split(' ')).that.does.not.include("toggle-switch-disabled");
         });
 
-        it('should be right justified', inject(function($compile,$rootScope) {
-            //Re-compile element so bltToggleSwitch.linkFn will be called and apply the toggle-right class
-            element = angular.element('<blt-toggle-switch tabindex="0" data-model="value" data-disabled="disabled" data-label="{{label}}" data-justify="right"></blt-toggle-switch>');
-            outerScope = $rootScope;
+        it('should be right justified', inject(function($compile) {
+            outerScope.$apply(function() {
+                outerScope.justify="right";
+            });
+            //Re-compile element so bltToggleSwitch.linkFn function will be called and apply the toggle-right class
             $compile(element)(outerScope);
-            innerScope = element.isolateScope();
             outerScope.$digest();
 
             expect(element[0].classList.value.split(' ')).that.include("toggle-right");
