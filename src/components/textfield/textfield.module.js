@@ -127,7 +127,7 @@
    *        data-label="Comments Field"
    *        data-model="MyCtrl5.commentsField1"
    *        data-rows="5"
-   *        data-max-length="255">
+   *        data-maxlength="255">
    *      </blt-textfield>
    *    </form>
    *   </html>
@@ -224,7 +224,7 @@
    * @param {boolean} [data-autocomplete] Indicates whether or not this field should autocomplete.
    * @param {boolean} [data-autocorrect] Indicates whether or not this field should have autocorrect.
    * @param {boolean} [data-spellcheck] Indicates whether or not this field should have spellcheck.
-   * @param {value} [data-tabindex] Specifies the tab order of an element.
+   * @param {number} [data-tabindex] Specifies the tab order of an element.
    */
   function bltTextfield() {
     return {
@@ -238,22 +238,22 @@
         name: '@',
         label: '@',
         type: '@',
-        minlength: '@',
-        maxlength: '@',
-        min: '@',
-        max: '@',
+        minlength: '<',
+        maxlength: '<',
+        min: '<',
+        max: '<',
         change: '&',
-        rows: '@',
-        validate: '=',
-        required: '@',
-        autofocus: '@',
-        autocomplete: '@',
-        autocorrect: '@',
-        spellcheck: '@',
-        disabled: '=?',
+        rows: '<',
+        validate: '<',
+        required: '<',
+        autofocus: '<',
+        autocomplete: '<',
+        autocorrect: '<',
+        spellcheck: '<',
+        disabled: '<',
         pattern: '@',
-        tabindex: '@',
-        step: '@'
+        tabindex: '<',
+        step: '<'
       }
     };
   }
@@ -295,14 +295,13 @@
         ctrl.type = 'text';
       }
 
+      ctrl.asterisk =  ctrl.required ? "*" : "";
       $scope.$watch(function() {
         return ctrl.required;
       }, function() {
-        if ( angular.isDefined(ctrl.required) && ctrl.required !== 'false' ) {
-          ctrl.asterisk = "*";
-        } else {
-          ctrl.asterisk = "";
-        }
+        $timeout(function(){
+          ctrl.asterisk =  ctrl.required ? "*" : "";
+        })
       });
 
       // Warn about incorrect usage of rows attribute.
