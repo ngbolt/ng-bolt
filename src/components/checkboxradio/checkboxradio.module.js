@@ -83,22 +83,22 @@
    * @requires BltApi
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    *
-   * @param {String} data-label This attribute specifies the label for this component.
-   * @param {Two-Way} data-model This attribute is used to bind the value of this component to a property in the
+   * @param {string} data-label This attribute specifies the label for this component.
+   * @param {two-way} data-model This attribute is used to bind the value of this component to a property in the
    * containing scope. Functionality is based on the Angular ngModel directive.
-   * @param {Value} data-name This attribute indicates the name of this form element and will be used during
+   * @param {value} data-name This attribute indicates the name of this form element and will be used during
    * form traversal by the ngBoltJS framework.
-   * @param {Value} [data-autofocus] Indicates whether or not this field should autofocus on page load.
-   * @param {Expression} [data-change] This attribute is used to bind an expression in the containing scope that
+   * @param {value} [data-autofocus] Indicates whether or not this field should autofocus on page load.
+   * @param {expression} [data-change] This attribute is used to bind an expression in the containing scope that
    * will be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
    * directive.
-   * @param {Value} [data-required] Indicates whether or not this field is required.
-   * @param {Value} [data-type] Indicates whether this should be presented as a checkbox or radio button. Valid
+   * @param {value} [data-required] Indicates whether or not this field is required.
+   * @param {value} [data-type] Indicates whether this should be presented as a checkbox or radio button. Valid
    * values are "checkbox" and "radio". Defaults to "checkbox" if not specified.
-   * @param {Value} [data-value] Only relevant when `data-type="radio"`. Specifies the value to apply to `data-model`
+   * @param {value} [data-value] Only relevant when `data-type="radio"`. Specifies the value to apply to `data-model`
    * when this radio button is selected.
-   * @param {Number} [data-tabindex] Specifies the tab order of an element.
-   * @param {Value} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be disabled.
+   * @param {number} [data-tabindex] Specifies the tab order of an element.
+   * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be disabled.
    */
   function bltCheckboxRadio() {
     return {
@@ -107,14 +107,14 @@
       controller: bltCheckboxRadioController,
       bindings: {
         model: '=',
-        autofocus: '@',
-        disabled: '=?',
+        autofocus: '<',
+        disabled: '<',
         name: '@',
         label: '@',
         type: '@',
         value: '@',
-        required: '@',
-        tabindex: '@',
+        required: '<',
+        tabindex: '<',
         change: '&'
       }
     };
