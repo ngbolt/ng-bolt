@@ -81,7 +81,8 @@
    * @param {expression} [data-validate] An expression that gets passed through to an instance of the bltValidate directive
    * to invoke custom validation on this component value. See documentation for Bolt Validate for more information.
    * @param {value} [data-required] Indicates whether or not this field is required.
-   * @param {boolean} [data-selectOnFocus] If true, selects the contents of the counter input field on focus.
+   * @param {boolean} [data-select-on-focus] If true, selects the contents of the counter input field on focus.
+   * @param {number} [data-tabindex] Specifies the tab order of an element.
    *
    * @requires BltApi
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
@@ -95,20 +96,21 @@
       templateUrl: 'components/counter/counter.template.html',
       controller: bltCounterController,
       bindings: {
-        model: '=',
-        name: '@',
-        label: '@',
-        size: '@',
-        disabled: '=?',
-        change: '&',
-        minVal: '@min',
-        maxVal: '@max',
-        selectOnFocus: '@',
-        required: '@',
-        autofocus: '@',
-        validate: '=',
+        model: '=',         
+        name: '@',          
+        label: '@',         
+        size: '<',          
+        disabled: '<', 
+        change: '&',        
+        min: '<',
+        max: '<',
+        selectOnFocus: '<',
+        required: '<',     
+        autofocus: '<',  
+        validate: '<',  
         leftIcon: '@',
-        rightIcon: '@'
+        rightIcon: '@',
+        tabindex: '<'
       }
     };
   }
@@ -129,7 +131,6 @@
     var mouseState = MouseState();
     var lastAdjustedModel = undefined;
     var defaultVal = 0;
-    var selectOnFocus = ctrl.selectOnFocus !== 'false' && !!(ctrl.selectOnFocus);
     var adjustableSize = true;
     var tInputElem = undefined;
 
@@ -165,7 +166,10 @@
       $scope.$watch(function() {
         return ctrl.required;
       }, function() {
-        if ( angular.isDefined(ctrl.required) && ctrl.required !== 'false' ) {
+        if ( angular.isDefined(ctrl.required) && ctrl.required !== 'false' && ctrl.required) {
+          if (angular.isUndefined(ctrl.model) || !isFinite(ctrl.model)) {
+            ctrl.model = defaultVal;
+          }
           ctrl.asterisk = "*";
         } else {
           ctrl.asterisk = "";
@@ -179,11 +183,11 @@
 
       // Set min
       $scope.$watch(function() {
-        return ctrl.minVal;
+        return ctrl.min;
       }, function() {
         var min;
-        if ( angular.isDefined(ctrl.minVal) ) {
-          min = parseFloat(ctrl.minVal);
+        if ( angular.isDefined(ctrl.min) ) {
+          min = parseFloat(ctrl.min);
           if ( isFinite(min) ) {
             ctrl.min = min;
             if ( min > 0 ) {
@@ -205,10 +209,10 @@
 
       // set max
       $scope.$watch(function() {
-        return ctrl.maxVal;
+        return ctrl.max;
       }, function() {
-        if ( angular.isDefined(ctrl.maxVal) ) {
-          var max = parseFloat(ctrl.maxVal);
+        if ( angular.isDefined(ctrl.max) ) {
+          var max = parseFloat(ctrl.max);
           if ( isFinite(max) ) {
             if ( !isFinite(ctrl.min) || max >= ctrl.min ) {
               ctrl.max = max;
@@ -319,7 +323,7 @@
      * @description If selectOnFocus is true, selects the contents of the counter input field on focus.
      */
     function onFocus() {
-      if ( selectOnFocus ) {
+      if ( ctrl.selectOnFocus ) {
         if ( angular.isDefined(ctrl.model) ) {
           try {
             tInputElem[0].selectionStart = 0;
