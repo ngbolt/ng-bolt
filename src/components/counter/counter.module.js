@@ -42,7 +42,8 @@
    *       <form name="ctrl.myForm" class="form" novalidate>
    *         <blt-counter data-name="myFirstCounter"
    *                    data-label="Counter"
-   *                    data-model="ctrl.counter1">
+   *                    data-model="ctrl.counter1"
+   *                    data-selectOnFocus="true">
    *         </blt-counter>
    *         <blt-counter data-name="mySecondCounter"
    *                    data-label="Constrained Counter"
@@ -123,13 +124,14 @@
    * @requires BltApi
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    */
-  function bltCounterController( api, $timeout, $scope ) {
+  function bltCounterController($timeout, $scope ) {
 
     var ctrl = this;
     var mouseState = MouseState();
     var lastAdjustedModel = undefined;
     var defaultVal = 0;
     var selectOnFocus = ctrl.selectOnFocus !== 'false' && !!(ctrl.selectOnFocus);
+    //console.log(undefined !== (!!(ctrl.selectOnFocus) && 'false'));
     var adjustableSize = true;
     var tInputElem = undefined;
 
@@ -140,7 +142,14 @@
     ctrl.mouseEnter = mouseEnter;
     ctrl.mouseLeave = mouseLeave;
     ctrl.onFocus = onFocus;
-    ctrl.id = api.uuid();
+    ctrl.id = uuid();
+
+    function uuid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    };
 
     /**
      * @private
@@ -158,7 +167,7 @@
 
       // Set input name
       if ( !ctrl.name ) {
-        api.error('Missing name attribute for blt-counter. See: '
+        console.error('Missing name attribute for blt-counter. See: '
           + window.location + '/blt.counter.bltCounter.html');
       }
 
@@ -284,7 +293,7 @@
      */
     function mouseDown( changeBy, $event ) {
       if ( $event.which == 1 ) {
-        var pressedUuid = api.uuid();
+        var pressedUuid = uuid();
         mouseState.setStateToPressed(pressedUuid);
         $timeout(function() {
           if ( mouseState.isPressed(pressedUuid) ) {
@@ -319,6 +328,7 @@
      * @description If selectOnFocus is true, selects the contents of the counter input field on focus.
      */
     function onFocus() {
+      console.log("Element in focus");
       if ( selectOnFocus ) {
         if ( angular.isDefined(ctrl.model) ) {
           try {
@@ -541,5 +551,5 @@
     };
   }
 
-  bltCounterController.$inject = ['BltApi', '$timeout', '$scope'];
+  bltCounterController.$inject = ['$timeout', '$scope'];
 })();
