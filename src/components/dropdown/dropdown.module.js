@@ -67,7 +67,8 @@
    *                       data-name="dropdown1"
    *                       data-label="Select a Value"
    *                       data-options="ctrl.arrayOfOptions"
-   *                       data-model="ctrl.dropdown1">
+   *                       data-model="ctrl.dropdown1"
+   *                       data-required="false">
    *         </blt-dropdown>
    *       </form>
    *     </div>
@@ -160,7 +161,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    * @requires $scope
    */
-  function bltDropdownController( api, $timeout, $scope ) {
+  function bltDropdownController($timeout, $scope ) {
 
     var ctrl = this;
     var types = ['select', 'dropdown', 'searchable'];
@@ -177,6 +178,13 @@
     ctrl.searchablePlaceholder = searchablePlaceholder;
     ctrl.isSelected = isSelected;
     ctrl.untouched = untouched;
+    
+    function uuid() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
+        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
 
     /**
      * @private
@@ -186,16 +194,16 @@
     function init() {
 
       if ( !ctrl.type ) {
-        api.error('missing type attribute for blt-dropdown. See: '
+        console.error('missing type attribute for blt-dropdown. See: '
           + window.location + '/blt.dropdown.bltDropdown.html');
       } else if ( types.indexOf(ctrl.type) === -1 ) {
-        api.error("Unexpected value '" + ctrl.type + "' for blt-dropdown type attribute, expected 'select', " +
+        console.error("Unexpected value '" + ctrl.type + "' for blt-dropdown type attribute, expected 'select', " +
           "'dropdown', or 'searchable'. See: " + window.location + "/blt.dropdown.bltDropdown.html");
       }
 
       // Set input name
       if ( angular.isUndefined(ctrl.name) ) {
-        api.error('missing name attribute for blt-dropdown. See: ' + window.location +
+        console.error('missing name attribute for blt-dropdown. See: ' + window.location +
           '/blt.dropdown.bltDropdown.html');
       }
 
@@ -480,7 +488,7 @@
 
       for ( var attr in ctrl.options ) {
         var keyedOption = {
-          key: api.uuid(),
+          key: console.uuid(),
           value: isArray ? ctrl.options[attr] : attr,
           label: ctrl.options[attr]
         }
@@ -709,5 +717,5 @@
     };
   }
 
-  bltDropdownController.$inject = ['BltApi', '$timeout', '$scope'];
+  bltDropdownController.$inject = ['$timeout', '$scope'];
 })();
