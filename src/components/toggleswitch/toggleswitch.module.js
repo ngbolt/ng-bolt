@@ -99,6 +99,9 @@
    * @param {boolean} [data-disabled] Disables the switch. A property in the containing scope that will disable the
    * control if truthy. The Toggle Switch can be disabled in the off or on state.
    * @param {string} [data-label] An optional value to display a form control label above the Toggle Switch.
+   * @param {string} [data-name] This attribute indicates the name of this form element and will be used during form
+   * traversal by the ngBoltJS framework.
+   * @param {number} [data-tabindex] Specifies the tab order of an element.
    * @param {string} [data-justify] An optional value to justify the Toggle Switch and label (if applicable) to the 'left'
    * (default), 'right', or 'center'.
    *
@@ -110,10 +113,12 @@
     var directive = {
       restrict: 'E',
       scope: {
-        disabled: '=?',
-        label: '@?',
+        disabled: '<',
+        label: '@',
+        name: '@',
         model: '=',
-        change: '&'
+        change: '&',
+        tabindex: '<'
       },
       templateUrl: 'components/toggleswitch/toggleswitch.template.html',
       link: linkFn
@@ -139,9 +144,10 @@
         throw new Error("'data-model' attribute on blt-toggle-switch component is required but was undefined.");
       }
 
-      // Add toggle-switch class to our element and set role to checkbox
+      // Add toggle-switch class to our element and set role to checkbox, and allow tabindex functionality
       elem.addClass('toggle-switch');
       elem.attr('role', 'checkbox');
+      elem.attr('tabindex', scope.tabindex || 0);
 
       if ( attrs.justify && attrs.justify == 'right' ) {
         elem.addClass('toggle-right');

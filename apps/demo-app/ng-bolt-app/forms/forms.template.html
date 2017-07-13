@@ -6,7 +6,6 @@
                           data-type="dropdown"
                           data-name="dropdownTest"
                           data-disabled="Forms.disabled"
-                          data-disabled="Forms.disabled"
                           data-options="Forms.optionsArray"
                           data-model="Forms.dropdownModel"
                           data-autofocus="true">
@@ -48,11 +47,9 @@
         <form class="form" novalidate name="dateTests">
             <blt-datepicker data-model="Forms.dateModel"
                             data-label="Date Selection"
-                            data-min-date="Forms.minDate"
-                            data-max-date="Forms.maxDate"
                             data-change="Forms.onDateSelected()"
                             data-disabled="Forms.disabled"
-                            data-name="datepickerTest">"
+                            data-name="datepickerTest">
             </blt-datepicker>
         </form>
 
@@ -61,7 +58,7 @@
             <blt-fileloader data-name="file-loader"
                             data-disabled="Forms.disabled"
                             data-label="Select Certificate"
-                            data-model="Form.myFile"
+                            data-model="Forms.myFile"
                             data-required="true">
             </blt-fileloader>
         </form>
@@ -72,7 +69,7 @@
         <h2 class="font-title">Toggle Switch in Form</h2>
         <form class="form" novalidate name="toggleTest">
             <blt-toggle-switch data-model="Forms.toggle"
-                               tabindex="0"
+                               data-tabindex="0"
                                data-label="Disable Toggle Switch: {{Forms.disableToggle}}"
                                data-disabled="Forms.disabled">
             </blt-toggle-switch>
@@ -80,7 +77,7 @@
 
         <h2 class="font-title">Toggle Switch not in Form</h2>
         <blt-toggle-switch data-model="Forms.disabled"
-                           tabindex="0">
+                           data-tabindex="0">
         </blt-toggle-switch>
 
         <h2 class="font-title">Checkbox-Radio</h2>
@@ -112,7 +109,7 @@
                                     data-model="Forms.radioTest"
                                     data-type="radio"
                                     data-value="{{option}}"
-                                    data-tabindex="{{$index}}"
+                                    data-tabindex="$index"
                                     data-required="true"
                                     ng-repeat="option in Forms.radioOptions">
                 </blt-checkbox-radio>
@@ -123,7 +120,6 @@
         <form class="form" novalidate>
             <blt-counter data-model="Forms.counter1"
                          data-name="counterEx"
-
                          data-disabled="Forms.disabled"
                          data-label="Counter in Form w/ min and max (Initial value NaN)"
                          data-max="5"
@@ -141,7 +137,7 @@
                          data-label="Counter with Label no min or max">
             </blt-counter>
             <blt-counter data-model="Forms.counter3"
-                         data-name=counterEx3"
+                         data-name="counterEx3"
                          data-disabled="Forms.disabled">
             </blt-counter>
         </form>
