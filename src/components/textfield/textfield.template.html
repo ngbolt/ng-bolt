@@ -1,45 +1,55 @@
-<div class="text-field" ng-class="{'text-field-empty': !$ctrl.form[$ctrl.name].$viewValue}" ng-disabled="$ctrl.disabled">
+<div class="text-field"
+     ng-class="{'text-field-empty': !$ctrl.form[$ctrl.name].$viewValue}"
+     ng-disabled="$ctrl.disabled">
 
     <!-- Form Field Label -->
     <label class="text-field-label">{{$ctrl.label + $ctrl.asterisk}}</label>
 
     <!-- Text area -->
     <textarea class="text-field-input"
-              name="{{$ctrl.name}}"
               ng-if="$ctrl.type == 'textarea'"
+              name="{{$ctrl.name}}"
               rows="{{$ctrl.rows}}"
-              ng-change="$ctrl.onChange()"
-              ng-model="$ctrl.model"
-              ng-disabled="$ctrl.disabled"
               placeholder="{{$ctrl.label + $ctrl.asterisk}}"
+              ng-change="$ctrl.onChange()"
+              ng-disabled="$ctrl.disabled"
+              ng-model="$ctrl.model"
+              ng-required="$ctrl.required"
               blt-validate="$ctrl.validate"
-              blt-autocomplete="{{$ctrl.autocomplete}}"
-              blt-autocorrect="{{$ctrl.autocorrect}}"
-              blt-spellcheck="{{$ctrl.spellcheck}}"
-              blt-autofocus="{{$ctrl.autofocus}}">
-  </textarea>
+              ng-attr-autocomplete="{{$ctrl.autocomplete}}"
+              ng-attr-autocorrect="{{$ctrl.autocorrect}}"
+              ng-attr-autofocus="{{$ctrl.autofocus}}"
+              ng-attr-maxlength="{{$ctrl.maxlength}}"
+              ng-attr-minlength="{{$ctrl.minlength}}"
+              ng-attr-pattern="{{$ctrl.pattern}}"
+              ng-attr-spellcheck="{{$ctrl.spellcheck}}"
+              ng-attr-tabindex="{{$ctrl.tabindex}}"
+    >
+    </textarea>
 
     <!-- Default Inputs -->
     <input class="text-field-input"
-           name="{{$ctrl.name}}"
            ng-if="$ctrl.type != 'textarea'"
+           name="{{$ctrl.name}}"
            type="{{$ctrl.type}}"
-           ng-change="$ctrl.onChange()"
-           ng-model="$ctrl.model"
-           ng-disabled="$ctrl.disabled"
-           blt-validate="$ctrl.validate"
-           blt-step="{{$ctrl.step}}"
-           blt-pattern="{{$ctrl.pattern}}"
-           min="{{ $ctrl.min }}"
-           max="{{ $ctrl.max }}"
-           blt-required="{{$ctrl.required}}"
            placeholder="{{$ctrl.label + $ctrl.asterisk}}"
-           blt-autofocus="{{$ctrl.autofocus}}"
-           blt-minlength="{{$ctrl.minlength}}"
-           blt-maxlength="{{$ctrl.maxlength}}"
-           blt-autocomplete="{{$ctrl.autocomplete}}"
-           blt-autocorrect="{{$ctrl.autocorrect}}"
-           blt-spellcheck="{{$ctrl.spellcheck}}">
+           ng-change="$ctrl.onChange()"
+           ng-disabled="$ctrl.disabled"
+           ng-model="$ctrl.model"
+           ng-required="$ctrl.required"
+           blt-validate="$ctrl.validate"
+           ng-attr-autocomplete="{{$ctrl.autocomplete}}"
+           ng-attr-autocorrect="{{$ctrl.autocorrect}}"
+           ng-attr-autofocus="{{$ctrl.autofocus}}"
+           ng-attr-max="{{$ctrl.max}}"
+           ng-attr-maxlength="{{$ctrl.maxlength}}"
+           ng-attr-min="{{$ctrl.min}}"
+           ng-attr-minlength="{{$ctrl.minlength}}"
+           ng-attr-pattern="{{$ctrl.pattern}}"
+           ng-attr-spellcheck="{{$ctrl.spellcheck}}"
+           ng-attr-step="{{$ctrl.step}}"
+           ng-attr-tabindex="{{$ctrl.tabindex}}"
+    >
 
     <!-- Form Field Error Messages -->
     <p class="text-field-error">
