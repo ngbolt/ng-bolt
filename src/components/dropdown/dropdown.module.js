@@ -493,7 +493,7 @@
 
       for ( var attr in ctrl.options ) {
         var keyedOption = {
-          key: console.uuid(),
+          key: uuid(),
           value: isArray ? ctrl.options[attr] : attr,
           label: ctrl.options[attr]
         }
