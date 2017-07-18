@@ -29,7 +29,9 @@ describe('dropdown', function() {
         describe('type dropdown', function() {
 
             beforeEach(function() {
-                outerScope.type = "dropdown";
+                outerScope.$apply(function() {
+                    outerScope.type = "dropdown";
+                });
             });
 
             // Test
@@ -187,7 +189,9 @@ describe('dropdown', function() {
         describe('type select', function() {
             
             beforeEach(function() {
-                outerScope.type = "select";
+                outerScope.$apply(function() {
+                    outerScope.type = "select";
+                });
             });
 
             // Test
@@ -364,7 +368,9 @@ describe('dropdown', function() {
         describe('type searchable', function() {  
             
             beforeEach(function() {
-                outerScope.type = "searchable";
+                outerScope.$apply(function() {
+                    outerScope.type = "searchable";
+                });
             });
                         
             // Test
