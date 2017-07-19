@@ -20,7 +20,7 @@
     "pre-release": "gulp --gulpfile release.js -t prerelease",
     "docs-app": "gulp docs-watch --pr development --appRoot ./apps/docs-app",
     "demo-app": "gulp --pr development --appRoot ./apps/demo-app",
-    "test": "node_modules/karma/bin/karma start src/test/karma.conf.js",
+    "test": "node node_modules/karma/bin/karma start src/test/karma.conf.js",
     "protractor": "node_modules/protractor/bin/protractor test/protractor.conf.js"
   },
   "dependencies": {
