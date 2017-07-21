@@ -332,7 +332,7 @@ describe('checkboxradio', function() {
         });
     });
 
-    /*
+    
     // Test Group
     describe('will update after change', function() {
 
@@ -347,21 +347,24 @@ describe('checkboxradio', function() {
 
             it('should change model with change function', function() {
                 outerScope.$apply(function () {
+                    outerScope.changeFn = function() {
+                        console.log("A model has been set!");
+                    }
                     outerScope.model = 'crModel';
-                    //outerScope.changeFn = function() {}
-
+                });
+                /*
+                element[0].children[0].children[0].children[0].addEventListener('keyup', function(e) {
+                    console.log(e.keyCode);
                 });
 
-                function clickFunction() {
-                    element[0].children[0].children[0].children[0].click();
-                }
-
-                clickFunction;
-
-                console.log(element[0].children[0].children[0].children[1]);
-                 
-            });            
+                var e = new KeyboardEvent('keyup', {
+                    'keyCode' : 32,
+                    'which' : 32
+                });
+                element[0].children[0].children[0].children[0].dispatchEvent(e);
+                console.log(element[0].children[0].children[0].children[1].children[0]);
+                */
+            }); 
         });
     });
-    */
 });
