@@ -6,6 +6,7 @@ module.exports = function(config) {
             '../node_modules/angular/angular.js',
             '../node_modules/angular-route/angular-route.js',
             '../node_modules/angular-mocks/angular-mocks.js',
+            '../node_modules/angular-truncate-2/src/angular-truncate-2.js',
 
             // Load Definitions
             // NOTE: These Must Load First

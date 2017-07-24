@@ -98,7 +98,7 @@
    * @requires BltApi
    *
    */
-  function bltFileloaderController( api, $timeout ) {
+  function bltFileloaderController($timeout ) {
 
     var ctrl = this;
     ctrl.$onInit = init;
@@ -242,5 +242,5 @@
   }
 
   bltFilemodel.$inject = ['$timeout'];
-  bltFileloaderController.$inject = ['BltApi', '$timeout'];
+  bltFileloaderController.$inject = ['$timeout'];
 })();
