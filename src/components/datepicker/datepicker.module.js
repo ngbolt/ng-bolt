@@ -6,7 +6,7 @@
    * @name blt_datepicker
    * @description ngBoltJS Datepicker component.
    */
-  angular.module('blt_datepicker', ['blt_core'])
+  angular.module('blt_datepicker', [])
     .filter('time', time)
     .directive('bltDatepicker', bltDatepicker);
 
@@ -99,7 +99,7 @@
    * </example>
    *
    */
-  function bltDatepicker( utils, api, $timeout, $document ) {
+  function bltDatepicker( utils, $timeout, $document ) {
     var directive = {
       restrict: 'E',
       require: {
@@ -720,7 +720,7 @@
     }
   }
 
-  bltDatepicker.$inject = ['bltDatepickerUtils', 'BltApi', '$timeout', '$document'];
+  bltDatepicker.$inject = ['bltDatepickerUtils', '$timeout', '$document'];
 
   /**
    *   filter
