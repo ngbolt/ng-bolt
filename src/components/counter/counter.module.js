@@ -42,8 +42,7 @@
    *       <form name="ctrl.myForm" class="form" novalidate>
    *         <blt-counter data-name="myFirstCounter"
    *                    data-label="Counter"
-   *                    data-model="ctrl.counter1"
-   *                    data-selectOnFocus="true">
+   *                    data-model="ctrl.counter1">
    *         </blt-counter>
    *         <blt-counter data-name="mySecondCounter"
    *                    data-label="Constrained Counter"
@@ -132,7 +131,6 @@
     var mouseState = MouseState();
     var lastAdjustedModel = undefined;
     var defaultVal = 0;
-    //console.log(undefined !== (!!(ctrl.selectOnFocus) && 'false'));
     var adjustableSize = true;
     var tInputElem = undefined;
 
@@ -335,6 +333,9 @@
       if ( ctrl.selectOnFocus ) {
         if ( angular.isDefined(ctrl.model) ) {
           try {
+            if(tInputElem == undefined) {
+              tInputElem = angular.element(document.getElementById(ctrl.id));
+            }
             tInputElem[0].selectionStart = 0;
             tInputElem[0].selectionEnd = ctrl.model.length;
           } catch( err ) {
