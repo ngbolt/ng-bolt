@@ -511,7 +511,7 @@
     function compile( tElem, tAttrs ) {
       var type = 'modal';
 
-      if ( tAttrs.flip ) {
+      if ( tAttrs.flip == "true"  ) {
         if ( tAttrs.size == 'full-screen' ) {
           console.error('You can not use the flip animation on full-screen modals.');
         } else {

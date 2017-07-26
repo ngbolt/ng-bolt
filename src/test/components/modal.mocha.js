@@ -71,5 +71,15 @@ describe('modal', function() {
             outerScope.$digest();
             expect(element[0].classList.value.split(' ')).that.does.not.include("modal-flip");
         });
+
+        it('should log error if data-size="full-screen" and data-flip="true"',function() {
+            var mySpy = sinon.spy(console, "error");
+            element = angular.element('<blt-modal data-size="full-screen" data-flip="true"></blt-modal>');
+            compile(element)(outerScope);
+            outerScope.$digest();
+            expect(sinon.assert.calledOnce(mySpy));
+            expect(sinon.assert.calledWith(mySpy, "You can not use the flip animation on full-screen modals."));
+            mySpy.restore();
+        });
     });
 });
