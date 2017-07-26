@@ -7,7 +7,7 @@
    * @description ngBoltJS Panel component.
    * @since 1.0.0
    */
-  angular.module('blt_panel', ['blt_core'])
+  angular.module('blt_panel', [])
     .directive('bltPanel', bltPanel);
 
 
@@ -222,7 +222,8 @@
    * </example>
    *
    */
-  function bltPanel( api, $timeout ) {
+  function bltPanel($timeout ) {
+    var subscriptions = {};
     var directive = {
       restrict: 'EA',
       scope: {
@@ -236,6 +237,18 @@
 
     return directive;
 
+    function subscribe( name, callback ) {
+
+      // Save subscription if it doesn't already exist
+      if ( !subscriptions[name] ) {
+        subscriptions[name] = [];
+      }
+
+      // Add callback to subscription
+      subscriptions[name].push(callback);
+
+      console.debug('Subscribed: ', name);
+    }
     /**
      * Compile function. Invoked by Angular. We use this function to register our pre and post link functions.
      * @returns {{pre: preLink, post: postLink}}
@@ -257,7 +270,7 @@
       function preLink( scope, element, attrs ) {
         attrs.$set('blt-closable', type);
 
-        scope.position = 'panel-' + scope.position || 'panel-right';
+        scope.position = (scope.position) ? 'panel-' + scope.position : 'panel-right';
         scope.positionClass = scope.position;
 
       }
@@ -273,7 +286,7 @@
       function postLink( scope, element, attrs ) {
         scope.active = false;
 
-        api.subscribe(attrs.id, function( msg ) {
+        subscribe(attrs.id, function( msg ) {
           // Update scope  - wrap in $timeout to apply update to scope
           $timeout(function() {
             if ( msg == 'open' ) {
@@ -303,5 +316,5 @@
     }
   }
 
-  bltPanel.$inject = ['BltApi', '$timeout'];
+  bltPanel.$inject = ['$timeout'];
 })();
