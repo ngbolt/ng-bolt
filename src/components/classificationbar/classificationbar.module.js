@@ -105,7 +105,7 @@
    * @param {service} BltApi The ngBoltJS [BltApi](core.BltApi.html) service.
    *
    */
-  function bltClassificationbarController() {
+  function bltClassificationbarController( api ) {
 
     var ctrl = this;
     var classifications = {
@@ -134,12 +134,12 @@
     function init() {
       //confirm classification chosen and appropriately chosen
       if ( !ctrl.cls ) {
-        console.error("Missing required attribute: 'classification'");
+        api.error("Missing required attribute: 'classification'");
         return;
       } else {
         classification = classifications[ctrl.cls.toLowerCase()];
         if ( !classification ) {
-          console.error("Attribute 'classification' must be one of ['unclassified', 'confidential', 'secret', " +
+          api.error("Attribute 'classification' must be one of ['unclassified', 'confidential', 'secret', " +
             "'topsecret']. Current value: '" + ctrl.cls + "'. See: " + window.location + "/blt.classificationbar.bltClassificationBar.html");
           return;
         }
@@ -148,7 +148,7 @@
       //check for custom text entered in place of default text
       if ( angular.isDefined(ctrl.customText) ) {
         if ( ctrl.customText.indexOf(classification.display) < 0 ) {
-          console.error("Attribute 'custom-text' must contain at least one reference to standard classification " +
+          api.error("Attribute 'custom-text' must contain at least one reference to standard classification " +
             "display: " + classification.display + " See: " + window.location + "/blt.classificationbar.bltClassificationBar.html");
           return;
         }
@@ -159,7 +159,7 @@
         ctrl.classification.display = ctrl.customText;
       } else if ( ctrl.verbosity ) {
         if ( angular.isUndefined(verbosity[ctrl.verbosity]) ) {
-          console.warn("Attribute 'verbosity' contained invalid verbosity level: " + ctrl.verbosity + ". Valid values " +
+          api.warn("Attribute 'verbosity' contained invalid verbosity level: " + ctrl.verbosity + ". Valid values " +
             "are [0, 1, 2]. See: " + window.location + "/blt.classificationbar.bltClassificationBar.html");
         } else {
           ctrl.classification.display = verbosity[ctrl.verbosity] + ctrl.classification.display;
@@ -168,5 +168,5 @@
     }
   }
 
-  bltClassificationbarController.$inject = [];
+  bltClassificationbarController.$inject = ['BltApi'];
 })();
