@@ -16,6 +16,8 @@ describe('modal', function() {
         element = angular.element('<blt-modal id="{{id}}" data-size="{{size}}" data-flip="{{flip}}"></blt-modal>');
         outerScope = $rootScope;
         compile = $compile;
+        compile(element)(outerScope);
+        outerScope.$digest();
     }));
 
     // Test Group
@@ -74,7 +76,10 @@ describe('modal', function() {
 
         it('should log error if data-size="full-screen" and data-flip="true"',function() {
             var mySpy = sinon.spy(console, "error");
-            element = angular.element('<blt-modal data-size="full-screen" data-flip="true"></blt-modal>');
+            outerScope.$apply(function() {
+                outerScope.flip = true;
+                outerScope.size = "full-screen";
+            });
             compile(element)(outerScope);
             outerScope.$digest();
             expect(sinon.assert.calledOnce(mySpy));
