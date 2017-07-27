@@ -4,15 +4,18 @@
 describe('panel', function() {
     // Load Module & Templates
     beforeEach(module('blt_panel'));
+    beforeEach(module('blt_view'));
     beforeEach(module('templates'));
 
     var element;
     var outerScope;
     var innerScope;
     var compile;
+    var route;
+    var location;
 
     // Do This Before Each Test
-    beforeEach(inject(function($rootScope, $compile) {
+    beforeEach(inject(function($rootScope, $compile, $injector) {
         element = angular.element('<blt-panel id="{{id}}" data-position="{{position}}" data-fixed="{{fixed}}"></blt-panel>');
 
         outerScope = $rootScope;
@@ -20,6 +23,11 @@ describe('panel', function() {
         
         compile(element)(outerScope);
         outerScope.$digest();
+
+        route = $injector.get('ngRoute');
+        location = $injector.get('$location');
+        console.log(route);
+        console.log(location);
     }));
 
     describe("will bind on create", function() {
@@ -62,9 +70,9 @@ describe('panel', function() {
         
         // Test
         it('should be fixed', function(){
-            outerScope.$apply(function() {
-                outerScope.fixed = true;
-            });
+            element = angular.element('<blt-view><blt-panel data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel></blt-view>');
+            compile(element)(outerScope);
+            outerScope.$digest();
             expect(element[0].attributes.getNamedItem("data-fixed").value).to.equal("true");
         });
         
