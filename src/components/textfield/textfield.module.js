@@ -380,14 +380,18 @@
       //If this is a number input, look for applicable number input attributes.
       if ( ctrl.type === 'number' ) {
         // Check for sane min
-        var min;
-        if ( angular.isDefined(ctrl.min) ) {
-          min = parseFloat(ctrl.min);
-          if ( !isFinite(min) ) {
+        var min = parseFloat(ctrl.min);
+
+        if(isNaN(ctrl.min)) {
             api.warn("attribute data-min must be a number, is '" + ctrl.min + "' instead. See: "
-              + window.location + "/blt.textfield.bltTextfield.html");
-          }
+                + window.location + "/blt.textfield.bltTextfield.html");
         }
+
+       if(isNaN(ctrl.max)) {
+          api.warn("attribute data-max must be a number, is '" + ctrl.max + "' instead. See: "
+              + window.location + "/blt.textfield.bltTextfield.html");
+       }
+
         // Set max
         if ( angular.isDefined(ctrl.max) ) {
           var max = parseFloat(ctrl.max);
@@ -397,9 +401,6 @@
                 + " data-max is " + max + ". Ignoring data-max. See: " + window.location +
                 "/blt.textfield.bltTextfield.html");
             }
-          } else {
-            api.warn("attribute data-max must be a number, is '" + ctrl.max + "' instead. See: " + window.location +
-              "/blt.textfield.bltTextfield.html");
           }
         }
       }
