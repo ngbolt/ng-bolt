@@ -3,19 +3,24 @@
 //Panel Component Tests
 describe('panel', function() {
     // Load Module & Templates
+    beforeEach(module('ngRoute'));
+    beforeEach(module('blt_view', function($provide){
+        $provide.value( 'views', [{ "path": "/test", "route": { "template": '<blt-panel data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel>'}, "animation": "fade"}]);
+    }));
     beforeEach(module('blt_panel'));
-    beforeEach(module('blt_view'));
     beforeEach(module('templates'));
 
     var element;
     var outerScope;
     var innerScope;
     var compile;
-    var route;
-    var location;
+    var factory;
+    var $route;
+    var $location;
+
 
     // Do This Before Each Test
-    beforeEach(inject(function($rootScope, $compile, $injector) {
+    beforeEach(inject(function($rootScope, $compile, viewFactory, _$route_, _$location_) {
         element = angular.element('<blt-panel id="{{id}}" data-position="{{position}}" data-fixed="{{fixed}}"></blt-panel>');
 
         outerScope = $rootScope;
@@ -23,11 +28,9 @@ describe('panel', function() {
         
         compile(element)(outerScope);
         outerScope.$digest();
-
-        route = $injector.get('ngRoute');
-        location = $injector.get('$location');
-        console.log(route);
-        console.log(location);
+        factory = viewFactory;
+        $route = _$route_;
+        $location = _$location_;
     }));
 
     describe("will bind on create", function() {
@@ -70,9 +73,17 @@ describe('panel', function() {
         
         // Test
         it('should be fixed', function(){
-            element = angular.element('<blt-view><blt-panel data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel></blt-view>');
+            element = angular.element('<blt-view></blt-view>');
             compile(element)(outerScope);
             outerScope.$digest();
+
+            $location.path('/test');
+            outerScope.$apply();
+
+            console.log(element);
+            console.log($route);
+            console.log($location.$$path);
+
             expect(element[0].attributes.getNamedItem("data-fixed").value).to.equal("true");
         });
         
