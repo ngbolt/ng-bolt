@@ -125,7 +125,7 @@
    * @requires BltApi
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    */
-  function bltCounterController($timeout, $scope ) {
+  function bltCounterController(api, $timeout, $scope ) {
 
     var ctrl = this;
     var mouseState = MouseState();
@@ -141,14 +141,7 @@
     ctrl.mouseEnter = mouseEnter;
     ctrl.mouseLeave = mouseLeave;
     ctrl.onFocus = onFocus;
-    ctrl.id = uuid();
-
-    function uuid() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
-        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    };
+    ctrl.id = api.uuid();
 
     /**
      * @private
@@ -166,7 +159,7 @@
 
       // Set input name
       if ( !ctrl.name ) {
-        console.error('Missing name attribute for blt-counter. See: '
+        api.error('Missing name attribute for blt-counter. See: '
           + window.location + '/blt.counter.bltCounter.html');
       }
 
@@ -295,7 +288,7 @@
      */
     function mouseDown( changeBy, $event ) {
       if ( $event.which == 1 ) {
-        var pressedUuid = uuid();
+        var pressedUuid = api.uuid();
         mouseState.setStateToPressed(pressedUuid);
         $timeout(function() {
           if ( mouseState.isPressed(pressedUuid) ) {
@@ -333,9 +326,6 @@
       if ( ctrl.selectOnFocus ) {
         if ( angular.isDefined(ctrl.model) ) {
           try {
-            if(tInputElem == undefined) {
-              tInputElem = angular.element(document.getElementById(ctrl.id));
-            }
             tInputElem[0].selectionStart = 0;
             tInputElem[0].selectionEnd = ctrl.model.length;
           } catch( err ) {
@@ -555,5 +545,5 @@
     };
   }
 
-  bltCounterController.$inject = ['$timeout', '$scope'];
+  bltCounterController.$inject = ['BltApi','$timeout', '$scope'];
 })();

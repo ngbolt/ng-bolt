@@ -4,21 +4,55 @@
 describe('counter', function () {
     
     //Load Module & Templates
-    beforeEach(module('blt_counter'));
+    beforeEach(module('blt_counter', function($provide){
+        $provide.factory('BltApi', function() {
+            var factory = {};
+            factory.uuid = uuid;
+            factory.error = error;
+            function uuid() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
+                  var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                  return v.toString(16);
+                });
+            }
+            function error(msg) {
+                console.error(msg);
+            }
+            return factory;
+        });  
+    }));
     beforeEach(module('templates'));
 
     var element;
     var outerScope;
     var innerScope;
     var compile;
+    var timeout;
+    var api;
 
 
     // Do This Before Each Test
-    beforeEach(inject(function ($rootScope, $compile) {
+    beforeEach(inject(function ($rootScope, $compile, $timeout, BltApi) {
 
         element = angular
-            .element('<form novalidate><blt-counter data-name="counter" data-label="{{label}}" data-autofocus="autofocus" data-required="req" data-max="max" data-min="min" data-select-on-focus="selectOnFocus"'
-            + 'data-left-icon="{{left}}" data-right-icon="{{right}}" data-size="size" data-validate="customValidator" data-disabled="disabled" data-model="value" data-change="changeFn()" data-tabindex=index></blt-counter></form>');
+            .element('<form novalidate><blt-counter ' +
+                'data-name="counter" ' +
+                'data-label="{{label}}" ' +
+                'data-autofocus="autofocus" ' +
+                'data-required="req" ' +
+                'data-max="max" ' +
+                'data-min="min" ' +
+                'data-select-on-focus="selectOnFocus"'  + 
+                'data-left-icon="{{left}}" ' +
+                'data-right-icon="{{right}}" ' +
+                'data-size="size" ' +
+                'data-validate="customValidator" ' +
+                'data-disabled="disabled" ' +
+                'data-model="value" ' +
+                'data-change="changeFn()" ' +
+                'data-tabindex=index> ' +
+                '</blt-counter></form>'
+            );
 
         outerScope = $rootScope.$new();
         compile = $compile;
@@ -26,7 +60,17 @@ describe('counter', function () {
 
         innerScope = element.isolateScope();
         outerScope.$digest();
+        timeout = $timeout;
+        api = BltApi;
     }));
+
+    //Execute all pending taks after each test
+    afterEach(function() {
+        if(!timeout.verifyNoPendingTasks) {
+            timeout.flush();
+        }
+    });
+
 
     // Test Group
     describe('will bind on create', function () {
@@ -36,6 +80,13 @@ describe('counter', function () {
                 outerScope.value = 5;
             });
             expect(element[0].children[0].children[0].children[0].children[0].valueAsNumber).to.equal(5);
+        });
+
+        it('should throw error when compiling counter without model', function() {
+            var errorThrown;
+            element = angular.element('<form><blt-counter data-name="counter"></blt-counter></form>');
+            compile(element)(outerScope);
+            assert.throws(outerScope.$digest, Error);
         });
 
         // Test
@@ -50,11 +101,14 @@ describe('counter', function () {
         });
 
         // Test
-        it('should not have a name', function () {
+        it('should log error when counter does not have a name', function () {
+            var mySpy = sinon.spy(api,'error');
             element = angular.element('<form novalidate><blt-counter data-name="{{name}}" data-label="{{label}}" data-model="value"></blt-counter></form>');
             compile(element)(outerScope);
             outerScope.$digest();
             expect(element[0].children[0].children[0].children[0].children[0].name).to.equal("");
+            expect(sinon.assert.calledOnce(mySpy));
+            mySpy.restore();
         });
 
         // Test
@@ -69,37 +123,6 @@ describe('counter', function () {
         it('should not have autofocus by default', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('autofocus')).to.equal(null);
         });
-
-        /*
-        //Test ->  Chnage Unit Test Does Not Work
-        it('should call changeFn on change', function () {
-            //Define change function and spy
-            var changeFunction = function () {
-                // Do Something
-                console.log("Change Function Called");
-            };
-            var mySpy = sinon.spy(changeFunction);
-
-            element = angular.element('<div ng-controller="CounterTestController as ctrl"> <form name="ctrl.myForm" class="form" novalidate>' +
-                '<blt-counter data-name="counter" data-label="test" data-model="ctrl.value" data-change="ctrl.onChange()">'+
-                '</blt-counter></form></div>');
-
-            //Set scope variables
-            outerScope.$apply(function () {
-                outerScope.CounterTestController = function () {
-                    var ctrl = this;
-                    ctrl.onChange = mySpy;
-                    ctrl.value;
-                }
-                compile(element)(outerScope);
-            });
-
-            var ngModel = angular.element(element[0].children[0].children[0].children[0].children[1].children[0]).controller("ngModel");
-            var ngController = angular.element(element[0].children[0].children[0].children[0].children[1].children[0]).controller("ngController");
-            ngModel.$setViewValue(3);
-            expect(sinon.assert.calledOnce(mySpy));
-        });
-        */
 
         // Test
         it('should be disabled', function () {
@@ -134,7 +157,10 @@ describe('counter', function () {
         it('should have max value of 5', function () {
             outerScope.$apply(function () {
                 outerScope.max = 5;
+                outerScope.value = 3;
             });
+            var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller("ngModel");
+            ngModel.$setViewValue(6);
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('max').value).to.equal("5");
         });
 
@@ -194,6 +220,7 @@ describe('counter', function () {
             expect(element[0].children[0].children[0].children[0].children[3].classList.value.split(' ')).that.include("fa-chevron-right");
         });
 
+        
         /*
         // Test -> Validate Attribute Does Not Work on Counter
         it('should call custom validator', function () {
@@ -213,9 +240,13 @@ describe('counter', function () {
                     validationFn: mySpy
                 };
             });
+            
             var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller('ngModel');
             ngModel.$setViewValue(5);
+            console.log(ngModel);
+            
             expect(sinon.assert.calledOnce(mySpy));
+            expect(timeout.verifyNoPendingTasks());
         });
         */
 
@@ -235,67 +266,6 @@ describe('counter', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('required')).to.equal(null);
         });
 
-        // Test        
-        it('should select contnets of counter on focus', function () {
-            const value = 123456;
-            var fragment;
-            var selectedValue;
-            var topElement;
-            outerScope.$apply(function () {
-                outerScope.selectOnFocus = true;
-            });
-
-            //Set content of counter to value
-            element[0].children[0].children[0].children[0].children[0].value = value;
-            fragment = element[0].parentNode;
-
-            //Add form containing bltCounter to document so we can uses document.getSelection
-            document.firstElementChild.appendChild(fragment);
-
-            //Ensure element is not already in focus
-            element[0].children[0].children[0].children[0].children[0].blur();
-            //Focus element causing contents to be selected
-            element[0].children[0].children[0].children[0].children[0].focus();
-
-            //Store selected text in variable
-            selectedValue = document.getSelection().toString();
-
-            //Remove form from document
-            topElement = document.getElementsByTagName("form")[0];
-            document.firstElementChild.removeChild(topElement);
-            expect(selectedValue).to.equal(value.toString());
-        });
-
-        // Test
-        it('should not select contnets of counter on focus', function () {
-            const value = 123456;
-            var fragment;
-            var selectedValue;
-            var topElement;
-            outerScope.$apply(function () {
-                outerScope.selectOnFocus = false;
-            });
-
-            //Set content of counter to value
-            element[0].children[0].children[0].children[0].children[0].value = value;
-            fragment = element[0].parentNode;
-
-            //Add form containing bltCounter to document so we can uses document.getSelection
-            document.firstElementChild.appendChild(fragment);
-
-            //Ensure element is not already in focus 
-            element[0].children[0].children[0].children[0].children[0].blur();
-            //Focus element, contents will not be selected
-            element[0].children[0].children[0].children[0].children[0].focus();
-
-            //Store selected text in variable
-            selectedValue = document.getSelection().toString();
-
-            //Remove form from document
-            topElement = document.getElementsByTagName("form")[0];
-            document.firstElementChild.removeChild(topElement);
-            expect(selectedValue).to.equal('');
-        });
 
         // Test
         it('should have tab index 123456', function () {
@@ -310,5 +280,78 @@ describe('counter', function () {
         it('should not have tab index', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('tabindex')).to.equal(null);
         })
+        describe("",function(){
+            beforeEach(function() {
+                if(angular.isDefined(element)){
+                    document.firstElementChild.appendChild(element[0].parentNode);
+                }
+                //Force all pending timeout tasks to execute
+                timeout.flush();
+            });
+
+            afterEach(function() {
+                var topElement = document.getElementsByTagName("form")[0];
+                document.firstElementChild.removeChild(topElement);
+            });
+            
+            // Test
+            it('should call changeFn on change', function () {
+                //Define change function and spy
+                var changeFunction = function () {
+                    // Do Something
+                    console.log("Change Function Called!");
+                };
+                var mySpy = sinon.spy(changeFunction);
+
+                //Set scope variables
+                outerScope.$apply(function () {
+                    outerScope.changeFn = mySpy;
+                });
+
+                var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller("ngModel");
+                ngModel.$setViewValue(3);
+
+                //Force all pending timeout tasks to execute
+                timeout.flush();
+
+                expect(sinon.assert.calledOnce(mySpy));
+            });
+
+            // Test        
+            it('should select contnets of counter on focus', function () {
+                const value = 123456;
+                outerScope.$apply(function () {
+                    outerScope.selectOnFocus = true;
+                });
+
+                //Set content of counter to value
+                var input = document.getElementById(element[0].children[0].children[0].children[0].children[0].id);
+                element[0].children[0].children[0].children[0].children[0].value = value;
+                
+                
+                //Ensure element is not already in focus 
+                element[0].children[0].children[0].children[0].children[0].blur();
+                //Focus element, contents will not be selected
+                element[0].children[0].children[0].children[0].children[0].focus();
+                console.log({0:element[0].children[0].children[0].children[0].children[0]});
+                
+                expect(document.getSelection().toString()).to.equal(value.toString());
+            });
+
+            // Test
+            it('should not select contnets of counter on focus', function () {
+                const value = 123456;
+                outerScope.$apply(function () {
+                    outerScope.selectOnFocus = false;
+                });
+                //Set content of counter to value
+                element[0].children[0].children[0].children[0].children[0].value = value;
+                //Ensure element is not already in focus 
+                element[0].children[0].children[0].children[0].children[0].blur();
+                //Focus element, contents will not be selected
+                element[0].children[0].children[0].children[0].children[0].focus();
+                expect(document.getSelection().toString()).to.equal('');
+            });
+        });
     });
 });
