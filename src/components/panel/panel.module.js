@@ -222,8 +222,7 @@
    * </example>
    *
    */
-  function bltPanel($timeout ) {
-    var subscriptions = {};
+  function bltPanel(api, $timeout ) {
     var directive = {
       restrict: 'EA',
       scope: {
@@ -236,19 +235,7 @@
     };
 
     return directive;
-
-    function subscribe( name, callback ) {
-
-      // Save subscription if it doesn't already exist
-      if ( !subscriptions[name] ) {
-        subscriptions[name] = [];
-      }
-
-      // Add callback to subscription
-      subscriptions[name].push(callback);
-
-      console.debug('Subscribed: ', name);
-    }
+    
     /**
      * Compile function. Invoked by Angular. We use this function to register our pre and post link functions.
      * @returns {{pre: preLink, post: postLink}}
@@ -286,7 +273,7 @@
       function postLink( scope, element, attrs ) {
         scope.active = false;
 
-        subscribe(attrs.id, function( msg ) {
+        api.subscribe(attrs.id, function( msg ) {
           // Update scope  - wrap in $timeout to apply update to scope
           $timeout(function() {
             if ( msg == 'open' ) {
@@ -316,5 +303,5 @@
     }
   }
 
-  bltPanel.$inject = ['$timeout'];
+  bltPanel.$inject = ['BltApi','$timeout'];
 })();

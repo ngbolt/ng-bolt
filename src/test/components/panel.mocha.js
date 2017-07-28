@@ -5,9 +5,38 @@ describe('panel', function() {
     // Load Module & Templates
     beforeEach(module('ngRoute'));
     beforeEach(module('blt_view', function($provide){
-        $provide.value( 'views', [{ "path": "/test", "route": { "template": '<blt-panel data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel>'}, "animation": "fade"}]);
+        $provide.value( 'views', [{ "path": "/test", "route": { "template": '<blt-panel id="fixedDiv" data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel>'}, "animation": "fade"}]);
     }));
-    beforeEach(module('blt_panel'));
+    beforeEach(module('blt_panel',function($provide){
+        $provide.factory('BltApi', function() {
+            var subscriptions = {};
+            var factory = {};
+            factory.subscribe = sinon.spy(subscribe);
+            factory.publish = sinon.spy(publish);
+            factory.subscriptions = subscriptions;
+            function subscribe( name, callback ) {
+                // Save subscription if it doesn't already exist
+                if ( !subscriptions[name] ) {
+                    subscriptions[name] = [];
+                }
+                // Add callback to subscription
+                subscriptions[name].push(callback);
+                console.log('Subscribed: ', name);
+            }
+            function publish( name, msg ) {
+                // Save the subscription as an empty array if it was not previously saved
+                if ( !subscriptions[name] ) {
+                   subscriptions[name] = [];
+                }
+                // Send message in a callback
+                subscriptions[name].forEach(function( cb ) {
+                   cb(msg);
+                });
+                console.log('Published: ' + name + '\n', msg);
+            }
+            return factory;
+        });
+    }));
     beforeEach(module('templates'));
 
     var element;
@@ -15,12 +44,12 @@ describe('panel', function() {
     var innerScope;
     var compile;
     var factory;
-    var $route;
-    var $location;
+    var api;
+    var timeout;
 
 
     // Do This Before Each Test
-    beforeEach(inject(function($rootScope, $compile, viewFactory, _$route_, _$location_) {
+    beforeEach(inject(function($rootScope, $compile, viewFactory, BltApi, $timeout) {
         element = angular.element('<blt-panel id="{{id}}" data-position="{{position}}" data-fixed="{{fixed}}"></blt-panel>');
 
         outerScope = $rootScope;
@@ -29,11 +58,35 @@ describe('panel', function() {
         compile(element)(outerScope);
         outerScope.$digest();
         factory = viewFactory;
-        $route = _$route_;
-        $location = _$location_;
+        api = BltApi;
+        timeout = $timeout;
+        api.subscribe.reset();
+        api.publish.reset();
     }));
 
     describe("will bind on create", function() {
+        it('should open on button click', function() {
+            var mySpy = sinon.spy();
+            element = angular.element('<div ng-controller="TestController as ctrl"><blt-panel id="testPanel"><div ng-controller="InnerController"class="panel-content">Panel Content</div></blt-panel><button ng-click="ctrl.open()">Open</button></div>');
+            outerScope.$apply(function() {
+                outerScope.TestController = function() {
+                    var ctrl = this;
+                    ctrl.open = function() {
+                        console.log('open called');
+                        api.publish('testPanel', 'open');
+                    }
+                };
+                outerScope.InnerController = mySpy;
+            });
+            compile(element)(outerScope);
+            outerScope.$digest();
+            console.log(api);
+            element[0].children[1].click();
+            //Fore timeouts in panel.module to execute 
+            timeout.flush();
+            expect(sinon.assert.calledOnce(mySpy));
+        });
+        
         // Test    
         it('should have an id', function() {
             const value = 123456;
@@ -77,12 +130,7 @@ describe('panel', function() {
             compile(element)(outerScope);
             outerScope.$digest();
 
-            $location.path('/test');
-            outerScope.$apply();
-
             console.log(element);
-            console.log($route);
-            console.log($location.$$path);
 
             expect(element[0].attributes.getNamedItem("data-fixed").value).to.equal("true");
         });
