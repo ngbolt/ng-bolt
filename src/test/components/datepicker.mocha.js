@@ -2,18 +2,35 @@
 
 describe('datepicker', function () {
     //Load Module & Templates
-    beforeEach(module('blt_datepicker'));
+    beforeEach(module('blt_datepicker', function($provide) {
+        $provide.factory('BltApi', function() {return null;})
+    }));
     beforeEach(module('templates'));
 
     var element;
     var outerScope;
     var innerScope;
     var compile;
+    var timeout;
 
     //Do This Before Each Test
-    beforeEach(inject(function ($compile, $rootScope) {
-        element = angular.element('<form novalidate><blt-datepicker data-model="value" data-name="datepicker" data-label="{{label}}" data-autofocus="autofocus" data-change="change" data-format="{{format}}"' +
-            'data-first-view="{{firstView}}" data-last-view="{{lastView}}" data-max="maxDate" data-min="minDate" data-required="required" data-disabled="disabled" data-tabindex="tabindex"></blt-datepicker></form>')
+    beforeEach(inject(function ($compile, $rootScope, $timeout) {
+        element = angular.element('<form novalidate><blt-datepicker ' +
+            'data-model="value" ' +
+            'data-name="{{name}}" ' +
+            'data-label="{{label}}" ' +
+            'data-autofocus="autofocus" ' +
+            'data-change="onChange()" ' +
+            'data-format="{{format}}"' +
+            'data-first-view="{{firstView}}" ' +
+            'data-last-view="{{lastView}}" ' +
+            'data-max="maxDate" ' +
+            'data-min="minDate" ' +
+            'data-required="required" ' +
+            'data-disabled="disabled" ' +
+            'data-tabindex="tabindex">'+
+            '</blt-datepicker></form>'
+        );
 
         outerScope = $rootScope.$new();
         compile = $compile;
@@ -22,11 +39,14 @@ describe('datepicker', function () {
         innerScope = element.isolateScope();
 
         outerScope.$digest();
+
+        timeout = $timeout;
     }));
 
     //Test Group
     describe("will bind on create", function(){
         //Test
+        
         it('should have model value of July 19, 2017', function () {
             const value = 'July 19, 2017';
             outerScope.$apply(function () {
@@ -39,23 +59,15 @@ describe('datepicker', function () {
         //Test
         it('should have a name', function () {
             const value = "Bob"
-            element = angular.element('<form novalidate><blt-datepicker data-model="value" data-name="{{name}}" data-label={{label}}</blt-datepicker></form>');
-
             outerScope.$apply(function () {
                 outerScope.name = value;
             });
-
-            compile(element)(outerScope);
-            outerScope.$digest();
 
             expect(element[0].children[0].children[0].children[1].name).to.equal(value);
         });
 
         //Test
-        it('should not have a name', function () {
-            element = angular.element('<form novalidate><blt-datepicker data-model="value" data-name="{{name}}" data-label={{label}}</blt-datepicker></form>');
-            compile(element)(outerScope);
-            outerScope.$digest();
+        it('should not have a name by default', function () {
             expect(element[0].children[0].children[0].children[1].name).to.equal('');
         });
 
@@ -71,7 +83,7 @@ describe('datepicker', function () {
         });
 
         //Test
-        it('should not have a label', function () {
+        it('should have a blank label by default', function () {
             expect(element[0].children[0].children[0].children[0].tagName).to.equal("LABEL");
             expect(element[0].children[0].children[0].children[0].innerText).to.equal('');
         });
@@ -90,37 +102,16 @@ describe('datepicker', function () {
             expect(element[0].children[0].children[0].children[2].attributes.getNamedItem("autofocus")).to.equal(null);
         });
 
-        /*
-        //Test -> Chnage Unit Test Does Not Work
+        //Test
         it('should call chnageFn on change', function () {
-            element = angular.element('<form ng-controller="TestDateController as ctrl" novalidate name="myForm"><blt-datepicker data-model="ctrl.value" data-name="datepicker" data-label={{ctrl.label}} data-change="ctrl.onChange()" </blt-datepicker></form>');
-
             function changeFn() {
+                // Do Something
                 console.log("Change");
             }
-
-            console.log("Timeout");
             var mySpy = sinon.spy(changeFn);
-
             outerScope.$apply(function () {
-                outerScope.TestDateController = function () {
-                    var ctrl = this;
-                    ctrl.label = "Select Date"
-                    ctrl.onChange = mySpy;
-                    ctrl.value;
-                };
+                outerScope.onChange = mySpy;
             });
-
-            compile(element)(outerScope);
-            outerScope.$digest();
-
-            console.log(element);
-
-            var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
-            var ngController = angular.element(element[0].children[0].children[0].children[1]).controller("ngController");
-
-            console.log(ngController.value);
-
             //Simulate user selecting date
             //Click Span to open date picker
             element[0].children[0].children[0].children[2].click();
@@ -134,14 +125,9 @@ describe('datepicker', function () {
             element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
             //Select minute
             element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
-
-            console.log(ngController.value);
-
-            // console.log(ngModel);
-            console.log(ngController);
+            timeout.flush(0);
             expect(sinon.assert.calledOnce(mySpy));
         });
-        */
 
         //Test
         it('should have "MMMM yyyy" format', function () {
@@ -156,29 +142,7 @@ describe('datepicker', function () {
             expect(element[0].children[0].children[0].children[2].innerText).to.equal('July 2017\n    ');
         });
 
-        //Test -> Rewrite
-        it('should have hours as first view', function () {
-            const date = new Date("July 19, 2017");
-            const value = "hours";
-            outerScope.$apply(function () {
-                outerScope.firstView = value;
-                outerScope.value = value;
-            });
-            element[0].children[0].children[0].children[2].click();
-            var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
-            expect(ngModel.$$scope.firstView).to.equal(value);
-        });
-
-        //Test -> Rewrite
-        it('should have year as last view', function () {
-            const value = "month";
-            outerScope.$apply(function () {
-                outerScope.lastView = value;
-            });
-            var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
-            expect(ngModel.$$scope.lastView).to.equal(value);
-        });
-
+        
         //Test
         it('should have max-date', function () {
             const value = 'July 19, 2017';
@@ -262,6 +226,104 @@ describe('datepicker', function () {
         //Test 
         it('should have tab index of 0 by default', function () {
             expect(element[0].children[0].children[0].children[2].attributes.getNamedItem('tabindex').value).to.equal('0');
+        });
+        describe('', function() {
+            beforeEach(function() {
+                document.firstElementChild.appendChild(element[0].parentNode);
+            });
+            afterEach(function() {
+                var topElement = document.getElementsByTagName("form")[0];
+                if(document.getElementsByTagName("form")[0] != null) {
+                    document.firstElementChild.removeChild(topElement);
+                }
+            });
+            //Test
+            it('should have hours as first view', function () {
+                const value = "hours";
+                outerScope.$apply(function () {
+                    outerScope.name="datepicker";
+                    outerScope.firstView = value;
+                });
+                //Re-compile element since data-first-view attribute has '@' binding
+                compile(element)(outerScope);
+                outerScope.$digest();
+                var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
+                
+                //Open date dicker. First view to appear should be hours
+                element[0].children[0].children[0].children[2].click();
+                
+                expect(ngModel.$$scope.firstView).to.equal(value);
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal(value);
+            });
+
+            it('should have years as first view by default', function () {
+                const value = "year";
+                outerScope.$apply(function () {
+                    outerScope.name="datepicker";
+                });
+                //Re-compile element since data-first-view attribute has '@' binding
+                compile(element)(outerScope);
+                outerScope.$digest();
+                var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
+                
+                //Open date dicker. First view to appear should be hours
+                element[0].children[0].children[0].children[2].click();
+
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal(value);
+            });
+
+            //Test
+            it('should have month as last view', function () {
+                const value = "month";
+                outerScope.$apply(function () {
+                    outerScope.name="datepicker";
+                    outerScope.lastView = value;
+                });
+                //Re-compile element since data-last-view attribute has '@' binding
+                compile(element)(outerScope);
+                outerScope.$digest();
+                var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
+
+                //Click Span to open date picker
+                element[0].children[0].children[0].children[2].click();
+                //Select Year
+                element[0].children[0].children[0].children[5].children[0].children[1].children[0].click();
+                //Select Month closing datepicker
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
+                //Force all pending tasks to execute
+                timeout.flush();
+
+                expect(ngModel.$$scope.lastView).to.equal(value);
+                //Expect element[0].children[0].children[0].children[5] (i.e datepicker overlay) to be undefined 
+                expect(element[0].children[0].children[0].children[5]).to.equal(undefined);
+            });
+
+            it('should have minutes as last view by default', function () {
+                outerScope.$apply(function () {
+                    outerScope.name="datepicker";
+                });
+                compile(element)(outerScope);
+                outerScope.$digest();
+                var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
+
+                //Click Span to open date picker
+                element[0].children[0].children[0].children[2].click();
+                //Select Year
+                element[0].children[0].children[0].children[5].children[0].children[1].children[0].click();
+                //Select Month
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
+                //Select Date
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].children[0].click();
+                //Select hour
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
+                //Select minute closing date picker
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
+                //Force all pending tasks to execute
+                timeout.flush();
+                
+                //Expect element[0].children[0].children[0].children[5] (i.e datepicker overlay) to be undefined 
+                expect(element[0].children[0].children[0].children[5]).to.equal(undefined);
+            });
         });
     });
 })

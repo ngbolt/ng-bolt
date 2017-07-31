@@ -99,7 +99,7 @@
    * </example>
    *
    */
-  function bltDatepicker( utils, $timeout, $document ) {
+  function bltDatepicker( utils, api, $timeout, $document ) {
     var directive = {
       restrict: 'E',
       require: {
@@ -720,7 +720,7 @@
     }
   }
 
-  bltDatepicker.$inject = ['bltDatepickerUtils', '$timeout', '$document'];
+  bltDatepicker.$inject = ['bltDatepickerUtils', 'BltApi', '$timeout', '$document'];
 
   /**
    *   filter
