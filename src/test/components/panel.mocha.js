@@ -5,15 +5,16 @@ describe('panel', function() {
     // Load Module & Templates
     beforeEach(module('ngRoute'));
     beforeEach(module('blt_view', function($provide){
-        $provide.value( 'views', [{ "path": "/test", "route": { "template": '<blt-panel id="fixedDiv" data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel>'}, "animation": "fade"}]);
+         $provide.value( 'views', [{ "path": "/test", "route": { "template": '<blt-panel id="fixedDiv" data-position="top" data-fixed="true"><div panel-content>Panel Content</div></blt-panel>'}, "animation": "fade"}]);
     }));
     beforeEach(module('blt_panel',function($provide){
-        $provide.factory('BltApi', function() {
+        $provide.factory('BltApi', ['$location', '$window', function($location, $window) {
             var subscriptions = {};
             var factory = {};
             factory.subscribe = sinon.spy(subscribe);
             factory.publish = sinon.spy(publish);
             factory.subscriptions = subscriptions;
+            factory.switchViews = sinon.spy(switchViews);
             function subscribe( name, callback ) {
                 // Save subscription if it doesn't already exist
                 if ( !subscriptions[name] ) {
@@ -34,8 +35,43 @@ describe('panel', function() {
                 });
                 console.log('Published: ' + name + '\n', msg);
             }
+            function switchViews( path, searchParams ) {
+                console.log("Switch View Called");
+                if ( path === null ) {
+                  // Reset search parameters
+                  if ( searchParams && Object.keys(searchParams).length == 0 ) {
+                    $location.url($location.path());
+                    // Add or update search parameters.
+                  } else if ( searchParams ) {
+                    $location.search = searchParams
+                  }
+                } else {
+                  // Switch views and reset search parameters
+                    if ( searchParams && Object.keys(searchParams).length == 0 ) {
+                        try {
+                          $location.url(path);
+                        } catch( e ) {
+                          console.error('There was error trying to switch views. See localhost:9001/core.BltApi.html on how to switch views.', e);
+                        }
+                        // Switch views and add/update search parameters.
+                    } else if ( searchParams ) {
+                        try {
+                          $location.path(path).search(searchParams);
+                        } catch( e ) {
+                          console.error('There was error trying to switch views. See localhost:9001/core.BltApi.html on how to switch views.', e);
+                        }
+                        // Switch views and do nothing with search parameters.
+                    } else {
+                        try {
+                            $location.path(path);
+                        } catch( e ) {
+                            console.error('There was error trying to switch views. See localhost:9001/core.BltApi.html on how to switch views.', e);
+                        }
+                    }
+                }
+            }           
             return factory;
-        });
+        }]);
     }));
     beforeEach(module('templates'));
 
@@ -46,10 +82,11 @@ describe('panel', function() {
     var factory;
     var api;
     var timeout;
+    var location;
 
 
     // Do This Before Each Test
-    beforeEach(inject(function($rootScope, $compile, viewFactory, BltApi, $timeout) {
+    beforeEach(inject(function($rootScope, $compile, viewFactory, BltApi, $timeout, $location) {
         element = angular.element('<blt-panel id="{{id}}" data-position="{{position}}" data-fixed="{{fixed}}"></blt-panel>');
 
         outerScope = $rootScope;
@@ -60,6 +97,7 @@ describe('panel', function() {
         factory = viewFactory;
         api = BltApi;
         timeout = $timeout;
+        location = $location;
         api.subscribe.reset();
         api.publish.reset();
     }));
@@ -82,7 +120,7 @@ describe('panel', function() {
             outerScope.$digest();
             console.log(api);
             element[0].children[1].click();
-            //Fore timeouts in panel.module to execute 
+            //Force timeouts in panel.module to execute 
             timeout.flush();
             expect(sinon.assert.calledOnce(mySpy));
         });
@@ -129,9 +167,10 @@ describe('panel', function() {
             element = angular.element('<blt-view></blt-view>');
             compile(element)(outerScope);
             outerScope.$digest();
-
-            console.log(element);
-
+            console.log(location.$$path);
+            api.switchViews("/test");
+            console.log(location.$$path);
+            console.log(location);
             expect(element[0].attributes.getNamedItem("data-fixed").value).to.equal("true");
         });
         
