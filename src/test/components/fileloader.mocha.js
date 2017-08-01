@@ -1,18 +1,33 @@
 'use strict';
 describe('fileloader', function () {
 
+	// Define modules usually created during the gulp build process (need to load blt_core module).
+	beforeEach(function() {
+		angular.module('blt_config', []);
+		angular.module('blt_dataRoutes', []);
+		angular.module('blt_appProfile', []);
+		angular.module('blt_appViews', []);
+	});
+	
 	// Load Module & Templates
-	beforeEach(module('truncate'));
-	beforeEach(module('blt_fileloader'));
+	
+	// blt_core module needs to be loaded for data-validate attribute to work (data-validate makes used of blt-validate directive). Provide BltApi with a config object
+	beforeEach(module('blt_core', function($provide){
+		$provide.value('config', { defaultLogLevel: "error", debug: true });
+	})); 
+	
+	beforeEach(module('blt_fileloader'));	
 	beforeEach(module('templates'));
 
 	var element;
 	var outerScope;
 	var innerScope;
 	var compile;
+	var timeout;
+	var api;
 
 	// Do This Before Each Test
-	beforeEach(inject(function ($rootScope, $compile) {
+	beforeEach(inject(function ($rootScope, $compile, $timeout, BltApi) {
 		element = angular.element(
 			'<form><blt-fileloader ' +
 			'data-model="value" ' +
@@ -33,6 +48,9 @@ describe('fileloader', function () {
 
 		innerScope = element.isolateScope();
 		outerScope.$digest();
+
+		timeout = $timeout;
+		api = BltApi;
 	}));
 
 	//Test Group
@@ -77,8 +95,14 @@ describe('fileloader', function () {
 		});
 
 		//Test
-		it('should not have a name by default', function() {
+		it('should log error if fileloader does not have a name', function() {
+			var mySpy = sinon.spy(api,'error');
+			element = angular.element('<form><blt-fileloader></blt-fileloader></form>');
+			compile(element)(outerScope);
+			outerScope.$digest();
 			expect(element[0].children[0].children[0].children[1].children[0].attributes.getNamedItem("name").value).to.equal("");
+			expect(sinon.assert.calledOnce(mySpy));
+			mySpy.restore();
 		})
 
 		//Test
@@ -94,7 +118,6 @@ describe('fileloader', function () {
 			expect(element[0].children[0].children[0].children[1].children[0].attributes.getNamedItem('autofocus')).to.equal(null);
 		});
 
-		/*
 		// Test -> Change Unit Test Does Not Work
 		it('should call change function on change', function() {
 			const orginal = new File([""], "DescriptiveFilename.txt", {type: "text/plain", lastModified: new Date().getTime()});
@@ -113,14 +136,12 @@ describe('fileloader', function () {
 			});
 
 			var ngModel = angular.element(element[0].children[0].children[0].children[1].children[0]).controller("ngModel");
-			console.log(ngModel.$viewValue.name);
 
 			ngModel.$setViewValue(modified);
-			console.log(ngModel.$viewValue.name);
 
+			timeout.flush();
 			expect(sinon.assert.calledOnce(mySpy));
 		}); 
-		*/
 
 		//Test
 		it('should be disabled', function() {
@@ -162,7 +183,7 @@ describe('fileloader', function () {
 			expect(element[0].children[0].children[0].children[1].children[0].attributes.getNamedItem("tabindex")).to.equal(null);
 		});
 
-		/* 
+
 		// Validate Unit Test Does Not Work
 		it('should validate on change', function() {
 			const file = new File([""], "DescriptiveFilename.txt", {type: "text/plain", lastModified: new Date().getTime()});
@@ -180,14 +201,22 @@ describe('fileloader', function () {
                     type: 'sync', // The type of validator: async or sync. See the Angular docs for more information.
                     msg: 'Descriptive Error Message', // The error message if invalid
                     validationFn: mySpy // The function to run to determine validity
-                };
+				};
 			});
-
+			compile(element)(outerScope);
+			outerScope.$digest();
+			
+			//Reset spy since validation function is called twice during compilation
+			mySpy.reset();
+			
 			var ngModel = angular.element(element[0].children[0].children[0].children[1].children[0]).controller("ngModel");
 			ngModel.$setViewValue(file);
-
+			
+			//Force all pending tasks to execute
+			timeout.flush();
+			//Custom validator should be added to $validators pipeline
+			expect(ngModel.$validators.hasOwnProperty(outerScope.validate.name)).to.be.true;
 			expect(sinon.assert.calledOnce(mySpy));
 		});
-		*/
 	});
-});
+});		
