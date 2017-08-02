@@ -478,8 +478,7 @@
    * </example>
    *
    */
-  function bltModal($timeout ) {
-    var subscriptions = {};
+  function bltModal( api, $timeout ) {
     var directive = {
       restrict: 'EA',
       scope: {
@@ -492,16 +491,6 @@
 
     return directive;
 
-    function subscribe( name, callback ) {
-      // Save subscription if it doesn't already exist
-      if ( !subscriptions[name] ) {
-        subscriptions[name] = [];
-      }
-      // Add callback to subscription
-      subscriptions[name].push(callback);
-      console.debug('Subscribed: ', name);
-    }
-
     /**
      * Compile function invoked by Angular during the compilation phase. The only thing we do here is register our
      * pre and post link functions.
@@ -512,11 +501,16 @@
       var type = 'modal';
       if ( tAttrs.flip == "true"  ) {
         if ( tAttrs.size == 'full-screen' ) {
-          console.error('You can not use the flip animation on full-screen modals.');
+          api.error('You can not use the flip animation on full-screen modals.');
         } else {
           tElem.addClass('modal-flip');
         }
       }
+
+      if(angular.isUndefined(tAttrs.id)) {
+        api.error('missing id attribute for blt-modal. See: '
+          + window.location + '/blt.modal.bltModal.html');
+      };
 
       return {
         pre: preLink,
@@ -562,7 +556,7 @@
         scope.flipping = false;
         scope.flipped = false;
 
-        subscribe(attrs.id, function( msg ) {
+        api.subscribe(attrs.id, function( msg ) {
           // Update scope  - wrap in $timeout to apply update to scope
           $timeout(function() {
             if ( msg == 'open' ) {
@@ -595,5 +589,5 @@
     }
   }
 
-  bltModal.$inject = ['$timeout'];
+  bltModal.$inject = ['BltApi', '$timeout'];
 })();
