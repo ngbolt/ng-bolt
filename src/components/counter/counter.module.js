@@ -35,6 +35,13 @@
    *         ctrl.counter1 = 4;
    *         ctrl.counter2;
    *         ctrl.counter3;
+   *         ctrl.counter4 =5;
+   *         ctrl.customValidator = {
+   *           name: 'counterMustBe5', // The name of your custom validator object
+   *           type: 'sync', // The type of validator: async or sync. See the Angular docs for more information.
+   *           msg: "We're looking for 5.", // The error message if invalid
+   *           validationFn: function(modelValue, viewValue) { return modelValue === 5;}
+   *         }
    *       });
    *   </javascript>
    *   <html>
@@ -54,6 +61,11 @@
    *                    data-left-icon="fa-minus"
    *                    data-right-icon="fa-plus"
    *                    data-model="ctrl.counter3">
+   *         </blt-counter>
+   *         <blt-counter data-name="myFourthCounter"
+   *                    data-label="Counter with Validation"
+   *                    data-model="ctrl.counter4"
+   *                    data-validate="ctrl.customValidator">
    *         </blt-counter>
    *       </form>
    *     </div>
