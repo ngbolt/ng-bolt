@@ -2,25 +2,20 @@
 
 // Counter Component Tests
 describe('counter', function () {
-    
+    // Define modules usually created during the gulp build process (need to load blt_core module).
+    beforeEach(function() {
+        angular.module('blt_config', []);
+        angular.module('blt_dataRoutes', []);
+        angular.module('blt_appProfile', []);
+        angular.module('blt_appViews', []);
+    });
+
+    beforeEach(module('blt_core', function($provide){
+        $provide.value('config', { defaultLogLevel: "error", debug: true });
+    })); 
+
     //Load Module & Templates
-    beforeEach(module('blt_counter', function($provide){
-        $provide.factory('BltApi', function() {
-            var factory = {};
-            factory.uuid = uuid;
-            factory.error = error;
-            function uuid() {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
-                  var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-                  return v.toString(16);
-                });
-            }
-            function error(msg) {
-                console.error(msg);
-            }
-            return factory;
-        });  
-    }));
+    beforeEach(module('blt_counter'));
     beforeEach(module('templates'));
 
     var element;
@@ -63,14 +58,6 @@ describe('counter', function () {
         timeout = $timeout;
         api = BltApi;
     }));
-
-    //Execute all pending taks after each test
-    afterEach(function() {
-        if(!timeout.verifyNoPendingTasks) {
-            timeout.flush();
-        }
-    });
-
 
     // Test Group
     describe('will bind on create', function () {
@@ -159,31 +146,46 @@ describe('counter', function () {
                 outerScope.max = 5;
                 outerScope.value = 3;
             });
+            compile(element)(outerScope);
+            outerScope.$digest();
+            
             var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller("ngModel");
-            ngModel.$setViewValue(6);
+            //If value is set be beyond max, value should be set to max value
+            ngModel.$setViewValue(10);
+            
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('max').value).to.equal("5");
+            expect(ngModel.$modelValue).to.equal(outerScope.max);
         });
-
+        
         //Test
         it('should not have a max value', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('max')).to.equal(null);
         });
-
+        
         // Test
         it('should have min value of 1', function () {
             outerScope.$apply(function () {
                 outerScope.min = 1;
+                outerScope.value = 2;
             });
+            compile(element)(outerScope);
+            outerScope.$digest();
+            
+            var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller("ngModel");
+            //If value is set be below mine, value should be set to min value
+            ngModel.$setViewValue(-1);
+            
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('min').value).to.equal("1");
+            expect(ngModel.$modelValue).to.equal(outerScope.min);
         });
-
+        
         // Test
         it('should not have min value', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('min')).to.equal(null);
         });
 
         /*
-        // Test -> Dont think the size attribute actually works
+        // Test -> Size attribute does not work for counters
         it('should have size', function () {
         });
         */
@@ -220,35 +222,36 @@ describe('counter', function () {
             expect(element[0].children[0].children[0].children[0].children[3].classList.value.split(' ')).that.include("fa-chevron-right");
         });
 
-        
-        /*
-        // Test -> Validate Attribute Does Not Work on Counter
+        // Test
         it('should call custom validator', function () {
             function testValidationFunction(modelValue, viewValue) {
-                if (viewValue <= 5) {
-                    return true;
-                } else {
-                    return false;
-                }
+                //Do Something
+                console.log('Validated');
+                return true;
             }
             var mySpy = sinon.spy(testValidationFunction);
             outerScope.$apply(function () {
                 outerScope.customValidator = {
-                    name: 'test', // The name of your custom validator object
+                    name: 'Descriptive Name', // The name of your custom validator object
                     type: 'sync', // The type of validator: async or sync. See the Angular docs for more information.
-                    msg: "Value should be <= 5.", // The error message if invalid
+                    msg: 'Descriptive Message', // The error message if invalid
                     validationFn: mySpy
                 };
             });
+            compile(element)(outerScope);
+            outerScope.$digest();
+            
+            //Reset spy since validation function is called 2 time during compilation
+            mySpy.reset();
             
             var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller('ngModel');
             ngModel.$setViewValue(5);
-            console.log(ngModel);
             
+            //Expect customValidator to be added to $validators pipeline.
+            expect(ngModel.$validators.hasOwnProperty(outerScope.customValidator.name)).to.be.true;
+            //Expect customValidator to be called on change
             expect(sinon.assert.calledOnce(mySpy));
-            expect(timeout.verifyNoPendingTasks());
         });
-        */
 
         // Test  
         it('should be required', function () {
@@ -325,16 +328,15 @@ describe('counter', function () {
                 });
 
                 //Set content of counter to value
-                var input = document.getElementById(element[0].children[0].children[0].children[0].children[0].id);
-                element[0].children[0].children[0].children[0].children[0].value = value;
-                
-                
+                var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller('ngModel');
+                ngModel.$setViewValue(value);
+                ngModel.$render();
+
                 //Ensure element is not already in focus 
                 element[0].children[0].children[0].children[0].children[0].blur();
-                //Focus element, contents will not be selected
+                //Focus element, contents will not be selecteds
                 element[0].children[0].children[0].children[0].children[0].focus();
-                console.log({0:element[0].children[0].children[0].children[0].children[0]});
-                
+                console.log('Selected Text: ' + document.getSelection().toString());
                 expect(document.getSelection().toString()).to.equal(value.toString());
             });
 
@@ -344,8 +346,12 @@ describe('counter', function () {
                 outerScope.$apply(function () {
                     outerScope.selectOnFocus = false;
                 });
+                
                 //Set content of counter to value
-                element[0].children[0].children[0].children[0].children[0].value = value;
+                var ngModel = angular.element(element[0].children[0].children[0].children[0].children[0]).controller('ngModel');
+                ngModel.$setViewValue(value);
+                ngModel.$render();
+                
                 //Ensure element is not already in focus 
                 element[0].children[0].children[0].children[0].children[0].blur();
                 //Focus element, contents will not be selected
