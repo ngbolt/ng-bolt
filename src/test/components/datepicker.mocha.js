@@ -2,9 +2,20 @@
 
 describe('datepicker', function () {
     //Load Module & Templates
-    beforeEach(module('blt_datepicker', function($provide) {
-        $provide.factory('BltApi', function() {return null;})
+
+    // Define modules usually created during the gulp build process (need to load blt_core module).
+    beforeEach(function() {
+        angular.module('blt_config', []);
+        angular.module('blt_dataRoutes', []);
+        angular.module('blt_appProfile', []);
+        angular.module('blt_appViews', []);
+    });
+
+    beforeEach(module('blt_core', function($provide){
+        $provide.value('config', { defaultLogLevel: "error", debug: true });
     }));
+    
+    beforeEach(module('blt_datepicker'));
     beforeEach(module('templates'));
 
     var element;
@@ -41,12 +52,13 @@ describe('datepicker', function () {
         outerScope.$digest();
 
         timeout = $timeout;
+
+
     }));
 
     //Test Group
     describe("will bind on create", function(){
         //Test
-        
         it('should have model value of July 19, 2017', function () {
             const value = 'July 19, 2017';
             outerScope.$apply(function () {
@@ -227,16 +239,18 @@ describe('datepicker', function () {
         it('should have tab index of 0 by default', function () {
             expect(element[0].children[0].children[0].children[2].attributes.getNamedItem('tabindex').value).to.equal('0');
         });
-        describe('', function() {
+
+        describe('Test that require datepicker to be added to document', function() {
             beforeEach(function() {
-                document.firstElementChild.appendChild(element[0].parentNode);
-            });
-            afterEach(function() {
                 var topElement = document.getElementsByTagName("form")[0];
-                if(document.getElementsByTagName("form")[0] != null) {
-                    document.firstElementChild.removeChild(topElement);
+                var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
+                if(topElement === undefined) {
+                    document.firstElementChild.appendChild(element[0].parentNode);
+                    topElement = document.getElementsByTagName("form")[0];
+                    topElement.setAttribute("style", "display: none;")
                 }
             });
+
             //Test
             it('should have hours as first view', function () {
                 const value = "hours";
@@ -286,8 +300,12 @@ describe('datepicker', function () {
 
                 //Click Span to open date picker
                 element[0].children[0].children[0].children[2].click();
-                //Select Year
+                //Year view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('year');
                 element[0].children[0].children[0].children[5].children[0].children[1].children[0].click();
+                //Month view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('month');
+                element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
                 //Select Month closing datepicker
                 element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
                 //Force all pending tasks to execute
@@ -305,25 +323,29 @@ describe('datepicker', function () {
                 compile(element)(outerScope);
                 outerScope.$digest();
                 var ngModel = angular.element(element[0].children[0].children[0].children[1]).controller("ngModel");
-
                 //Click Span to open date picker
                 element[0].children[0].children[0].children[2].click();
-                //Select Year
+                //Year view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('year');
                 element[0].children[0].children[0].children[5].children[0].children[1].children[0].click();
-                //Select Month
+                //Month view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('month');
                 element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
-                //Select Date
+                //Date view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('date');
                 element[0].children[0].children[0].children[5].children[0].children[1].children[1].children[0].click();
-                //Select hour
+                //Hours view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('hours');
                 element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
+                //Minutes view should be displayed
+                expect(element[0].children[0].children[0].children[5].children[0].attributes.getNamedItem('ng-switch-when').value).to.equal('minutes');
                 //Select minute closing date picker
                 element[0].children[0].children[0].children[5].children[0].children[1].children[1].click();
                 //Force all pending tasks to execute
                 timeout.flush();
-                
                 //Expect element[0].children[0].children[0].children[5] (i.e datepicker overlay) to be undefined 
                 expect(element[0].children[0].children[0].children[5]).to.equal(undefined);
             });
         });
     });
-})
+});
