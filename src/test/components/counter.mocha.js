@@ -70,7 +70,6 @@ describe('counter', function () {
         });
 
         it('should throw error when compiling counter without model', function() {
-            var errorThrown;
             element = angular.element('<form><blt-counter data-name="counter"></blt-counter></form>');
             compile(element)(outerScope);
             assert.throws(outerScope.$digest, Error);
@@ -283,7 +282,7 @@ describe('counter', function () {
         it('should not have tab index', function () {
             expect(element[0].children[0].children[0].children[0].children[0].attributes.getNamedItem('tabindex')).to.equal(null);
         })
-        describe("",function(){
+        describe("Tests that require counter to be added to document",function(){
             beforeEach(function() {
                 if(angular.isDefined(element)){
                     document.firstElementChild.appendChild(element[0].parentNode);
