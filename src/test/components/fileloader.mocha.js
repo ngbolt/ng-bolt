@@ -32,7 +32,7 @@ describe('fileloader', function () {
 			'<form><blt-fileloader ' +
 			'data-model="value" ' +
 			'data-label="{{label}}" ' +
-			'data-name="{{name}}" ' +
+			'data-name="Fileloader" ' +
 			'data-autofocus="autofocus" ' +
 			'data-change="change()" ' + 
 			'data-disabled="disabled" ' +
@@ -74,30 +74,49 @@ describe('fileloader', function () {
 		//Test
 		it('should have a label', function() {
 			const value = "Descriptive Label";
+			element = angular.element('<form><blt-fileloader data-name="Fileloader" data-label={{label}}></blt-fileloader></form>');
 			outerScope.$apply(function() {
 				outerScope.label=value;
 			});
+			compile(element)(outerScope);
+			outerScope.$digest();
+			
 			expect(element[0].children[0].children[0].children[0].innerText).to.equal(value);
 		});
 
+		it('should log error if label is not specified', function() {
+			var mySpy = sinon.spy(api,'error')
+			element = angular.element('<form><blt-fileloader data-name="Fileloader"W></blt-fileloader></form>');
+			compile(element)(outerScope);
+			outerScope.$digest();
+			expect(sinon.assert.calledOnce(mySpy));
+			mySpy.restore();
+		});
+
 		//Test
-		it('should have default label of "Filename"', function() {
+		it('should have default label of "Filename" if data-label attribute is specified but not given a value', function() {
+			outerScope.$apply(function() {
+				outerScope.label = "";
+			}) 
 			expect(element[0].children[0].children[0].children[0].innerText).to.equal("Filename");
 		});
 
 		//Test
 		it('should have name', function() {
 			const value = "Bob";
+			element = angular.element('<form><blt-fileloader data-name="{{name}}" data-label="Filename"></blt-fileloader></form>');
 			outerScope.$apply(function() {
 				outerScope.name = value;
 			});
+			compile(element)(outerScope);
+			outerScope.$digest();
 			expect(element[0].children[0].children[0].children[1].children[0].attributes.getNamedItem("name").value).to.equal(value);
 		});
 
 		//Test
 		it('should log error if fileloader does not have a name', function() {
 			var mySpy = sinon.spy(api,'error');
-			element = angular.element('<form><blt-fileloader></blt-fileloader></form>');
+			element = angular.element('<form><blt-fileloader data-label="File"></blt-fileloader></form>');
 			compile(element)(outerScope);
 			outerScope.$digest();
 			expect(element[0].children[0].children[0].children[1].children[0].attributes.getNamedItem("name").value).to.equal("");

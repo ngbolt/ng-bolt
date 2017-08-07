@@ -48,6 +48,7 @@
    *
    * @restrict E
    *
+   * @param {string} data-model Binds the value of this form field to a property in the containing scope. Functionality is based on the Angular [ngModel](https://docs.angularjs.org/api/ng/directive/ngModel) directive.
    * @param {string} data-label This attribute specifies the label for this component.
    * @param {string} data-name This attribute indicates the name of this form element and will be used during form
    * traversal by the ngBoltJS framework.
@@ -116,6 +117,10 @@
      */
     function init() {
       // check input name
+      if ( angular.isUndefined(ctrl.label) ) {
+        api.error('missing label attribute for blt-fileloader. See: '
+          + window.location + '/blt.fileloader.bltFileloader.html');
+      }
       if ( angular.isUndefined(ctrl.name) ) {
         api.error('missing name attribute for blt-fileloader. See: '
           + window.location + '/blt.fileloader.bltFileloader.html');
@@ -195,7 +200,7 @@
      * @param {object} ctrls The file controller that is containing this directive.
      */
     function link( scope, element, attrs, ctrls ) {
-
+      
       var fileCtrl = ctrls[0];
       var ngModelCtrl = ctrls[1];
       fileCtrl.modelCtrl = ngModelCtrl;
