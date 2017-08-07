@@ -138,6 +138,22 @@
      * @param {object} attrs The raw attributes applied to our directive.
      */
     function link( scope, element, attrs, formCtrl ) {
+      // Make sure that all required attributes are defined
+      if(!scope.name) {
+        api.error('Missing name attribute for blt-datepicker. See: '
+          + window.location + '/blt.datepicker.bltDatepicker.html');
+      }
+
+      if(!scope.label) {
+        api.error('Missing label attribute for blt-datepicker. See: '
+          + window.location + '/blt.datepicker.bltDatepicker.html');
+      }
+
+      if(!attrs.model) {
+        api.error('Missing model attribute for blt-datepicker. See: '
+          + window.location + '/blt.datepicker.bltDatepicker.html');
+      }
+        
       // If the user defined a minDate binding, set the initial value of our scope minDate and set up a watcher
       // to update this value as the model binding updates.
       if ( attrs.min != undefined ) {

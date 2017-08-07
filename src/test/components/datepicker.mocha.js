@@ -28,8 +28,8 @@ describe('datepicker', function () {
     beforeEach(inject(function ($compile, $rootScope, $timeout) {
         element = angular.element('<form novalidate><blt-datepicker ' +
             'data-model="value" ' +
-            'data-name="{{name}}" ' +
-            'data-label="{{label}}" ' +
+            'data-name="datepicker" ' +
+            'data-label="Select Date" ' +
             'data-autofocus="autofocus" ' +
             'data-change="onChange()" ' +
             'data-format="{{format}}"' +
@@ -68,36 +68,63 @@ describe('datepicker', function () {
             expect(ngModel.$modelValue).to.equal(new Date(value).getTime());
         });
 
+        it('should log error when data-model is not specified', function() {
+            var mySpy = sinon.spy(api,'error');
+            element = angular.element('<form><blt-datepicker data-label="Date" data-name="Datepicker"></form></blt-datepicker>');
+            compile(element)(outerScope);
+            outerScope.$digest();
+            expect(element[0].children[0].children[0].children[1].value).to.equal('');
+            expect(sinon.assert.calledOnce(mySpy));
+            mySpy.restore();
+        }); 
+
         //Test
         it('should have a name', function () {
-            const value = "Bob"
+            const value = "Bob";
+            element = angular.element('<form><blt-datepicker data-name="{{name}}" data-label="Date" data-model="value"></blt-datepicker></form>');
             outerScope.$apply(function () {
                 outerScope.name = value;
             });
+            compile(element)(outerScope);
+            outerScope.$digest();
 
             expect(element[0].children[0].children[0].children[1].name).to.equal(value);
         });
 
         //Test
-        it('should not have a name by default', function () {
+        it('should log error when data-name is not specified', function () {
+            var mySpy = sinon.spy(api,'error');
+            element = angular.element('<form><blt-datepicker data-label="Date" data-model="value"></form></blt-datepicker>');
+            compile(element)(outerScope);
+            outerScope.$digest();
             expect(element[0].children[0].children[0].children[1].name).to.equal('');
+            expect(sinon.assert.calledOnce(mySpy));
+            mySpy.restore();
         });
 
         //Test
         it('should have a label', function () {
             const value = "Descriptive Label";
+            element = angular.element('<form><blt-datepicker data-name="Datepicker" data-label="{{label}}" data-model="value"></blt-datepicker></form>');
             outerScope.$apply(function () {
                 outerScope.label = value
             });
+            compile(element)(outerScope);
+            outerScope.$digest();
 
             expect(element[0].children[0].children[0].children[0].tagName).to.equal("LABEL");
             expect(element[0].children[0].children[0].children[0].innerText).to.equal(value);
         });
 
         //Test
-        it('should have a blank label by default', function () {
+        it('should log error when data-label is not specified', function () {
+            var mySpy = sinon.spy(api,'error');
+            element = angular.element('<form><blt-datepicker data-name="Datepicker" data-model="value"></form></blt-datepicker>');
+            compile(element)(outerScope);
+            outerScope.$digest();
             expect(element[0].children[0].children[0].children[0].tagName).to.equal("LABEL");
             expect(element[0].children[0].children[0].children[0].innerText).to.equal('');
+            mySpy.restore();
         });
 
         //Test -> This test makes no sense. While data-autofocus="true" successfully adds the autofocus attribute to a child of blt-datepicker, the autofocus attribute is added to a span. 
@@ -115,7 +142,7 @@ describe('datepicker', function () {
         });
 
         //Test
-        it('should call chnageFn on change', function () {
+        it('should call changeFn on change', function () {
             function changeFn() {
                 // Do Something
                 console.log("Change");
