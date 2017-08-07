@@ -9,6 +9,6 @@
    * @since 2.0.0
    */
 
-  angular.module('blt_view', []);
+  angular.module('blt_view', ['blt_core', 'ngRoute']);
 
 })();

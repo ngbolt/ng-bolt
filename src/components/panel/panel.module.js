@@ -7,7 +7,7 @@
    * @description ngBoltJS Panel component.
    * @since 1.0.0
    */
-  angular.module('blt_panel', [])
+  angular.module('blt_panel', ['blt_core'])
     .directive('bltPanel', bltPanel);
 
 
@@ -175,6 +175,7 @@
    *             </footer>
    *         </div>
    *     </blt-panel>
+   *     <button blt-open="menu" class="panel-btn-text">Open</button>
    *   </html>
    * </example>
    *
@@ -222,7 +223,7 @@
    * </example>
    *
    */
-  function bltPanel(api, $timeout ) {
+  function bltPanel( api, $timeout ) {
     var directive = {
       restrict: 'EA',
       scope: {
@@ -235,7 +236,7 @@
     };
 
     return directive;
-    
+
     /**
      * Compile function. Invoked by Angular. We use this function to register our pre and post link functions.
      * @returns {{pre: preLink, post: postLink}}
@@ -259,6 +260,11 @@
 
         scope.position = (scope.position) ? 'panel-' + scope.position : 'panel-right';
         scope.positionClass = scope.position;
+
+        if(!attrs.id) {
+          api.error('Missing id attribute for blt-panel. See: '
+           + window.location + '/blt.panel.bltPanel.html');
+        }
 
       }
 
@@ -303,5 +309,5 @@
     }
   }
 
-  bltPanel.$inject = ['BltApi','$timeout'];
+  bltPanel.$inject = ['BltApi', '$timeout'];
 })();
