@@ -12,6 +12,9 @@ $counter-color: isitlight($counter-bg, $font-primary-dark, $font-primary-light) 
 $counter-label-color: isitlight($counter-bg, $font-hint-dark, $font-hint-light) !default;
 /// The color for hovered or focused counter elements
 $counter-focused-color: $global-link-color !default;
+/// The font color of a textfield input error
+/// @type Color
+$counter-error-color: $alert-color !default;
 
 /// Base counter CSS properties
 @mixin counter {
@@ -99,6 +102,12 @@ $counter-focused-color: $global-link-color !default;
       ~ .counter-btn:hover {
         color: $counter-color;
       }
+    }
+
+    .counter-error {
+      @include text-field-small($color: $counter-error-color, $bottom: .5rem);
+      position: static;
+      display: block;
     }
 
     .form {
