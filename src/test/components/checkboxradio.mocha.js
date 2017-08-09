@@ -9,10 +9,24 @@ describe('checkboxradio', function() {
     var element;
     var outerScope;
     var innerScope;
+    var timeout;
 
     // Do This Before Each Test
-    beforeEach(inject(function($rootScope, $compile) {
-        element = angular.element('<blt-checkbox-radio data-name="{{name}}" data-label="{{label}}" data-model="model" data-type="{{type}}" data-value="{{value}}" data-autofocus="autofocus" data-disabled="disabled" data-required="required" data-tabindex="tabindex" data-change="changeFn"></blt-checkbox-radio>');
+    beforeEach(inject(function($rootScope, $compile, $timeout) {
+        element = angular.element(
+            '<blt-checkbox-radio ' +
+            'data-name="{{name}}" ' +
+            'data-label="{{label}}" ' +
+            'data-model="model" ' +
+            'data-type="{{type}}" ' +
+            'data-value="{{value}}" ' +
+            'data-autofocus="autofocus" ' +
+            'data-disabled="disabled" ' +
+            'data-required="required" ' +
+            'data-tabindex="tabindex" ' +
+            'data-change="changeFn">' +
+            '</blt-checkbox-radio>'
+        );
 
         outerScope = $rootScope;
         $compile(element)(outerScope);
@@ -20,6 +34,8 @@ describe('checkboxradio', function() {
         innerScope = element.isolateScope();
 
         outerScope.$digest();
+
+        timeout = $timeout;
     }));
 
     // Test Group
@@ -104,19 +120,15 @@ describe('checkboxradio', function() {
                 expect(element[0].children[0].children[0].children[0].hasAttribute('autofocus')).to.equal(false);
             });
 
-            /* 
-            data-required is still not working correctly for checkbox or radio, as it cannot be found in the DOM when set to true. 
-            It must first be fixed and those fixes must be merged into this branch before this test can be finished
-
             // Test
             it('should be required', function() {
                 outerScope.$apply(function() {
                     outerScope.required = "true";
                 });
 
-                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
             });
-            */
+            
 
             // Test
             it('should have tabindex set', function() {
@@ -275,19 +287,15 @@ describe('checkboxradio', function() {
                 expect(element[0].children[0].children[0].children[0].hasAttribute('autofocus')).to.equal(false);
             });
             
-            /* 
-            data-required is still not working correctly for checkbox or radio, as it cannot be found in the DOM when set to true. 
-            It must first be fixed and those fixes must be merged into this branch before this test can be finished
-
             // Test
             it('should be required', function() {
                 outerScope.$apply(function() {
                     outerScope.required = "true";
                 });
 
-                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
             });
-            */
+            
 
             // Test
             it('should have tabindex set', function() {
@@ -331,8 +339,7 @@ describe('checkboxradio', function() {
             });
         });
     });
-
-    
+    /* Change tests do not work yet
     // Test Group
     describe('will update after change', function() {
 
@@ -340,31 +347,561 @@ describe('checkboxradio', function() {
         describe('Checkbox type', function() {
             
             beforeEach(function() {
-                outerScope.$apply(function (){
+                outerScope.$apply(function () {
                     outerScope.type = "checkbox";
                 });
             });
 
+            // Test
             it('should change model with change function', function() {
                 outerScope.$apply(function () {
                     outerScope.changeFn = function() {
-                        console.log("A model has been set!");
+                        console.log("Toggled, model:", outerScope.model);
                     }
                     outerScope.model = 'crModel';
                 });
-                /*
-                element[0].children[0].children[0].children[0].addEventListener('keyup', function(e) {
-                    console.log(e.keyCode);
+                
+                var e = new KeyboardEvent('keyup', {
+                    which: 32
+                });
+                
+                element[0].children[0].children[0].children[0].dispatchEvent(e);
+                console.log(element[0].children[0].children[0].children[0]);
+                
+                timeout.flush();
+
+                console.log(element[0].children[0].children[0].children[1].children[0]);
+                console.log(outerScope.model);
+            }); 
+        });
+
+        // Nested Test Group
+        describe('Radio type', function() {
+            
+            beforeEach(function() {
+                outerScope.$apply(function () {
+                    outerScope.type = "radio";
+                });
+            });
+
+            // Test
+            it('should change model with change function', function() {
+                outerScope.$apply(function () {
+                    outerScope.changeFn = function() {
+                        console.log("Toggled, model:", outerScope.model);
+                    }
+                    outerScope.model = 'crModel';
+                    outerScope.value = 'crModel';
+                });
+                
+                var e = new KeyboardEvent('keyup', {
+                    keyCode: 13
+                });
+                
+                element[0].children[0].children[0].children[0].dispatchEvent(e);
+                
+                timeout.flush();
+
+                console.log(element[0].children[0].children[0].children[1].children[0]);
+                console.log(outerScope.model);
+            }); 
+        });
+    });
+    */
+    // Test Group
+    describe('will bind on create - attribute combinations', function() {
+
+        // Nested test group
+        describe('Checkbox type', function() {
+
+            beforeEach(function() {
+                outerScope.$apply(function() {
+                    // include required attributes
+                    outerScope.type = "checkbox";
+                    outerScope.label = "cLabel";
+                    outerScope.model = "cModel";
+                    outerScope.name = "cName";
+                });
+            });
+
+            // Test
+            it('should have all attributes', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
                 });
 
-                var e = new KeyboardEvent('keyup', {
-                    'keyCode' : 32,
-                    'which' : 32
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            //Test
+            it('should have autofocus, required and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
                 });
-                element[0].children[0].children[0].children[0].dispatchEvent(e);
-                console.log(element[0].children[0].children[0].children[1].children[0]);
-                */
-            }); 
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+            
+            // Test 
+            it('should have autofocus, required and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+
+            // Test
+            it('should have autofocus, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have autofocus and required', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+            });
+            
+            // Test
+            it('should have autofocus and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.tabindex = '0';
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+
+            // Test
+            it('should have autofocus and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have required, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have required and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.tabindex = '0';
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+
+            // Test
+            it('should have required and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.tabindex = '0';
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+        });
+
+        // Nested test group
+        describe('Radio type', function() {
+
+            beforeEach(function() {
+                outerScope.$apply(function() {
+                    // include required attributes
+                    outerScope.type = "radio";
+                    outerScope.label = "rLabel";
+                    outerScope.model = "rModel";
+                    outerScope.name = "rName";
+                });
+            });
+            
+            // Test
+            it('should have all attributes', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+
+            // Test
+            it('should have autofocus, required, value and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = '0';
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+            
+            // Test
+            it('should have autofocus, required, value and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+           
+            // Test
+            it('should have autofocus, required, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.tabindex = '0';
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test 
+            it('should have autofocus, value, tabindex and disabled', function() {
+                outerScope.$apply(function(){
+                    outerScope.autofocus = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have autofocus, required and value', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+            });
+            
+            // Test
+            it('should have autofocus, required and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+            
+            // Test
+            it('should have autofocus, required and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test 
+            it('should have autofocus, value and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+
+            // Test
+            it('should have autofocus, value and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.value = "rModel";
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+
+            // Test
+            it('should have autofocus, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have autofocus and required', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.required = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+            });
+            
+            // Test 
+            it('should have autofocus and value', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.value = "rModel";
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+            });
+
+            // Test
+            it('should have autofocus and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.tabindex = 0;
+                });
+                
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+
+            // Test
+            it('should have autofocus and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.autofocus = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have required, value, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test 
+            it('should have required, value and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+            
+            // Test
+            it('should have required, value and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have required, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have required and value', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.value = "rModel";
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+            });
+            
+            // Test
+            it('should have required and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.tabindex = 0;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+            
+            // Test 
+            it('should have required and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.required = true;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('required')).to.equal('required');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+            
+            // Test
+            it('should have value, tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+
+            // Test 
+            it('should have value and tabindex', function() {
+                outerScope.$apply(function() {
+                    outerScope.value = "rModel";
+                    outerScope.tabindex = 0;
+                });
+
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+            });
+
+            // Test
+            it('should have value and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.value = "rModel";
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[1].children[0].classList.value.split(' ')).to.include('fa-dot-circle-o');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            });
+
+            // Test
+            it('should have tabindex and disabled', function() {
+                outerScope.$apply(function() {
+                    outerScope.tabindex = 0;
+                    outerScope.disabled = true;
+                });
+
+                expect(element[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                expect(element[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+            })
         });
     });
 });
