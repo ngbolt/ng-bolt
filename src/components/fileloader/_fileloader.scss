@@ -38,12 +38,14 @@ $fileloader-error-color: $textfield-error-color !default;
         position: absolute;
         width: 0;
         height: 0;
-        display: none;
 
         &:focus,
         &:hover {
           ~ .fileloader-input {
             border-bottom-color: $fileloader-focused-color;
+          }
+          ~ .fileloader-icon {
+            color: $fileloader-focused-color;
           }
         }
 
@@ -78,6 +80,7 @@ $fileloader-error-color: $textfield-error-color !default;
 
     .fileloader-icon {
       @include text-field-icon($fileloader-bg, 'fileloader');
+      transition: color .5s;
     }
 
     .fileloader-error {

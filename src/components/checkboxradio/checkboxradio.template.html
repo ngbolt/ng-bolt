@@ -1,18 +1,17 @@
 <div class="checkbox-radio">
     <!-- Checkbox or Radio Button -->
     <label>
-        <!--TODO: Implement bolt directives to handle optional attributes-->
         <input name="{{$ctrl.name}}"
                type="{{$ctrl.type}}"
                class="checkbox-radio-input-hidden"
                ng-model="$ctrl.model"
-               ng-change="$ctrl.onChange()"
+               ng-change="$ctrl.onChange()"                                                             
                ng-keyup="$ctrl.toggle()"
                ng-disabled="$ctrl.disabled"
+               ng-required="$ctrl.required"
                value="{{$ctrl.value}}"
-               blt-tabindex="{{$ctrl.tabindex}}"
-               blt-required="{{$ctrl.required}}"
-               blt-autofocus="{{$ctrl.autofocus}}"/>
+               ng-attr-tabindex="{{$ctrl.tabindex}}"
+               ng-attr-autofocus="{{$ctrl.autofocus}}"/>
 
         <div class="checkbox-radio-input" ng-class="{'disabled': $ctrl.disabled}">
             <span class="checkbox-radio-icon fa"
