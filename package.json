@@ -21,7 +21,7 @@
     "docs-app": "gulp docs-watch --pr development --appRoot ./apps/docs-app",
     "demo-app": "gulp --pr development --appRoot ./apps/demo-app",
     "test": "node node_modules/karma/bin/karma start src/test/karma.conf.js",
-    "protractor": "node_modules/protractor/bin/protractor test/protractor.conf.js"
+    "protractor": "node node_modules/protractor/bin/protractor src/test/protractor.conf.js"
   },
   "dependencies": {
     "angular": "^1.5.7",
@@ -35,6 +35,7 @@
     "del": "^2.2.0",
     "dgeni": "^0.4.2",
     "dgeni-packages": "^0.16.0",
+    "elementor": "^2.1.0",
     "fastclick": "^1.0.6",
     "font-awesome": "^4.7.0",
     "get-gulp-args": "^0.0.1",
@@ -78,7 +79,8 @@
     "run-sequence": "^1.1.5",
     "streamqueue": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "webdriver-manager": "^12.0.6"
   },
   "repository": {
     "type": "git",

@@ -339,7 +339,7 @@ describe('checkboxradio', function() {
             });
         });
     });
-    /* Change tests do not work yet
+    
     // Test Group
     describe('will update after change', function() {
 
@@ -360,18 +360,18 @@ describe('checkboxradio', function() {
                     }
                     outerScope.model = 'crModel';
                 });
-                
+
+                var checkSpy = sinon.spy(outerScope, "changeFn");
+            
                 var e = new KeyboardEvent('keyup', {
-                    which: 32
+                    keyCode: 13
                 });
-                
+
                 element[0].children[0].children[0].children[0].dispatchEvent(e);
-                console.log(element[0].children[0].children[0].children[0]);
                 
                 timeout.flush();
 
-                console.log(element[0].children[0].children[0].children[1].children[0]);
-                console.log(outerScope.model);
+                expect(sinon.assert.calledOnce(checkSpy));
             }); 
         });
 
@@ -393,6 +393,8 @@ describe('checkboxradio', function() {
                     outerScope.model = 'crModel';
                     outerScope.value = 'crModel';
                 });
+
+                var radioSpy = sinon.spy(outerScope, "changeFn");
                 
                 var e = new KeyboardEvent('keyup', {
                     keyCode: 13
@@ -402,12 +404,11 @@ describe('checkboxradio', function() {
                 
                 timeout.flush();
 
-                console.log(element[0].children[0].children[0].children[1].children[0]);
-                console.log(outerScope.model);
+                expect(sinon.assert.calledOnce(radioSpy));
             }); 
         });
     });
-    */
+    
     // Test Group
     describe('will bind on create - attribute combinations', function() {
 
