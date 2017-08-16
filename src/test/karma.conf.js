@@ -34,7 +34,7 @@ module.exports = function(config) {
         ],
         autoWatch: true,
         frameworks: ['mocha', 'sinon-chai'],
-        browsers: ['Chrome'],
+        browsers: ['Chrome', 'Firefox'],
         client: {
             mocha: {
                 reporter: 'html'

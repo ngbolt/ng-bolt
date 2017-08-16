@@ -3,6 +3,8 @@ dist: trusty
 language: node_js
 node_js:
   - '6.11'
+addons:
+  firefox: "latest"
 apt:
   sources:
     - google-chrome
