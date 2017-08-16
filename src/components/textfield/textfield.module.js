@@ -269,7 +269,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    * @requires $scope
    */
-  function bltTextfieldController( api, $timeout, $scope ) {
+  function bltTextfieldController( $timeout, $scope ) {
 
     var ctrl = this;
     ctrl.$onInit = init;
@@ -281,12 +281,19 @@
      * as needed.
      */
     function init() {
-      api.debug('bltTextfieldController: initializing.');
+      console.debug('bltTextfieldController: initializing.');
 
       // Set input name
       if ( !ctrl.name ) {
-        api.error('missing name attribute for blt-text-field. See: '
+        console.error('missing name attribute for blt-text-field. See: '
           + window.location + '/blt.textfield.bltTextfield.html');
+        return;
+      }
+
+      // Set input label
+      if ( !ctrl.label ) {
+        console.error('missing label attribute for blt-text-field. See: '
+            + window.location + '/blt.textfield.bltTextfield.html');
         return;
       }
 
@@ -306,7 +313,7 @@
 
       // Warn about incorrect usage of rows attribute.
       if ( angular.isDefined(ctrl.rows) && ctrl.type !== 'textarea' ) {
-        api.warn("Attribute data-rows should be used in conjunction with type 'textarea', type is currently "
+        console.warn("Attribute data-rows should be used in conjunction with type 'textarea', type is currently "
           + (ctrl.type ? "set to '" + ctrl.type + "'" : "undefined") + ". blt-text-field [name="
           + ctrl.name + "]. See: " + window.location + "/blt.textfield.bltTextfield.html");
       }
@@ -317,11 +324,11 @@
         min = parseInt(ctrl.minlength, 10);
         if ( !(isFinite(min) && min >= 0) ) {
           if ( isFinite(min) ) {
-            api.error('attribute data-minlength must be a non-negative integer, is ' + min +
+            console.error('attribute data-minlength must be a non-negative integer, is ' + min +
               ' instead. See: ' + window.location + '/blt.textfield.bltTextfield.html');
             return;
           } else {
-            api.error("attribute data-minlength must be a non-negative integer, is '" +
+            console.error("attribute data-minlength must be a non-negative integer, is '" +
               ctrl.minlength + "' instead. See: " + window.location + "/blt.textfield.bltTextfield.html");
             return;
           }
@@ -334,15 +341,15 @@
         if ( !(isFinite(max) && max >= min) ) {
           if ( isFinite(max) ) {
             if ( max < 0 ) {
-              api.warn('attribute data-maxlength must be a non-negative integer, is ' + max
+              console.warn('attribute data-maxlength must be a non-negative integer, is ' + max
                 + ' instead. See: ' + window.location + '/blt.textfield.bltTextfield.html');
             } else if ( max < min ) {
-              api.warn('attribute data-maxlength cannot be less than data-minlength, data-minlength is '
+              console.warn('attribute data-maxlength cannot be less than data-minlength, data-minlength is '
                 + min + ' data-maxlength is ' + max + '. See: '
                 + window.location + '/blt.textfield.bltTextfield.html');
             }
           } else {
-            api.warn("attribute data-maxlength must be a non-negative integer, is '" + ctrl.maxlength + "' instead. See: "
+            console.warn("attribute data-maxlength must be a non-negative integer, is '" + ctrl.maxlength + "' instead. See: "
               + window.location + "/blt.textfield.bltTextfield.html");
           }
         }
@@ -351,14 +358,14 @@
       //warn about trying to use step with incorrect type
       if ( angular.isDefined(ctrl.step) ) {
         if ( ctrl.type !== 'number' ) {
-          api.warn("attribute data-step can only be used when data-type is a number, data-type is '" + ctrl.type +
+          console.warn("attribute data-step can only be used when data-type is a number, data-type is '" + ctrl.type +
             "' instead. See: " + window.location + "/blt.textfield.bltTextfield.html");
         }
         var step = parseInt(ctrl.step, 10);
         if ( !(isFinite(step) && step >= 0) ) {
           if ( isFinite(step) ) {
             if ( step < 0 ) {
-              api.warn('attribute data-step must be a non-negative integer, is ' + step
+              console.warn('attribute data-step must be a non-negative integer, is ' + step
                 + ' instead. See: ' + window.location + '/blt.textfield.bltTextfield.html');
             }
           }
@@ -367,13 +374,13 @@
 
       //warn about trying to use min with incorrect type
       if ( angular.isDefined(ctrl.min) && ctrl.type !== 'number' ) {
-        api.warn("attribute data-min can only be used when data-type is a number, data-type is '" + ctrl.type +
+        console.warn("attribute data-min can only be used when data-type is a number, data-type is '" + ctrl.type +
           "' instead. See: " + window.location + "/blt.textfield.bltTextfield.html");
       }
 
       //warn about trying to use max with incorrect type
       if ( angular.isDefined(ctrl.max) && ctrl.type !== 'number' ) {
-        api.warn("attribute data-max can only be used when data-type is a number, data-type is '" + ctrl.type +
+        console.warn("attribute data-max can only be used when data-type is a number, data-type is '" + ctrl.type +
           "' instead. See: " + window.location + "/blt.textfield.bltTextfield.html");
       }
 
@@ -384,7 +391,7 @@
         if ( angular.isDefined(ctrl.min) ) {
           min = parseFloat(ctrl.min);
           if ( !isFinite(min) ) {
-            api.warn("attribute data-min must be a number, is '" + ctrl.min + "' instead. See: "
+            console.warn("attribute data-min must be a number, is '" + ctrl.min + "' instead. See: "
               + window.location + "/blt.textfield.bltTextfield.html");
           }
         }
@@ -393,12 +400,12 @@
           var max = parseFloat(ctrl.max);
           if ( isFinite(max) ) {
             if ( isFinite(min) && max < min ) {
-              api.warn("attribute data-max must be a greater than data-min, data-min is " + min
+              console.warn("attribute data-max must be a greater than data-min, data-min is " + min
                 + " data-max is " + max + ". Ignoring data-max. See: " + window.location +
                 "/blt.textfield.bltTextfield.html");
             }
           } else {
-            api.warn("attribute data-max must be a number, is '" + ctrl.max + "' instead. See: " + window.location +
+            console.warn("attribute data-max must be a number, is '" + ctrl.max + "' instead. See: " + window.location +
               "/blt.textfield.bltTextfield.html");
           }
         }
@@ -428,5 +435,5 @@
     };
   }
 
-  bltTextfieldController.$inject = ['BltApi', '$timeout', '$scope'];
+  bltTextfieldController.$inject = ['$timeout', '$scope'];
 })();
