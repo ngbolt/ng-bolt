@@ -161,7 +161,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    * @requires $scope
    */
-  function bltDropdownController($timeout, $scope ) {
+  function bltDropdownController(api, $timeout, $scope ) {
 
     var ctrl = this;
     var types = ['select', 'dropdown', 'searchable'];
@@ -178,13 +178,6 @@
     ctrl.searchablePlaceholder = searchablePlaceholder;
     ctrl.isSelected = isSelected;
     ctrl.untouched = untouched;
-    
-    function uuid() {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function( c ) {
-        var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-      });
-    }
 
     /**
      * @private
@@ -194,16 +187,16 @@
     function init() {
 
       if ( !ctrl.type ) {
-        console.error('missing type attribute for blt-dropdown. See: '
+        api.error('missing type attribute for blt-dropdown. See: '
           + window.location + '/blt.dropdown.bltDropdown.html');
       } else if ( types.indexOf(ctrl.type) === -1 ) {
-        console.error("Unexpected value '" + ctrl.type + "' for blt-dropdown type attribute, expected 'select', " +
+        api.error("Unexpected value '" + ctrl.type + "' for blt-dropdown type attribute, expected 'select', " +
           "'dropdown', or 'searchable'. See: " + window.location + "/blt.dropdown.bltDropdown.html");
       }
 
       // Set input name
       if ( angular.isUndefined(ctrl.name) ) {
-        console.error('missing name attribute for blt-dropdown. See: ' + window.location +
+        api.error('missing name attribute for blt-dropdown. See: ' + window.location +
           '/blt.dropdown.bltDropdown.html');
       }
 
@@ -493,7 +486,7 @@
 
       for ( var attr in ctrl.options ) {
         var keyedOption = {
-          key: uuid(),
+          key: api.uuid(),
           value: isArray ? ctrl.options[attr] : attr,
           label: ctrl.options[attr]
         }
@@ -727,5 +720,5 @@
     };
   }
 
-  bltDropdownController.$inject = ['$timeout', '$scope'];
+  bltDropdownController.$inject = ['BltApi', '$timeout', '$scope'];
 })();
