@@ -499,14 +499,18 @@
      */
     function compile( tElem, tAttrs ) {
       var type = 'modal';
-
-      if ( tAttrs.flip ) {
+      if ( tAttrs.flip == "true"  ) {
         if ( tAttrs.size == 'full-screen' ) {
           api.error('You can not use the flip animation on full-screen modals.');
         } else {
           tElem.addClass('modal-flip');
         }
       }
+
+      if(angular.isUndefined(tAttrs.id)) {
+        api.error('missing id attribute for blt-modal. See: '
+          + window.location + '/blt.modal.bltModal.html');
+      };
 
       return {
         pre: preLink,
