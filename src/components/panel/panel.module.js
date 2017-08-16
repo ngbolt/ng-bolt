@@ -175,6 +175,7 @@
    *             </footer>
    *         </div>
    *     </blt-panel>
+   *     <button blt-open="menu" class="panel-btn-text">Open</button>
    *   </html>
    * </example>
    *
@@ -257,8 +258,13 @@
       function preLink( scope, element, attrs ) {
         attrs.$set('blt-closable', type);
 
-        scope.position = 'panel-' + scope.position || 'panel-right';
+        scope.position = (scope.position) ? 'panel-' + scope.position : 'panel-right';
         scope.positionClass = scope.position;
+
+        if(!attrs.id) {
+          api.error('Missing id attribute for blt-panel. See: '
+           + window.location + '/blt.panel.bltPanel.html');
+        }
 
       }
 
