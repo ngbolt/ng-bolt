@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: node_js
 node_js:
-  - '3.10'
+  - '6.11'
 apt:
   sources:
     - google-chrome
