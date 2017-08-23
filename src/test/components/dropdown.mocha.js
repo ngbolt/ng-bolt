@@ -67,10 +67,9 @@ describe('dropdown', function() {
 
             // Test
             it('should have a type', function() {
-                outerScope.$apply(function() {});
-                
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].className).to.include('dropdown dropdown-dropdown');
+                var dropDiv = element[0].children[0].children[0].children[0].children[0]
+
+                expect(dropDiv.className).to.include('dropdown dropdown-dropdown');
             });
 
             // Test
@@ -79,14 +78,16 @@ describe('dropdown', function() {
                     outerScope.name = "ddName";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('name')).to.equal('ddName');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('name')).to.equal('ddName');
             });
             
             // Test
             it('should not have a name', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('name')).to.equal('');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('name')).to.equal('');
             });
 
             // Test
@@ -95,15 +96,17 @@ describe('dropdown', function() {
                     outerScope.label = "ddlabel"; 
                 });
 
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
                 //Button html includes the label, white space, and following span tag, so we must ensure that the label is included 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].innerHTML.includes('ddlabel')).to.equal(true);
+                expect(dropButton.innerHTML.includes('ddlabel')).to.equal(true);
             });
             
             // Test
             it('should not have a label', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].innerHTML.trim()).to.equal('<span class="dropdown-icon fa fa-caret-down"></span>')
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.innerHTML.trim()).to.equal('<span class="dropdown-icon fa fa-caret-down"></span>')
             });
 
             // Test
@@ -112,10 +115,11 @@ describe('dropdown', function() {
                     outerScope.value = "dropdown 1";
                     outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
                 });
+
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
                 
                 // Since model value is set, the button html will contain its value (according to line 11 in dropdown.template.html)
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].innerHTML).to.include('dropdown 1');
+                expect(dropButton.innerHTML).to.include('dropdown 1');
             }); 
 
             // Test 
@@ -125,9 +129,10 @@ describe('dropdown', function() {
                     outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
                 });
 
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
                 //In contrast with the previous test, since there is no model defined then the button includes the given label name
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].innerHTML.includes('ddLabel')).to.equal(true);
+                expect(dropButton.innerHTML.includes('ddLabel')).to.equal(true);
             });
 
             // Test
@@ -145,9 +150,12 @@ describe('dropdown', function() {
                     // Have to get rid of ↵ and extra white space added to individual options during creation of the list
                     optArray.push(String(toList.children[i].children[0].innerHTML).replace(/[\n\r]/g, '').trimRight());
                 }
+
+                var strArray = optArray.toString();
+                var origStrArr = outerScope.options.toString();
                 
                 // Convert arrays to strings in order to compare them
-                expect(optArray.toString()).to.equal(outerScope.options.toString());
+                expect(strArray).to.equal(origStrArr);
             });
 
             // Test
@@ -176,8 +184,11 @@ describe('dropdown', function() {
                     optArray.push(String(toList.children[j].children[0].innerHTML).trimRight());
                 }
 
+                var strArray = optArray.toString();
+                var mapStrArr = mapToArray.toString();
+
                 //Convert arrays to string in order to compare them
-                expect(optArray.toString()).to.equal(mapToArray.toString());
+                expect(strArray).to.equal(mapStrArr);
             });
             
             // Test
@@ -185,8 +196,10 @@ describe('dropdown', function() {
                 outerScope.$apply(function() {
                     outerScope.autofocus = true;
                 });
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
+
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('autofocus')).to.equal('true');
             });
             
             // Test
@@ -195,14 +208,16 @@ describe('dropdown', function() {
                     outerScope.autofocus = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('false');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('autofocus')).to.equal('false');
             });  
                 
             // Test 
             it('should not have autofocus on page load (attribute not included)', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].hasAttribute('autofocus')).to.equal(false);
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.hasAttribute('autofocus')).to.equal(false);
             });
                 
             // Test
@@ -211,8 +226,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -221,8 +237,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = -1;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('-1');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('tabindex')).to.equal('-1');
             });
 
             // Test
@@ -231,8 +248,9 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -241,14 +259,16 @@ describe('dropdown', function() {
                     outerScope.disabled = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].hasAttribute('disabled')).to.equal(false);
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.hasAttribute('disabled')).to.equal(false);
             });
 
             // Test
             it('should not be disabled (attribute not included)', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].hasAttribute('disabled')).to.equal(false);
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.hasAttribute('disabled')).to.equal(false);
             });
         });
 
@@ -263,11 +283,9 @@ describe('dropdown', function() {
 
             // Test
             it('should have a type', function() {
-                outerScope.$apply(function() {
-                });
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].tagName).to.equal('SELECT');
+                expect(dropSelect.tagName).to.equal('SELECT');
             });
 
             // Test
@@ -276,14 +294,16 @@ describe('dropdown', function() {
                     outerScope.name = "ddName";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('name')).to.equal('ddName');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('name')).to.equal('ddName');
             });
 
             // Test
             it('should not have a name', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('name')).to.equal('');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                
+                expect(dropSelect.getAttribute('name')).to.equal('');
             });
 
             // Test
@@ -292,14 +312,16 @@ describe('dropdown', function() {
                     outerScope.label = "ddlabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddlabel');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddlabel');
             });
 
             // Test
             it('should not have a label', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('');
             });
             
             // Test
@@ -309,8 +331,9 @@ describe('dropdown', function() {
                     outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].children[1].getAttribute('selected')).to.equal('selected');
+                var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
+
+                expect(dropOption.getAttribute('selected')).to.equal('selected');
             });
 
             // Test
@@ -319,8 +342,9 @@ describe('dropdown', function() {
                     outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].children[1].hasAttribute('selected')).to.equal(false);
+                var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
+
+                expect(dropOption.hasAttribute('selected')).to.equal(false);
             });
 
             // Test
@@ -339,8 +363,11 @@ describe('dropdown', function() {
                     optArray.push(String(toList.children[i].innerHTML));
                 }
 
-                // Convert to arrays to strings in order to compare them
-                expect(optArray.toString()).to.equal(outerScope.options.toString()); 
+                var strArray = optArray.toString();
+                var origStrArr = outerScope.options.toString();
+
+                // Convert the arrays to strings in order to compare them
+                expect(strArray).to.equal(origStrArr); 
             });
             
             // Test
@@ -368,9 +395,12 @@ describe('dropdown', function() {
                     // Have to get rid of extra white space added to individual options during creation of the list
                     optArray.push(String(toList.children[j].innerHTML));
                 }
+
+                var strArray = optArray.toString();
+                var mapStrArr =mapToArray.toString();
                 
                 //Convert arrays to string in order to compare them
-                expect(optArray.toString()).to.equal(mapToArray.toString());
+                expect(strArray).to.equal(mapStrArr);
             });
             
             // Test
@@ -379,8 +409,9 @@ describe('dropdown', function() {
                     outerScope.autofocus = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
             });
             
             // Test
@@ -389,14 +420,16 @@ describe('dropdown', function() {
                     outerScope.autofocus = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('false');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('false');
             });
 
             // Test
             it('should not have autofocus on pageload (attribute not included)', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('autofocus')).to.equal(false);
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.hasAttribute('autofocus')).to.equal(false);
             });
 
             // Test
@@ -406,8 +439,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel*');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel*');
             });
             
             // Test
@@ -417,8 +451,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel');
             });
 
             // Test
@@ -427,8 +462,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel');
             });
             
             // Test
@@ -437,8 +473,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
             });
 
             //Test
@@ -447,8 +484,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = -1;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('-1');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('tabindex')).to.equal('-1');
             });
 
             //Test
@@ -456,9 +494,10 @@ describe('dropdown', function() {
                 outerScope.$apply(function() {
                     outerScope.disabled = true;
                 });
+                
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             //Test
@@ -467,14 +506,16 @@ describe('dropdown', function() {
                     outerScope.disabled = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('disabled')).to.equal(false);
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.hasAttribute('disabled')).to.equal(false);
             });
 
             //Test
             it('should not be disabled (attribute not included)', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('disabled')).to.equal(false);
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.hasAttribute('disabled')).to.equal(false);
             });
         });
 
@@ -489,11 +530,9 @@ describe('dropdown', function() {
                         
             // Test
             it('should have a type', function() {
-                outerScope.$apply(function() {
-                });
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].tagName).to.equal('INPUT');
+                expect(dropInput.tagName).to.equal('INPUT');
             });
 
             // Test
@@ -502,14 +541,16 @@ describe('dropdown', function() {
                     outerScope.name = "ddName";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('name')).to.equal('ddName');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('name')).to.equal('ddName');
             });
 
             // Test
             it('should not have a name', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('name')).to.equal('');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('name')).to.equal('');
             });
 
             // Test
@@ -518,15 +559,17 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel');
             });
 
             // Test
             it('should not have a label', function() {
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('');
-            })
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('');
+            });
 
             // Test 
             it('should have a model value set', function() {
@@ -536,10 +579,11 @@ describe('dropdown', function() {
                     outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
                 });
 
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
                 // With searchable, the placeholder in the input is set to the label if there is a label set and not a model value
                 // So with this test, it suffices to set a label and model value and verify that the DOM has no placeholder value (in this case, an empty string)
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('placeholder')).to.equal('');
+                expect(dropInput.getAttribute('placeholder')).to.equal('');
             });
 
             // Test
@@ -549,8 +593,9 @@ describe('dropdown', function() {
                     outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('placeholder')).to.equal('ddLabel');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('placeholder')).to.equal('ddLabel');
             });
 
             // Test
@@ -569,8 +614,11 @@ describe('dropdown', function() {
                     optArray.push(String(toList.children[i].children[0].innerHTML).trim());
                 }
 
+                var strArray = optArray.toString();
+                var origStrArr = outerScope.options.toString();
+
                 // Convert to arrays to strings in order to compare them
-                expect(optArray.toString()).to.equal(outerScope.options.toString()); 
+                expect(strArray).to.equal(origStrArr); 
             });
             
             // Test
@@ -598,9 +646,12 @@ describe('dropdown', function() {
                     // Have to get rid of extra white space added to individual options during creation of the list
                     optArray.push(String(toList.children[j].children[0].innerHTML).trim());
                 }
+
+                var strArray = optArray.toString();
+                var mapStrArr = mapToArray.toString();
                 
                 // Convert arrays to string in order to compare them
-                expect(optArray.toString()).to.equal(mapToArray.toString());
+                expect(strArray).to.equal(mapStrArr);
             });
             
             // Test
@@ -609,8 +660,9 @@ describe('dropdown', function() {
                     outerScope.autofocus = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
             });   
                 
             // Test
@@ -619,12 +671,15 @@ describe('dropdown', function() {
                     outerScope.autofocus = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('false');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('false');
             });
 
             // Test
             it('should not have autofocus on pageload (attribute not included)', function() {
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
                 expect(element[0].children[0]
                     .children[0].children[0].children[0].children[0].children[1].hasAttribute('autofocus')).to.equal(false);
             });
@@ -636,8 +691,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel*');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel*');
             });
 
             // Test
@@ -646,6 +702,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                     outerScope.required = false;
                 });
+
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                
                 expect(element[0].children[0]
                     .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
             });
@@ -655,8 +714,9 @@ describe('dropdown', function() {
                     outerScope.label = "ddLabel";
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
+                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropLabel.innerHTML).to.equal('ddLabel');
             });
  
             // Test
@@ -665,8 +725,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -675,8 +736,9 @@ describe('dropdown', function() {
                     outerScope.tabindex = -1;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('-1');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('tabindex')).to.equal('-1');
             });
 
             // Test
@@ -685,8 +747,9 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -695,12 +758,15 @@ describe('dropdown', function() {
                     outerScope.disabled = false;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('disabled')).to.equal(false);
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.hasAttribute('disabled')).to.equal(false);
             });
 
             // Test 
             it('should not be disabled (attribute not included)', function() {
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
                 expect(element[0].children[0]
                     .children[0].children[0].children[0].children[0].children[1].hasAttribute('disabled')).to.equal(false);
             });
@@ -731,9 +797,11 @@ describe('dropdown', function() {
                 
                 // Create a spy for the change function
                 var dropdownSpy = sinon.spy(outerScope, "changeFn");
+                
+                var drop2 = element[0].children[0].children[0].children[0].children[0].children[1].children[1].children[0];
 
                 // Simulate a mouse click on the 'dropdown2' option so that the change function is called
-                element[0].children[0].children[0].children[0].children[0].children[1].children[1].children[0].click();
+                drop2.click();
 
                 // Need to flush all of the pending tasks, including the change function's call
                 timeout.flush();
@@ -763,10 +831,12 @@ describe('dropdown', function() {
 
                 // Create a spy for the change function
                 var selectSpy = sinon.spy(outerScope, "changeFn");
-                
-                element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[2].click();
 
-                console.log("Model:", outerScope.value);
+                var drop2 = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                
+                // Click simulation doesn't work for this type of dropdown, must use selectedIndex and trigger change manually
+                drop2.selectedIndex = 2;
+                drop2.dispatchEvent(new Event('change'));
 
                 // Need to flush all of the pending tasks, including the change function's call
                 timeout.flush();
@@ -799,8 +869,10 @@ describe('dropdown', function() {
                 // Create a mouseup event to be used on an option in the dropdown
                 var e = new MouseEvent('mouseup');
 
+                var drop2 = element[0].children[0].children[0].children[0].children[0].children[1].children[2].children[0];
+
                 // Simulate the mouseup event on the "dropdown2" option
-                element[0].children[0].children[0].children[0].children[0].children[1].children[2].children[0].dispatchEvent(e);
+                drop2.dispatchEvent(e);
 
                 // Need to flush all of the pending tasks, including the change function's call
                 timeout.flush();
@@ -837,12 +909,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('autofocus')).to.equal('true');
+                expect(dropButton.getAttribute('tabindex')).to.equal('0');
+                expect(dropButton.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -852,10 +923,10 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('autofocus')).to.equal('true');
+                expect(dropButton.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -865,10 +936,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('autofocus')).to.equal('true');
+                expect(dropButton.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -878,10 +949,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].getAttribute('disabled')).to.equal('disabled');
+                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                expect(dropButton.getAttribute('tabindex')).to.equal('0');
+                expect(dropButton.getAttribute('disabled')).to.equal('disabled');
             });
         });
 
@@ -908,14 +979,12 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true'); 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required'); 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true'); 
+                expect(dropSelect.getAttribute('required')).to.equal('required'); 
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
             
             // Test
@@ -924,14 +993,13 @@ describe('dropdown', function() {
                     outerScope.autofocus = true;
                     outerScope.required = true;
                     outerScope.tabindex = 0;
-                })
+                });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true'); 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true'); 
+                expect(dropSelect.getAttribute('required')).to.equal('required');
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -942,12 +1010,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -958,12 +1025,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                expect(dropSelect.getAttribute('required')).to.equal('required');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -973,10 +1039,10 @@ describe('dropdown', function() {
                     outerScope.required = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                expect(dropSelect.getAttribute('required')).to.equal('required');
             });
 
             // Test
@@ -986,10 +1052,10 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -999,10 +1065,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1013,12 +1079,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('required')).to.equal('required');
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1028,10 +1093,10 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('required')).to.equal('required');
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -1041,10 +1106,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('required')).to.equal('required');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1054,10 +1119,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
         });
 
@@ -1084,15 +1149,13 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0'); 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
-            })
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0'); 
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+            });
 
             // Test
             it('should have autofocus, required and tabindex', function() {
@@ -1102,12 +1165,11 @@ describe('dropdown', function() {
                     outerScope.tabindex = '0';
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test 
@@ -1118,12 +1180,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1134,12 +1195,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1149,10 +1209,10 @@ describe('dropdown', function() {
                     outerScope.required = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('required')).to.equal('required');
             });
 
             // Test
@@ -1162,10 +1222,10 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -1175,10 +1235,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('autofocus')).to.equal('true');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1189,12 +1249,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             // Test
@@ -1204,10 +1263,10 @@ describe('dropdown', function() {
                     outerScope.tabindex = 0;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
             });
 
             // Test
@@ -1217,10 +1276,10 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('required')).to.equal('required');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('required')).to.equal('required');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
 
             //Test
@@ -1230,11 +1289,11 @@ describe('dropdown', function() {
                     outerScope.disabled = true;
                 });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('tabindex')).to.equal('0');
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].getAttribute('disabled')).to.equal('disabled');
-            })
+                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+            });
         });
     });
 });
