@@ -535,13 +535,13 @@
     function onChange() {
       if ( !(isFinite(ctrl.model) || isNaN(ctrl.model)) || ctrl.model === null || ctrl.model == undefined ) {
         var viewValue = ctrl.form[ctrl.name].$viewValue;
-        if ( isFinite(viewValue) ) {
+        if ( isFinite(viewValue) && viewValue) {
           if ( isFinite(ctrl.max) && viewValue > ctrl.max ) {
             ctrl.model = ctrl.max;
           } else if ( isFinite(ctrl.min) && viewValue < ctrl.min ) {
             ctrl.model = ctrl.min;
           } else {
-            ctrl.model = defaultVal;
+           ctrl.model = parseInt(viewValue);
           }
         } else {
           ctrl.model = defaultVal;

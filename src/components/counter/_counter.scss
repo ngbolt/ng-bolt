@@ -110,6 +110,10 @@ $counter-error-color: $alert-color !default;
       display: block;
     }
 
+    .counter-input.ng-invalid.ng-touched {
+      margin: 0;
+    }
+
     .form {
       .counter {
         background-color: $counter-bg;
