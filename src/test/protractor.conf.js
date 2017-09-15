@@ -1,8 +1,9 @@
 //jshint strict: false
 exports.config = {
-    allScriptsTimeout: 11000,
+    allScriptsTimeout: 5000000,
     specs: [
-        '*.js'
+        '*.js',
+        'components/textfieldTODO.mocha.js'
     ],
     capabilities: {
         'browserName': 'chrome'
@@ -10,6 +11,6 @@ exports.config = {
     baseUrl: 'http://localhost:8000/',
     framework: 'mocha',
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 30000
-    }
+        defaultTimeoutInterval: 300000000
+    },
 };

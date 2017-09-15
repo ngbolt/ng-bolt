@@ -1,6 +1,3 @@
-/**
- * Created by sms97 on 8/3/2017.
- */
 'use strict';
 describe('Textfield', function() {
 

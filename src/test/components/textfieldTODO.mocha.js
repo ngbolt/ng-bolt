@@ -1,5 +1,5 @@
 'use strict';
-describe.only('Textfield still needs testing', function() {
+describe('Textfield still needs testing', function() {
 
     beforeEach(function() {
         angular.module('blt_config', []);
@@ -8,7 +8,7 @@ describe.only('Textfield still needs testing', function() {
         angular.module('blt_appViews', []);
     });
 
-    beforeEach(module('blt_core', function($provide){
+    beforeEach(module('blt_core', function($provide) {
         $provide.value('config', { defaultLogLevel: "error", debug: true });
     }));
 
@@ -54,26 +54,37 @@ describe.only('Textfield still needs testing', function() {
         }));
 
 
-        it('label text actually shows up in input', function() {
-            expect(element[0].children[0].children[0].children[0].innerHTML).to.equal('I am the label');
+        it.only('inputted text actually shows up in field - STUB', function() {
+            //var ptor = protractor.getInstance();
+            //ptor.get('http://localhost:8000');
+            //browser.get('http://localhost:9000/form-controls');
+            //expect(browser.getTitle()).toEqual('ngBoltJS');
         });
 
-        it('autofocus will select textfield on pageload - STUB ', function() {
+
+        it('label text actually shows up in field - STUB', function() {
+
+            //expect(element[0].children[0].children[0].children[0].innerHTML).to.equal('I am the label');
+        });
+
+
+        //it('autofocus will select textfield on pageload - STUB ', function() {
+        //    console.log(element);
             // I'm not sure how to test this
             /*console.log(element);
             tOut.flush();
             console.log(element);
             expect(element[0].focus).to.be.called();*/
-        });
+        //});
 
-        it('disabled won\'t allow text to be added to input - STUB', function() {
+        //it('disabled won\'t allow text to be added to input - STUB', function() {
             // not sure how to test this - can't set innerHTML even when not disabled
             /*outerScope.$apply(function() {
                 element[0].children[0].children[0].children[1].innerHTML = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
             });
             console.log(element);
             expect(element[0].children[0].children[0].children[1].innerText).to.equal("");*/
-        });
+        //});
 
         it('test validate & pattern - STUB', function() {
 
@@ -90,7 +101,6 @@ describe.only('Textfield still needs testing', function() {
         it('test step decrement - STUB', function() {
 
         });
-
     });
 
 });

@@ -51,6 +51,7 @@ describe('Textfield api.error and api.warn messages', function() {
 			}));
 
 			it('api error should have been called', function() {
+				console.log(element);
 				expect(api.error).to.be.calledWithExactly('missing label attribute for blt-text-field. See: '
 					+ window.location + '/blt.textfield.bltTextfield.html');
 			});
