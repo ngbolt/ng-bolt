@@ -18,7 +18,8 @@
                ng-attr-min="{{$ctrl.min}}"
                ng-attr-autofocus="{{$ctrl.autofocus}}"
                ng-attr-tabindex="{{$ctrl.tabindex}}"
-               ng-required="$ctrl.required">
+               ng-required="$ctrl.required"
+               blt-validate="$ctrl.validate">
 
         <!-- If NaN, just show a dash. -->
         <span class="counter-input counter-input-empty"
@@ -43,4 +44,9 @@
               ng-mouseleave="$ctrl.mouseLeave($event)">
       </span>
     </div>
+
+    <!-- Form Field Error Messages -->
+    <p class="counter-error" ng-show="$ctrl.form[$ctrl.name].$viewValue && $ctrl.form[$ctrl.name].$error[$ctrl.validate.name]">
+        <span >{{$ctrl.errorMsg}}</span>
+    </p>
 </div>
