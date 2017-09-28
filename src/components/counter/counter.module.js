@@ -35,6 +35,7 @@
    *         ctrl.counter1 = 4;
    *         ctrl.counter2;
    *         ctrl.counter3;
+   *         ctrl.counter5 = 99;
    *       });
    *   </javascript>
    *   <html>
@@ -54,6 +55,11 @@
    *                    data-left-icon="fa-minus"
    *                    data-right-icon="fa-plus"
    *                    data-model="ctrl.counter3">
+   *         </blt-counter>
+   *         <blt-counter data-name="myFifthCounter"
+   *                    data-label="Counter with Size 2"
+   *                    data-model="ctrl.counter5"
+   *                    data-size="2">
    *         </blt-counter>
    *       </form>
    *     </div>
@@ -132,6 +138,7 @@
     var lastAdjustedModel = undefined;
     var defaultVal = 0;
     var adjustableSize = true;
+    var fixedWidthSet = false;
     var tInputElem = undefined;
 
     ctrl.$onInit = init;
@@ -231,10 +238,19 @@
           ctrl.max = undefined;
         }
       });
-
-      if ( angular.isDefined(ctrl.size) ) {
-        if ( isFinite(ctrl.size) ) {
-          adjustableSize = false;
+    
+      if (angular.isDefined(ctrl.size) ) {
+        if (isNaN(ctrl.size)) {
+          api.error("data-size attribute must contain an integer value; data-size attribute will be ignored.");
+          adjustableSize = true;
+        }
+        if (isFinite(ctrl.size)) {
+          if (ctrl.size > 20 || ctrl.size < 1) {
+            api.error("data-size attribute must a value between 1 and 20; data-size attribute will be ignored");
+            adjustableSize = true;
+          } else {
+            adjustableSize = false;
+          }
         }
       }
 
@@ -398,7 +414,14 @@
             tInputElem.css({
               'width': getTextWidth(ctrl.model.toString(), css(tInputElem[0], 'font-family'),
                 css(tInputElem[0], 'font-size')) + 'px'
-            })
+            });
+          } else  if(!fixedWidthSet) {
+            var fixedWidth = getTextWidth(ctrl.model.toString()[0], css(tInputElem[0], 'font-family'), css(tInputElem[0], 'font-size'))*ctrl.size;
+            var whiteSpaceWidth = fixedWidth/8;
+            tInputElem.css({
+              'width':  fixedWidth-whiteSpaceWidth + 'px'
+            });
+            fixedWidthSet = true;
           }
           ctrl.NaN = isNaN(ctrl.model);
         }
