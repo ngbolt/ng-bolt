@@ -47,6 +47,7 @@ var buildTasks = [
   'copy',
   'libs-css',
   'libs-fonts',
+  'libs-pre-js',
   'libs-js',
   'sass',
   'javascript'
