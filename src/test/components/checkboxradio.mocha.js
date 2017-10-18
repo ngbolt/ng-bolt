@@ -446,7 +446,9 @@ describe('checkboxradio', function() {
                     outerScope.changeFn = function() {
                         console.log("Toggled, model:", outerScope.model);
                     }
-                    outerScope.model = 'crModel';
+
+                    // Don't need value attribute for checkbox
+                    outerScope.value = null;
                 });
 
                 var checkSpy = sinon.spy(outerScope, "changeFn");
@@ -457,11 +459,15 @@ describe('checkboxradio', function() {
 
                 var cInput = element[0].children[0].children[0].children[0];
 
-                //checkInput.dispatchEvent(e);
-                cInput.checked = "false";
-                cInput.dispatchEvent(new Event('change'));
+                //cInput.dispatchEvent(e);
+                //cInput.dispatchEvent(new Event('change'));
+
+                var inpEl = angular.element(cInput);
+                inpEl.attr('checked', true).triggerHandler('change');
                 
                 timeout.flush();
+
+                console.log(element[0]);
 
                 expect(sinon.assert.calledOnce(checkSpy));
             }); 
@@ -494,7 +500,7 @@ describe('checkboxradio', function() {
                 });
                 
                 rInput.dispatchEvent(e);
-                
+
                 timeout.flush();
 
                 expect(sinon.assert.calledOnce(radioSpy));
