@@ -28,6 +28,7 @@ describe('dropdown', function() {
 
     // Do This Before Each Test
     beforeEach(inject(function($rootScope, $compile, $timeout) {
+        
         element = angular.element(
             '<form><blt-dropdown ' +
             'data-name="{{name}}" ' +
@@ -56,7 +57,7 @@ describe('dropdown', function() {
     // Test Group
     describe('will bind on create', function() {
 
-        //Nested Test Group - Dropdown
+        // Nested Test Group - Dropdown
         describe('type dropdown', function() {
 
             beforeEach(function() {
@@ -65,214 +66,229 @@ describe('dropdown', function() {
                 });
             });
 
-            // Test
-            it('should have a type', function() {
-                var dropDiv = element[0].children[0].children[0].children[0].children[0]
+            // Nested Test Group - Required Attributes
+            describe('required attributes', function() {
 
-                expect(dropDiv.className).to.include('dropdown dropdown-dropdown');
-            });
+                // Test
+                it('should have a type', function () {
+                    var dropDiv = element[0].children[0].children[0].children[0].children[0]
 
-            // Test
-            it('should have a name', function() {
-                outerScope.$apply(function() {
-                    outerScope.name = "ddName";
+                    expect(dropDiv.className).to.include('dropdown dropdown-dropdown');
                 });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should have a name', function () {
+                    outerScope.$apply(function () {
+                        outerScope.name = "ddName";
+                    });
 
-                expect(dropButton.getAttribute('name')).to.equal('ddName');
-            });
-            
-            // Test
-            it('should not have a name', function() {
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
 
-                expect(dropButton.getAttribute('name')).to.equal('');
-            });
-
-            // Test
-            it('should have a label', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddlabel"; 
+                    expect(dropButton.getAttribute('name')).to.equal('ddName');
                 });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not have a name', function () {
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
 
-                //Button html includes the label, white space, and following span tag, so we must ensure that the label is included 
-                expect(dropButton.innerHTML.includes('ddlabel')).to.equal(true);
-            });
-            
-            // Test
-            it('should not have a label', function() {
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.innerHTML.trim()).to.equal('<span class="dropdown-icon fa fa-caret-down"></span>')
-            });
-
-            // Test
-            it('should have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.value = "dropdown 1";
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropButton.getAttribute('name')).to.equal('');
                 });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-                
-                // Since model value is set, the button html will contain its value (according to line 11 in dropdown.template.html)
-                expect(dropButton.innerHTML).to.include('dropdown 1');
-            }); 
+                // Test
+                it('should have a label', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddlabel";
+                    });
 
-            // Test 
-            it('should not have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddLabel"
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    //Button html includes the label, white space, and following span tag, so we must ensure that the label is included 
+                    expect(dropButton.innerHTML.includes('ddlabel')).to.equal(true);
                 });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not have a label', function () {
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
 
-                //In contrast with the previous test, since there is no model defined then the button includes the given label name
-                expect(dropButton.innerHTML.includes('ddLabel')).to.equal(true);
-            });
-
-            // Test
-            it('should have a list of options (array of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropButton.innerHTML.trim()).to.equal('<span class="dropdown-icon fa fa-caret-down"></span>')
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test
+                it('should have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.value = "dropdown 1";
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
 
-                var optArray = [];
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
 
-                for (var i = 0; i < 3; i++) {
-                    // Have to get rid of ↵ and extra white space added to individual options during creation of the list
-                    optArray.push(String(toList.children[i].children[0].innerHTML).replace(/[\n\r]/g, '').trimRight());
-                }
+                    // Since model value is set, the button html will contain its value (according to line 11 in dropdown.template.html)
+                    expect(dropButton.innerHTML).to.include('dropdown 1');
+                });
 
-                var strArray = optArray.toString();
-                var origStrArr = outerScope.options.toString();
-                
-                // Convert arrays to strings in order to compare them
-                expect(strArray).to.equal(origStrArr);
-            });
+                // Test 
+                it('should not have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddLabel"
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
 
-            // Test
-            it('should have a list of options (map of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = {
-                        dropdown1: "Dropdown 1",
-                        dropdown2: "Dropdown 2",
-                        dropdown3: "Dropdown 3"
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    //In contrast with the previous test, since there is no model defined then the button includes the given label name
+                    expect(dropButton.innerHTML.includes('ddLabel')).to.equal(true);
+                });
+
+                // Test
+                it('should have a list of options (array of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
+
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[1];
+
+                    var optArray = [];
+
+                    for (var i = 0; i < 3; i++) {
+                        // Have to get rid of ↵ and extra white space added to individual options during creation of the list
+                        optArray.push(String(toList.children[i].children[0].innerHTML).replace(/[\n\r]/g, '').trimRight());
                     }
+
+                    var strArray = optArray.toString();
+                    var origStrArr = outerScope.options.toString();
+
+                    // Convert arrays to strings in order to compare them
+                    expect(strArray).to.equal(origStrArr);
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test
+                it('should have a list of options (map of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = {
+                            dropdown1: "Dropdown 1",
+                            dropdown2: "Dropdown 2",
+                            dropdown3: "Dropdown 3"
+                        }
+                    });
 
-                var optArray = [];
-                var mapToArray = [];
-            
-                // Create array of the values in our options array so that we may later compare them to the input options
-                for (var prop in outerScope.options) {
-                    mapToArray.push(outerScope.options[prop]);
-                }
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[1];
 
-                for (var j = 0; j < 3; j++) {
-                    // Have to get rid of extra white space added to individual optiosn during creation of the list
-                    optArray.push(String(toList.children[j].children[0].innerHTML).trimRight());
-                }
+                    var optArray = [];
+                    var mapToArray = [];
 
-                var strArray = optArray.toString();
-                var mapStrArr = mapToArray.toString();
+                    // Create array of the values in our options array so that we may later compare them to the input options
+                    for (var prop in outerScope.options) {
+                        mapToArray.push(outerScope.options[prop]);
+                    }
 
-                //Convert arrays to string in order to compare them
-                expect(strArray).to.equal(mapStrArr);
+                    for (var j = 0; j < 3; j++) {
+                        // Have to get rid of extra white space added to individual optiosn during creation of the list
+                        optArray.push(String(toList.children[j].children[0].innerHTML).trimRight());
+                    }
+
+                    var strArray = optArray.toString();
+                    var mapStrArr = mapToArray.toString();
+
+                    //Convert arrays to string in order to compare them
+                    expect(strArray).to.equal(mapStrArr);
+                });
             });
-            
-            // Test
-            it('should have autofocus on pageload', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
+
+            // Nested Test Group - Non-required Attributes
+            describe('non-required attributes', function() {
+
+                // Test
+                it('should have autofocus on pageload', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                    });
+
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.getAttribute('autofocus')).to.equal('true');
                 });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not have autofocus on pageload (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = false;
+                    });
 
-                expect(dropButton.getAttribute('autofocus')).to.equal('true');
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.getAttribute('autofocus')).to.equal('false');
+                });
+
+                // Test 
+                it('should not have autofocus on page load (attribute not included)', function () {
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.hasAttribute('autofocus')).to.equal(false);
+                });
+
+                // Test
+                it('should have tabindex set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = 0;
+                    });
+
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.getAttribute('tabindex')).to.equal('0');
+                });
+
+                // Test
+                it('should have tabindex disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = -1;
+                    });
+
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.getAttribute('tabindex')).to.equal('-1');
+                });
+
+                // Test
+                it('should be disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = true;
+                    });
+
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.getAttribute('disabled')).to.equal('disabled');
+                });
+
+                // Test
+                it('should not be disabled (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = false;
+                    });
+
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.hasAttribute('disabled')).to.equal(false);
+                });
+
+                // Test
+                it('should not be disabled (attribute not included)', function () {
+                    var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropButton.hasAttribute('disabled')).to.equal(false);
+                });
             });
-            
-            // Test
-            it('should not have autofocus on pageload (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = false;
-                });
 
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
+            // Nested Test Group - Attribute Functionality 
+            // This group will test the expected functionality of each attribute in a browser setting
+            describe('expected attribute functionality', function() {
 
-                expect(dropButton.getAttribute('autofocus')).to.equal('false');
-            });  
                 
-            // Test 
-            it('should not have autofocus on page load (attribute not included)', function() {
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.hasAttribute('autofocus')).to.equal(false);
-            });
-                
-            // Test
-            it('should have tabindex set', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = 0;
-                });
-
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.getAttribute('tabindex')).to.equal('0');
-            });
-
-            // Test
-            it('should have tabindex disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = -1;
-                });
-
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.getAttribute('tabindex')).to.equal('-1');
-            });
-
-            // Test
-            it('should be disabled', function () {
-                outerScope.$apply(function () {
-                    outerScope.disabled = true;
-                });
-
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            // Test
-            it('should not be disabled (attribute set to false)', function () {
-                outerScope.$apply(function () {
-                    outerScope.disabled = false;
-                });
-
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.hasAttribute('disabled')).to.equal(false);
-            });
-
-            // Test
-            it('should not be disabled (attribute not included)', function() {
-                var dropButton = element[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropButton.hasAttribute('disabled')).to.equal(false);
             });
         });
 
-        //Nested Test Group - Select
+        // Nested Test Group - Select
         describe('type select', function() {
             
             beforeEach(function() {
@@ -281,245 +297,253 @@ describe('dropdown', function() {
                 });
             });
 
-            // Test
-            it('should have a type', function() {
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+            // Nested Test Group - Required Attributes
+            describe('required attributes', function() {
 
-                expect(dropSelect.tagName).to.equal('SELECT');
-            });
+                // Test
+                it('should have a type', function () {
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have a name', function() {
-                outerScope.$apply(function() {
-                    outerScope.name = "ddName";
+                    expect(dropSelect.tagName).to.equal('SELECT');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have a name', function () {
+                    outerScope.$apply(function () {
+                        outerScope.name = "ddName";
+                    });
 
-                expect(dropSelect.getAttribute('name')).to.equal('ddName');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should not have a name', function() {
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-                
-                expect(dropSelect.getAttribute('name')).to.equal('');
-            });
-
-            // Test
-            it('should have a label', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddlabel";
+                    expect(dropSelect.getAttribute('name')).to.equal('ddName');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not have a name', function () {
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(dropLabel.innerHTML).to.equal('ddlabel');
-            });
-
-            // Test
-            it('should not have a label', function() {
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropLabel.innerHTML).to.equal('');
-            });
-            
-            // Test
-            it('should have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.value = "dropdown 1";
-                    outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
+                    expect(dropSelect.getAttribute('name')).to.equal('');
                 });
 
-                var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
+                // Test
+                it('should have a label', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddlabel";
+                    });
 
-                expect(dropOption.getAttribute('selected')).to.equal('selected');
-            });
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-            // Test
-            it('should not have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
+                    expect(dropLabel.innerHTML).to.equal('ddlabel');
                 });
 
-                var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
+                // Test
+                it('should not have a label', function () {
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-                expect(dropOption.hasAttribute('selected')).to.equal(false);
-            });
-
-            // Test
-            it('should have a list of options (array of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.type = "select";
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropLabel.innerHTML).to.equal('');
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test
+                it('should have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.value = "dropdown 1";
+                        outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
+                    });
 
-                var optArray = [];
+                    var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
 
-                for (var i = 1; i < 4; i++) {
-                    optArray.push(String(toList.children[i].innerHTML));
-                }
+                    expect(dropOption.getAttribute('selected')).to.equal('selected');
+                });
 
-                var strArray = optArray.toString();
-                var origStrArr = outerScope.options.toString();
+                // Test
+                it('should not have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = ["dropdown 1", "dropdown 2", "dropdown 3"];
+                    });
 
-                // Convert the arrays to strings in order to compare them
-                expect(strArray).to.equal(origStrArr); 
-            });
-            
-            // Test
-            it('should have a list of options (map of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = {
-                        dropdown1: "Dropdown 1",
-                        dropdown2: "Dropdown 2",
-                        dropdown3: "Dropdown 3"
+                    var dropOption = element[0].children[0].children[0].children[0].children[0].children[0].children[1].children[1];
+
+                    expect(dropOption.hasAttribute('selected')).to.equal(false);
+                });
+
+                // Test
+                it('should have a list of options (array of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.type = "select";
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
+
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    var optArray = [];
+
+                    for (var i = 1; i < 4; i++) {
+                        optArray.push(String(toList.children[i].innerHTML));
                     }
+
+                    var strArray = optArray.toString();
+                    var origStrArr = outerScope.options.toString();
+
+                    // Convert the arrays to strings in order to compare them
+                    expect(strArray).to.equal(origStrArr);
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test
+                it('should have a list of options (map of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = {
+                            dropdown1: "Dropdown 1",
+                            dropdown2: "Dropdown 2",
+                            dropdown3: "Dropdown 3"
+                        }
+                    });
 
-                var optArray = [];
-                var mapToArray = [];
-            
-                // Create array of the values in our options array so that we may later compare them to the input options
-                for (var prop in outerScope.options) {
-                    mapToArray.push(outerScope.options[prop]);
-                }
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                for (var j = 1; j < 4; j++) {
-                    // Have to get rid of extra white space added to individual options during creation of the list
-                    optArray.push(String(toList.children[j].innerHTML));
-                }
+                    var optArray = [];
+                    var mapToArray = [];
 
-                var strArray = optArray.toString();
-                var mapStrArr =mapToArray.toString();
-                
-                //Convert arrays to string in order to compare them
-                expect(strArray).to.equal(mapStrArr);
+                    // Create array of the values in our options array so that we may later compare them to the input options
+                    for (var prop in outerScope.options) {
+                        mapToArray.push(outerScope.options[prop]);
+                    }
+
+                    for (var j = 1; j < 4; j++) {
+                        // Have to get rid of extra white space added to individual options during creation of the list
+                        optArray.push(String(toList.children[j].innerHTML));
+                    }
+
+                    var strArray = optArray.toString();
+                    var mapStrArr = mapToArray.toString();
+
+                    //Convert arrays to string in order to compare them
+                    expect(strArray).to.equal(mapStrArr);
+                });
             });
-            
-            // Test
-            it('should have autofocus on pageload', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
+
+            // Nested Test Group - Non-required Attributes
+            describe('non-required attributes', function() {
+
+                // Test
+                it('should have autofocus on pageload', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not have autofocus on pageload (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = false;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-            });
-            
-            // Test
-            it('should not have autofocus on pageload (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = false;
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('false');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not have autofocus on pageload (attribute not included)', function () {
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('false');
-            });
-
-            // Test
-            it('should not have autofocus on pageload (attribute not included)', function() {
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.hasAttribute('autofocus')).to.equal(false);
-            });
-
-            // Test
-            it('should be required', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.label = "ddLabel";
+                    expect(dropSelect.hasAttribute('autofocus')).to.equal(false);
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should be required', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.label = "ddLabel";
+                    });
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel*');
-            });
-            
-            // Test
-            it('should not be required (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = false;
-                    outerScope.label = "ddLabel";
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropLabel.innerHTML).to.equal('ddLabel*');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not be required (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = false;
+                        outerScope.label = "ddLabel";
+                    });
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel');
-            });
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-            // Test
-            it('should not be required (attribute not included)', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddLabel";
+                    expect(dropLabel.innerHTML).to.equal('ddLabel');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not be required (attribute not included)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddLabel";
+                    });
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel');
-            });
-            
-            // Test
-            it('should have tabindex set', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = 0;
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropLabel.innerHTML).to.equal('ddLabel');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have tabindex set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = 0;
+                    });
 
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            //Test
-            it('should have tabindex disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = -1;
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                //Test
+                it('should have tabindex disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = -1;
+                    });
 
-                expect(dropSelect.getAttribute('tabindex')).to.equal('-1');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            //Test
-            it('should be disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.disabled = true;
-                });
-                
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            //Test
-            it('should not be disabled (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.disabled = false;
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('-1');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                //Test
+                it('should be disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropSelect.hasAttribute('disabled')).to.equal(false);
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            //Test
-            it('should not be disabled (attribute not included)', function() {
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
+                });
 
-                expect(dropSelect.hasAttribute('disabled')).to.equal(false);
+                //Test
+                it('should not be disabled (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = false;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.hasAttribute('disabled')).to.equal(false);
+                });
+
+                //Test
+                it('should not be disabled (attribute not included)', function () {
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.hasAttribute('disabled')).to.equal(false);
+                });
             });
         });
 
-        //Nested Test Group - searchable
+        // Nested Test Group - searchable
         describe('type searchable', function() {  
             
             beforeEach(function() {
@@ -527,248 +551,253 @@ describe('dropdown', function() {
                     outerScope.type = "searchable";
                 });
             });
-                        
-            // Test
-            it('should have a type', function() {
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(dropInput.tagName).to.equal('INPUT');
-            });
+            // Nested Test Group - Required Attributes
+            describe('required attributes', function() {
 
-            // Test
-            it('should have a name', function() {
-                outerScope.$apply(function() {
-                    outerScope.name = "ddName";
+                // Test
+                it('should have a type', function () {
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.tagName).to.equal('INPUT');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have a name', function () {
+                    outerScope.$apply(function () {
+                        outerScope.name = "ddName";
+                    });
 
-                expect(dropInput.getAttribute('name')).to.equal('ddName');
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should not have a name', function() {
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('name')).to.equal('');
-            });
-
-            // Test
-            it('should have a label', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddLabel";
+                    expect(dropInput.getAttribute('name')).to.equal('ddName');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should not have a name', function () {
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel');
-            });
-
-            // Test
-            it('should not have a label', function() {
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
-
-                expect(dropLabel.innerHTML).to.equal('');
-            });
-
-            // Test 
-            it('should have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.value = 'dropdown 1';
-                    outerScope.label = 'ddLabel';
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropInput.getAttribute('name')).to.equal('');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have a label', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddLabel";
+                    });
 
-                // With searchable, the placeholder in the input is set to the label if there is a label set and not a model value
-                // So with this test, it suffices to set a label and model value and verify that the DOM has no placeholder value (in this case, an empty string)
-                expect(dropInput.getAttribute('placeholder')).to.equal('');
-            });
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-            // Test
-            it('should not have a model value set', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = 'ddLabel';
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropLabel.innerHTML).to.equal('ddLabel');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not have a label', function () {
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-                expect(dropInput.getAttribute('placeholder')).to.equal('ddLabel');
-            });
-
-            // Test
-            it('should have a list of options (array of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    expect(dropLabel.innerHTML).to.equal('');
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test 
+                it('should have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.value = 'dropdown 1';
+                        outerScope.label = 'ddLabel';
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
 
-                var optArray = [];
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                for (var i = 1; i < 4; i++) {
-                    // Have to get rid extra white space added to individual options during creation of the list
-                    optArray.push(String(toList.children[i].children[0].innerHTML).trim());
-                }
+                    // With searchable, the placeholder in the input is set to the label if there is a label set and not a model value
+                    // So with this test, it suffices to set a label and model value and verify that the DOM has no placeholder value (in this case, an empty string)
+                    expect(dropInput.getAttribute('placeholder')).to.equal('');
+                });
 
-                var strArray = optArray.toString();
-                var origStrArr = outerScope.options.toString();
+                // Test
+                it('should not have a model value set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = 'ddLabel';
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
 
-                // Convert to arrays to strings in order to compare them
-                expect(strArray).to.equal(origStrArr); 
-            });
-            
-            // Test
-            it('should have a list of options (map of options)', function() {
-                outerScope.$apply(function() {
-                    outerScope.options = {
-                        dropdown1: "Dropdown 1",
-                        dropdown2: "Dropdown 2",
-                        dropdown3: "Dropdown 3"
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('placeholder')).to.equal('ddLabel');
+                });
+
+                // Test
+                it('should have a list of options (array of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = ['dropdown 1', 'dropdown 2', 'dropdown 3'];
+                    });
+
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[1];
+
+                    var optArray = [];
+
+                    for (var i = 1; i < 4; i++) {
+                        // Have to get rid extra white space added to individual options during creation of the list
+                        optArray.push(String(toList.children[i].children[0].innerHTML).trim());
                     }
+
+                    var strArray = optArray.toString();
+                    var origStrArr = outerScope.options.toString();
+
+                    // Convert to arrays to strings in order to compare them
+                    expect(strArray).to.equal(origStrArr);
                 });
 
-                // Shortcut variable to gain easier access to the list tag that contains the options
-                var toList = element[0].children[0].children[0].children[0].children[0].children[1]; 
+                // Test
+                it('should have a list of options (map of options)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.options = {
+                            dropdown1: "Dropdown 1",
+                            dropdown2: "Dropdown 2",
+                            dropdown3: "Dropdown 3"
+                        }
+                    });
 
-                var optArray = [];
-                var mapToArray = [];
-            
-                // Create array of the values in our options array so that we may later compare them to the input options
-                for (var prop in outerScope.options) {
-                    mapToArray.push(outerScope.options[prop]);
-                }
+                    // Shortcut variable to gain easier access to the list tag that contains the options
+                    var toList = element[0].children[0].children[0].children[0].children[0].children[1];
 
-                for (var j = 1; j < 4; j++) {
-                    // Have to get rid of extra white space added to individual options during creation of the list
-                    optArray.push(String(toList.children[j].children[0].innerHTML).trim());
-                }
+                    var optArray = [];
+                    var mapToArray = [];
 
-                var strArray = optArray.toString();
-                var mapStrArr = mapToArray.toString();
-                
-                // Convert arrays to string in order to compare them
-                expect(strArray).to.equal(mapStrArr);
+                    // Create array of the values in our options array so that we may later compare them to the input options
+                    for (var prop in outerScope.options) {
+                        mapToArray.push(outerScope.options[prop]);
+                    }
+
+                    for (var j = 1; j < 4; j++) {
+                        // Have to get rid of extra white space added to individual options during creation of the list
+                        optArray.push(String(toList.children[j].children[0].innerHTML).trim());
+                    }
+
+                    var strArray = optArray.toString();
+                    var mapStrArr = mapToArray.toString();
+
+                    // Convert arrays to string in order to compare them
+                    expect(strArray).to.equal(mapStrArr);
+                });
             });
-            
-            // Test
-            it('should have autofocus on pageload', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
+
+            // Nested Test Group - Non-required Attributes
+            describe('non-required attributes', function() {
+
+                // Test
+                it('should have autofocus on pageload', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not have autofocus on pageload (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = false;
+                    });
 
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-            });   
-                
-            // Test
-            it('should not have autofocus on pageload (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = false;
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('false');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not have autofocus on pageload (attribute not included)', function () {
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-                expect(dropInput.getAttribute('autofocus')).to.equal('false');
-            });
-
-            // Test
-            it('should not have autofocus on pageload (attribute not included)', function() {
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('autofocus')).to.equal(false);
-            });
-            
-            // Test
-            it('should be required', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.label = "ddLabel";
+                    expect(dropInput.hasAttribute('autofocus')).to.equal(false);
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                // Test
+                it('should be required', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.label = "ddLabel";
+                    });
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel*');
-            });
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
 
-            // Test
-            it('should not be required (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddLabel";
-                    outerScope.required = false;
+                    expect(dropLabel.innerHTML).to.equal('ddLabel*');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
-                
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[0].innerHTML).to.equal('ddLabel');
-            });
+                // Test
+                it('should not be required (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddLabel";
+                        outerScope.required = false;
+                    });
 
-            it('should not be required (attribute not included)', function() {
-                outerScope.$apply(function() {
-                    outerScope.label = "ddLabel";
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropLabel.innerHTML).to.equal('ddLabel');
                 });
 
-                var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+                it('should not be required (attribute not included)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.label = "ddLabel";
+                    });
 
-                expect(dropLabel.innerHTML).to.equal('ddLabel');
-            });
- 
-            // Test
-            it('should have tabindex set', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = 0;
+                    var dropLabel = element[0].children[0].children[0].children[0].children[0].children[0].children[0];
+
+                    expect(dropLabel.innerHTML).to.equal('ddLabel');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have tabindex set', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = 0;
+                    });
 
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have tabindex disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = -1;
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have tabindex disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = -1;
+                    });
 
-                expect(dropInput.getAttribute('tabindex')).to.equal('-1');
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should be disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.disabled = true;
+                    expect(dropInput.getAttribute('tabindex')).to.equal('-1');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should be disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should not be disabled (attribute set to false)', function() {
-                outerScope.$apply(function() {
-                    outerScope.disabled = false;
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should not be disabled (attribute set to false)', function () {
+                    outerScope.$apply(function () {
+                        outerScope.disabled = false;
+                    });
 
-                expect(dropInput.hasAttribute('disabled')).to.equal(false);
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test 
-            it('should not be disabled (attribute not included)', function() {
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                    expect(dropInput.hasAttribute('disabled')).to.equal(false);
+                });
 
-                expect(element[0].children[0]
-                    .children[0].children[0].children[0].children[0].children[1].hasAttribute('disabled')).to.equal(false);
+                // Test 
+                it('should not be disabled (attribute not included)', function () {
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.hasAttribute('disabled')).to.equal(false);
+                });
             });
         });
     });
@@ -970,159 +999,171 @@ describe('dropdown', function() {
                 });
             });
 
-            // Test
-            it('should have all attributes', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
+            // Nested Test Group - Combinations with Autofocus
+            describe('combinations with autofocus', function() {
+
+                // Test
+                it('should have autofocus, required and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have autofocus, tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true'); 
-                expect(dropSelect.getAttribute('required')).to.equal('required'); 
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
-            });
-            
-            // Test
-            it('should have autofocus, required and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have autofocus, required and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true'); 
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have autofocus, tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have autofocus and required', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have autofocus, required and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.disabled = true;
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have autofocus and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.tabindex = 0;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have autofocus and required', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have autofocus and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have autofocus and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.tabindex = 0;
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
-
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-            });
-
-            // Test
-            it('should have autofocus and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.disabled = true;
-                });
-
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.getAttribute('autofocus')).to.equal('true');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
 
-            // Test
-            it('should have required, tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
+            // Nested Test Group - Combinations with Required
+            describe('combinations with required', function() {
+
+                // Test
+                it('should have required, tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have required and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                    });
 
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                });
+
+                // Test
+                it('should have required and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
+                });
             });
 
-            // Test
-            it('should have required and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
+            // Nested Test Group - Other Combinations
+            describe('other combinations', function() {
+
+                // Test
+                it('should have all attributes', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropSelect.getAttribute('autofocus')).to.equal('true');
+                    expect(dropSelect.getAttribute('required')).to.equal('required');
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-            });
+                    var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have required and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.disabled = true;
+                    expect(dropSelect.getAttribute('tabindex')).to.equal('0');
+                    expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
                 });
-
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.getAttribute('required')).to.equal('required');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            // Test
-            it('should have tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
-                });
-
-                var dropSelect = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropSelect.getAttribute('tabindex')).to.equal('0');
-                expect(dropSelect.getAttribute('disabled')).to.equal('disabled');
             });
         });
 
@@ -1140,159 +1181,171 @@ describe('dropdown', function() {
                 });
             });
 
-            // Test
-            it('should have all attributes', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
+            // Nested Test Group - Combinations with Autofocus
+            describe('combinations with autofocus', function() {
+
+                // Test
+                it('should have autofocus, required and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.tabindex = '0';
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test 
+                it('should have autofocus, tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0'); 
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+                });
+
+                // Test
+                it('should have autofocus, required and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+                });
+
+                // Test
+                it('should have autofocus and required', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                });
+
+                // Test
+                it('should have autofocus and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.tabindex = 0;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                });
+
+                // Test
+                it('should have autofocus and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+                });
             });
 
-            // Test
-            it('should have autofocus, required and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.tabindex = '0';
+            // Nested Test Group - Combinations with Required
+            describe('combinations with required', function() {
+
+                // Test
+                it('should have required, tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                // Test
+                it('should have required and tabindex', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                    });
 
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                });
+
+                // Test
+                it('should have required and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.required = true;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
+                });
             });
 
-            // Test 
-            it('should have autofocus, tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
+            // Nested Test Group - Other Combinations
+            describe('other combinations', function () {
+
+                // Test
+                it('should have all attributes', function () {
+                    outerScope.$apply(function () {
+                        outerScope.autofocus = true;
+                        outerScope.required = true;
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
+
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+
+                    expect(dropInput.getAttribute('autofocus')).to.equal('true');
+                    expect(dropInput.getAttribute('required')).to.equal('required');
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
                 });
 
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
+                //Test
+                it('should have tabindex and disabled', function () {
+                    outerScope.$apply(function () {
+                        outerScope.tabindex = 0;
+                        outerScope.disabled = true;
+                    });
 
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
+                    var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
 
-            // Test
-            it('should have autofocus, required and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                    outerScope.disabled = true;
+                    expect(dropInput.getAttribute('tabindex')).to.equal('0');
+                    expect(dropInput.getAttribute('disabled')).to.equal('disabled');
                 });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            // Test
-            it('should have autofocus and required', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.required = true;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('required')).to.equal('required');
-            });
-
-            // Test
-            it('should have autofocus and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.tabindex = 0;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-            });
-
-            // Test
-            it('should have autofocus and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.autofocus = true;
-                    outerScope.disabled = true;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('autofocus')).to.equal('true');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            // Test
-            it('should have required, tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            // Test
-            it('should have required and tabindex', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.tabindex = 0;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-            });
-
-            // Test
-            it('should have required and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.required = true;
-                    outerScope.disabled = true;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('required')).to.equal('required');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
-            });
-
-            //Test
-            it('should have tabindex and disabled', function() {
-                outerScope.$apply(function() {
-                    outerScope.tabindex = 0;
-                    outerScope.disabled = true;
-                });
-
-                var dropInput = element[0].children[0].children[0].children[0].children[0].children[0].children[1];
-
-                expect(dropInput.getAttribute('tabindex')).to.equal('0');
-                expect(dropInput.getAttribute('disabled')).to.equal('disabled');
             });
         });
     });

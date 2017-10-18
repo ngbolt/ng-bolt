@@ -7,8 +7,7 @@
                           data-name="dropdownTest"
                           data-disabled="Forms.disabled"
                           data-options="Forms.optionsArray"
-                          data-model="Forms.dropdownModel"
-                          data-autofocus="true">
+                          data-model="Forms.dropdownModel">
             </blt-dropdown>
             <blt-dropdown data-label="Dropdown Select"
                           data-type="select"
@@ -16,7 +15,8 @@
                           data-disabled="Forms.disabled"
                           data-options="Forms.optionsArray"
                           data-model="Forms.dropdownSearchModel"
-                          data-change="Forms.onSelectModelChange()">
+                          data-change="Forms.onSelectModelChange()"
+                          data-autofocus="true">
             </blt-dropdown>
             <hr class="form-divider">
             <blt-dropdown data-select-none-label="-- None --"
@@ -98,7 +98,6 @@
                                 data-disabled="Forms.disabled"
                                 data-required="true"
                                 data-label="Check me"
-                                data-autofocus="true"
                                 data-model="Forms.checked">
             </blt-checkbox-radio>
 
