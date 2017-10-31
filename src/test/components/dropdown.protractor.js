@@ -31,19 +31,21 @@ describe('dropdown tests', function () {
     it('dropdown should be focused on page load',  function () {
         browser.driver.navigate().refresh();
         browser.waitForAngular();
-        var dropdown = element(by.css('select.dropdown-input'));
+        var dropdown = element(by.css('select[autofocus="true"]'));
         dropdownIn = browser.executeScript("return arguments[0].innerHTML;", dropdown);
         var browserIn = browser.executeScript("return arguments[0].innerHTML;", browser.driver.switchTo().activeElement());
         //expect(browser.driver.switchTo().activeElement().getId()).to.equal(dropdown.getId());
         //expect(browser.driver.switchTo().activeElement()).to.equal(dropdown.getWebElement());
-        //expect(browserIn).to.equal(dropdownIn);
+        expect(dropdownIn).to.eventually.equal(browserIn);
         // Find fix online for protractor's innerHTML property: https://github.com/angular/protractor/blob/master/CHANGELOG.md
-    });
-    */
+    }); */
+    
     it('all three dropdown types should be disabled', function() {
         var disDrop = element(by.css('button[disabled="disabled"]'));
-        var disDropSel = element.all(by.css('blt-dropdown[data-disabled="true"]')).get(1);
-        var disDropSrch = element.all(by.css('blt-dropdown[data-disabled="true"]')).get(2);
-        expect(disDrop.isEnabled()).to.be.false;
+        var disDropSel = element(by.css('select[disabled="disabled"]'));
+        var disDropSrch = element(by.css('input[disabled="disabled"]'));
+        expect(disDrop.isEnabled()).to.eventually.be.false;
+        expect(disDropSel.isEnabled()).to.eventually.be.false;
+        expect(disDropSrch.isEnabled()).to.eventually.be.false;
     });
 });
