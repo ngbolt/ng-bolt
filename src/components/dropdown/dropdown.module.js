@@ -33,6 +33,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    * @requires https://docs.angularjs.org/api/ng/type/$rootScope.Scope
    *
+   * @param {string} data-type Specifies the dropdown type (dropdown, select, or searchable).
    * @param {string} data-label  This attribute specifies the label for this component.
    * @param {expression}  data-model This attribute is used to bind the value of this component to a property in the
    *      containing scope. Functionality is based on the Angular ngModel directive.
@@ -45,7 +46,6 @@
    *      be invoked any time the value of this component changes. Functionality is based on the Angular ngChange
    *      directive.
    * @param {boolean} [data-required] Indicates whether or not this field is required.
-   * @param {string} [data-type] Specifies the dropdown type (dropdown, select, or searchable).
    * @param {value} [data-tabindex] Specifies the tab order of an element.
    * @param {boolean} [data-disabled] Disables the field. Any value set in this attribute will cause the field to be
    * disabled.
@@ -67,7 +67,8 @@
    *                       data-name="dropdown1"
    *                       data-label="Select a Value"
    *                       data-options="ctrl.arrayOfOptions"
-   *                       data-model="ctrl.dropdown1">
+   *                       data-model="ctrl.dropdown1"
+   *                       data-required="false">
    *         </blt-dropdown>
    *       </form>
    *     </div>
@@ -160,7 +161,7 @@
    * @requires https://docs.angularjs.org/api/ng/service/$timeout
    * @requires $scope
    */
-  function bltDropdownController( api, $timeout, $scope ) {
+  function bltDropdownController(api, $timeout, $scope ) {
 
     var ctrl = this;
     var types = ['select', 'dropdown', 'searchable'];
