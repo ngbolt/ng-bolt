@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('dropdown tests', function () {
+describe('textfield tests', function () {
     it('go to demo app',  function () {
         browser.get('http://localhost:9000/');
         browser.waitForAngular();
@@ -75,7 +75,5 @@ describe('dropdown tests', function () {
         it('test step decrement - STUB', function() {
 
         });
-    });
 
 });
-
