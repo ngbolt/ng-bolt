@@ -39,7 +39,7 @@
                         ng-attr-tabindex="{{$ctrl.tabindex}}"
                         ng-required="$ctrl.required"
                         ng-disabled="$ctrl.disabled">
-                    <option value="" ng-disabled="$ctrl.required">{{$ctrl.required ? $ctrl.label + '*' : $ctrl.label}}</option>
+                    <option value="" >{{$ctrl.required ? $ctrl.label + '*' : $ctrl.label}}</option>
                     <option value="{{key}}" ng-repeat="(key, value) in $ctrl.keyedOptionMap">{{value.label}}</option>
                 </select>
 

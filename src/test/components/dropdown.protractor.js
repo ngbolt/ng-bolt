@@ -32,14 +32,14 @@ describe('dropdown tests', function () {
         browser.driver.navigate().refresh();
         browser.waitForAngular();
         var dropdown = element(by.css('select[autofocus="true"]'));
-        dropdownIn = browser.executeScript("return arguments[0].innerHTML;", dropdown);
+        var dropdownIn = browser.executeScript("return arguments[0].innerHTML;", dropdown);
         var browserIn = browser.executeScript("return arguments[0].innerHTML;", browser.driver.switchTo().activeElement());
         //expect(browser.driver.switchTo().activeElement().getId()).to.equal(dropdown.getId());
         //expect(browser.driver.switchTo().activeElement()).to.equal(dropdown.getWebElement());
         expect(dropdownIn).to.eventually.equal(browserIn);
         // Find fix online for protractor's innerHTML property: https://github.com/angular/protractor/blob/master/CHANGELOG.md
-    }); */
-    
+    }); 
+    */
     it('all three dropdown types should be disabled', function() {
         var disDrop = element(by.css('button[disabled="disabled"]'));
         var disDropSel = element(by.css('select[disabled="disabled"]'));
@@ -47,5 +47,13 @@ describe('dropdown tests', function () {
         expect(disDrop.isEnabled()).to.eventually.be.false;
         expect(disDropSel.isEnabled()).to.eventually.be.false;
         expect(disDropSrch.isEnabled()).to.eventually.be.false;
+    });
+
+    it('select and search dropdowns should be required', function() {
+        browser.driver.navigate().refresh();
+        var selectMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(0);
+        var searchMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(1);
+        browser.actions().sendKeys(protractor.Key.TAB);
+        browser.actions().sendKeys(protractor.Key.TAB);
     });
 });

@@ -8,13 +8,9 @@ exports.config = {
     capabilities: {
         'browserName': 'firefox'
     },
-    baseUrl: 'http://localhost:8000/',
     framework: 'mocha',
     mochaOpts: {
         reporter: "spec",
         slow: 3000
-    },
-    jasmineNodeOpts: {
-        defaultTimeoutInterval: 30000
     }
 };
