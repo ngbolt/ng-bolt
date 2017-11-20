@@ -3,8 +3,8 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     allScriptsTimeout: 11000,
     specs: [
-        './components/dropdown.protractor.js',
-        './components/textfieldTODO.protractor.js'
+        //'./components/textfieldTODO.protractor.js',
+        './components/dropdown.protractor.js'
     ],
     capabilities: {
         browserName: 'firefox',

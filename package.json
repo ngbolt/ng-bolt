@@ -75,6 +75,7 @@
     "ng-cordova": "^0.1.27-alpha",
     "normalize.css": "^4.2.0",
     "octophant": "^1.0.1",
+    "protractor-elementor": "^2.0.0",
     "run-sequence": "^1.1.5",
     "streamqueue": "^1.1.1",
     "vinyl-buffer": "^1.0.0",

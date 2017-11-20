@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('textfield e2e tests - non-type specific', function () {
+describe('textfield e2e tests - test type \'number\'', function () {
     it('go to demo app',  function () {
         browser.get('http://localhost:9000/');
         browser.waitForAngular();
@@ -29,31 +29,7 @@ describe('textfield e2e tests - non-type specific', function () {
     });
 
 
-    it('inputted text actually shows up in field - STUB', function() {
-
-    });
-
-    it('label text actually shows up in field - STUB', function() {
-
-    });
-
-    it('autofocus will select textfield on pageload - STUB ', function() {
-
-    });
-
-    it('test change - STUB ', function() {
-
-    });
-
-    it('disabled won\'t allow text to be added to input - STUB', function() {
-
-    });
-
     it('can\'t go above max - STUB', function() {
-
-    });
-
-    it('can\'t type in more than maxlength - STUB', function() {
 
     });
 
@@ -61,55 +37,39 @@ describe('textfield e2e tests - non-type specific', function () {
 
     });
 
-    it('can\'t type in less than minlength - STUB', function() {
-
-    });
-
-    it('test validate & pattern - STUB', function() {
-
-    });
-
-    it('test CSS required - STUB', function() {
-
-    });
-
-    it('allows for multiple rows - STUB', function() {
-
-    });
-
     it('steps by required amount - STUB', function() {
 
     });
 
-    it('test step increment - STUB', function() {
+    it('able to increment by step amount- STUB', function() {
 
     });
 
-    it('test step decrement - STUB', function() {
+    it('test step decrement by step amount- STUB', function() {
 
     });
 
-    it('test autocorrect - STUB', function() {
+    it('can\'t input non-number - STUB', function() {
 
     });
 
-    it('test autocomplete - STUB', function() {
+    it('can input decimal - STUB', function() {
 
     });
 
-    it('test tabindex - STUB', function() {
+    it('can input negative sign - STUB', function() {
 
     });
 
-    it('test spellcheck - STUB', function() {
+    it('can\'t input negative in wrong place - STUB', function() {
 
     });
 
-    it('test tabindex - STUB', function() {
+    it('can\'t input multiple negatives in right place - STUB', function() {
 
     });
 
-    it('can\'t type in inproper type - STUB', function() {
+    it('can\'t input multiple decimals - STUB', function() {
 
     });
 

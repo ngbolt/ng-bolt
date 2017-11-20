@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised);
 var expect = chai.expect;
 
-describe('textfield e2e tests - non-type specific', function () {
+describe('textfield e2e tests - type \'text\'', function () {
     it('go to demo app',  function () {
         browser.get('http://localhost:9000/');
         browser.waitForAngular();
@@ -49,15 +49,7 @@ describe('textfield e2e tests - non-type specific', function () {
 
     });
 
-    it('can\'t go above max - STUB', function() {
-
-    });
-
     it('can\'t type in more than maxlength - STUB', function() {
-
-    });
-
-    it('can\'t go below min - STUB', function() {
 
     });
 
@@ -70,22 +62,6 @@ describe('textfield e2e tests - non-type specific', function () {
     });
 
     it('test CSS required - STUB', function() {
-
-    });
-
-    it('allows for multiple rows - STUB', function() {
-
-    });
-
-    it('steps by required amount - STUB', function() {
-
-    });
-
-    it('test step increment - STUB', function() {
-
-    });
-
-    it('test step decrement - STUB', function() {
 
     });
 
@@ -105,11 +81,7 @@ describe('textfield e2e tests - non-type specific', function () {
 
     });
 
-    it('test tabindex - STUB', function() {
-
-    });
-
-    it('can\'t type in inproper type - STUB', function() {
+    it('can type in all special characters - STUB', function() {
 
     });
 
