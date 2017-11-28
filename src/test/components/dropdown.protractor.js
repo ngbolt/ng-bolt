@@ -6,15 +6,10 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 describe('dropdown tests', function () {
-    it('go to demo app',  function () {
+    before(function() {
         browser.get('http://localhost:9000/');
-        browser.waitForAngular();
-        expect(browser.getCurrentUrl()).to.eventually.eq('http://localhost:9000/');
-    });
-
-    it('go to form controls', function() {
         this.timeout(0);
-        var  username  =  element(by.css('input[type="text"]'));
+        var  username  =  element.all(by.css('input[type="text"]')).get(0);
         var  password  =  element(by.css('input[type="password"]'));
         username.sendKeys('admin');
         password.sendKeys('password');
@@ -25,7 +20,10 @@ describe('dropdown tests', function () {
         menu.click();
         var  menuItem  =  element(by.css('.menu')).all(by.css('.menu-item')).get(3);
         menuItem.click();
-        expect(browser.getCurrentUrl()).to.eventually.eq('http://localhost:9000/form-controls');
+    });
+
+    beforeEach(function() {
+        browser.get('http://localhost:9000/form-controls');
     });
     /*
     it('dropdown should be focused on page load',  function () {
@@ -37,7 +35,6 @@ describe('dropdown tests', function () {
         //expect(browser.driver.switchTo().activeElement().getId()).to.equal(dropdown.getId());
         //expect(browser.driver.switchTo().activeElement()).to.equal(dropdown.getWebElement());
         expect(dropdownIn).to.eventually.equal(browserIn);
-        // Find fix online for protractor's innerHTML property: https://github.com/angular/protractor/blob/master/CHANGELOG.md
     }); 
     */
     it('all three dropdown types should be disabled', function() {
@@ -50,10 +47,16 @@ describe('dropdown tests', function () {
     });
 
     it('select and search dropdowns should be required', function() {
-        browser.driver.navigate().refresh();
+        var dropSel = element(by.css('select[required="required"]'));
+        var dropSrch = element(by.css('input[name="dropdownSearchTest"]'));
         var selectMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(0);
         var searchMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(1);
+        expect(selectMsg.isDisplayed()).to.eventually.be.false;
+        expect(searchMsg.isDisplayed()).to.eventually.be.false;
+        dropSel.sendKeys(protractor.Key.TAB);
+        dropSrch.sendKeys(protractor.Key.TAB);
         browser.actions().sendKeys(protractor.Key.TAB);
-        browser.actions().sendKeys(protractor.Key.TAB);
+        expect(selectMsg.isDisplayed()).to.eventually.be.true;
+        expect(searchMsg.isDisplayed()).to.eventually.be.true;
     });
 });
