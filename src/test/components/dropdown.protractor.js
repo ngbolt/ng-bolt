@@ -27,8 +27,6 @@ describe('dropdown tests', function () {
     });
     /*
     it('dropdown should be focused on page load',  function () {
-        browser.driver.navigate().refresh();
-        browser.waitForAngular();
         var dropdown = element(by.css('select[autofocus="true"]'));
         var dropdownIn = browser.executeScript("return arguments[0].innerHTML;", dropdown);
         var browserIn = browser.executeScript("return arguments[0].innerHTML;", browser.driver.switchTo().activeElement());
@@ -55,8 +53,19 @@ describe('dropdown tests', function () {
         expect(searchMsg.isDisplayed()).to.eventually.be.false;
         dropSel.sendKeys(protractor.Key.TAB);
         dropSrch.sendKeys(protractor.Key.TAB);
-        browser.actions().sendKeys(protractor.Key.TAB);
         expect(selectMsg.isDisplayed()).to.eventually.be.true;
         expect(searchMsg.isDisplayed()).to.eventually.be.true;
+    });
+
+    it('select and searchable have no tabindex', function() {
+        var dropReg = element(by.css('button[name="dropdownTest"]'));
+        var dropSel = element(by.css('select[required="required"]'));
+        var dropSrch = element(by.css('input[name="dropdownSearchTest"]'));
+        dropReg.sendKeys(protractor.Key.TAB);
+        var ddSelIH = browser.executeScript("return arguments[0].innerHTML;", dropSel);
+        var ddSrchIH = browser.executeScript("return arguments[0].innerHTML;", dropSrch);
+        var browserFoc = browser.executeScript("return arguments[0].innerHTML;", browser.driver.switchTo().activeElement());
+        expect(ddSelIH).to.eventually.not.equal(browserFoc);
+        expect(ddSrchIH).to.eventually.not.equal(browserFoc);
     });
 });
