@@ -46,7 +46,7 @@ describe('dropdown tests', function () {
 
     it('select and search dropdowns should be required', function() {
         var dropSel = element(by.css('select[required="required"]'));
-        var dropSrch = element(by.css('input[name="dropdownSearchTest"]'));
+        var dropSrch = element.all(by.css('input[name="dropdownSearchTest"]')).get(0);
         var selectMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(0);
         var searchMsg = element.all(by.css('.dropdown-error-hide.dropdown-error-required')).get(1);
         expect(selectMsg.isDisplayed()).to.eventually.be.false;
@@ -58,9 +58,9 @@ describe('dropdown tests', function () {
     });
 
     it('select and searchable have no tabindex', function() {
-        var dropReg = element(by.css('button[name="dropdownTest"]'));
+        var dropReg = element.all(by.css('button[name="dropdownTest"]')).get(0);
         var dropSel = element(by.css('select[required="required"]'));
-        var dropSrch = element(by.css('input[name="dropdownSearchTest"]'));
+        var dropSrch = element.all(by.css('input[name="dropdownSearchTest"]')).get(0);
         dropReg.sendKeys(protractor.Key.TAB);
         var ddSelIH = browser.executeScript("return arguments[0].innerHTML;", dropSel);
         var ddSrchIH = browser.executeScript("return arguments[0].innerHTML;", dropSrch);
@@ -68,4 +68,21 @@ describe('dropdown tests', function () {
         expect(ddSelIH).to.eventually.not.equal(browserFoc);
         expect(ddSrchIH).to.eventually.not.equal(browserFoc);
     });
+
+    it('change function should be triggered', function() {
+        // Helper function to select a dropdown option
+        var selectDropdownbyNum = function ( element, optionNum ) {
+            if (optionNum){
+              var options = element.all(by.tagName('option'))   
+                .then(function(options){
+                  options[optionNum].click();
+                });
+            }
+          }; 
+
+        var dropSlCh = element.all(by.css('select.dropdown-input')).get(2);
+        selectDropdownbyNum(dropSlCh, 2);
+        var chAlert = browser.switchTo().alert();
+        expect(chAlert.getText()).to.eventually.equal('Changed');
+    }); 
 });

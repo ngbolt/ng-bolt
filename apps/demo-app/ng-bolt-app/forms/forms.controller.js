@@ -33,6 +33,8 @@
       'dropdown7': 'Dropdown 7'
     };
 
+    ctrl.dropChange = function(){alert('Changed')};
+
     // checkbox-radio
     ctrl.checkboxTest = undefined;
     ctrl.checkboxOptions = ['none', 'checkbox1', 'checkbox2', 'checkbox3', 'checkbox4', 'checkbox5'];
