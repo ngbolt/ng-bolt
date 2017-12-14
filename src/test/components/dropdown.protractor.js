@@ -69,7 +69,7 @@ describe('dropdown tests', function () {
         expect(ddSrchIH).to.eventually.not.equal(browserFoc);
     });
 
-    it('change function should be triggered', function() {
+    it('change function for select should be triggered', function() {
         // Helper function to select a dropdown option
         var selectDropdownbyNum = function ( element, optionNum ) {
             if (optionNum){
@@ -84,5 +84,16 @@ describe('dropdown tests', function () {
         selectDropdownbyNum(dropSlCh, 2);
         var chAlert = browser.switchTo().alert();
         expect(chAlert.getText()).to.eventually.equal('Changed');
+        chAlert.accept();
+    }); 
+
+    it('shows label for select and search', function()  {
+        var selLab = element.all(by.css('.dropdown-label')).get(2);
+        var srchLab = element.all(by.css('.dropdown-label')).get(3);
+        var selText = 'Disabled Dropdown Select';
+        var srchText = 'Disabled Dropdown Search';
+
+        expect(selLab.getText()).to.eventually.equal(selText);
+        expect(srchLab.getText()).to.eventually.equal(srchText);
     }); 
 });
