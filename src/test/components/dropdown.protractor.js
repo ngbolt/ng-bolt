@@ -96,4 +96,26 @@ describe('dropdown tests', function () {
         expect(selLab.getText()).to.eventually.equal(selText);
         expect(srchLab.getText()).to.eventually.equal(srchText);
     }); 
+
+    it('model changes when selecting option', function() {
+        // Helper function to select a dropdown option
+        var selectDropdownbyNum = function ( element, optionNum ) {
+            if (optionNum){
+              var options = element.all(by.tagName('option'))   
+                .then(function(options){
+                  options[optionNum].click();
+                });
+            }
+          }; 
+
+        var dropSel = element.all(by.model('$ctrl.select.model')).get(3);
+        var model1 = "dropdown3";
+        var model2 = "dropdown1";
+
+        expect(dropSel.$('option:checked').getText()).to.eventually.equal(model1);
+
+        selectDropdownbyNum(dropSel, 1);
+
+        expect(dropSel.$('option:checked').getText()).to.eventually.equal(model2);
+    });
 });

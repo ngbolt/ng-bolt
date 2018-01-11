@@ -63,6 +63,31 @@
                           data-options="Forms.optionsArray"
                           data-change="Forms.dropChange()">
             </blt-dropdown>
+            <blt-dropdown data-label="Dropdown Model Test"
+                          data-type="dropdown"
+                          data-name="dropdownTest"
+                          data-disabled="Forms.disabled"
+                          data-options="Forms.optionsArray"
+                          data-model="Forms.dropdownSelectModel">
+            </blt-dropdown>
+            <blt-dropdown data-label="Dropdown Select Model Test"
+                          data-type="select"
+                          data-name="dropdownSelectTest"
+                          data-disabled="Forms.disabled"
+                          data-options="Forms.optionsArray"
+                          data-change="Forms.onSelectModelChange()"
+                          data-model="Forms.dropdownSelectModel">
+            </blt-dropdown>
+            <hr class="form-divider">
+            <blt-dropdown data-select-none-label="-- None --"
+                          data-label="Dropdown Search Model Test"
+                          data-type="searchable"
+                          data-name="dropdownSearchTest"
+                          data-disabled="Forms.disabled"
+                          data-options="Forms.optionsArray"
+                          data-change="Forms.onSelectModelChange()"
+                          data-model="Forms.dropdownSelectModel">
+            </blt-dropdown>
 
         <h2 class="font-title">Text Field</h2>
         </form>
