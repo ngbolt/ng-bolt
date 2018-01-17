@@ -3,8 +3,9 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     allScriptsTimeout: 11000,
     specs: [
-        //'./components/textfieldTODO.protractor.js',
-        './components/dropdown.protractor.js'
+        //'./components/dropdown.protractor.js',
+        //'./components/list.protractor.js'
+        './components/textfieldEmail.protractor.js'
     ],
     capabilities: {
         browserName: 'firefox',
@@ -16,6 +17,7 @@ exports.config = {
         slow: 3000
     },
     jasmineNodeOpts: {
+        showcolors: true,
         defaultTimeoutInterval: 30000
     },
 };

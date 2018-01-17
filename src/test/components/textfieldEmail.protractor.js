@@ -6,26 +6,25 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 describe('textfield e2e tests - \'email\' type', function () {
-    it('go to demo app',  function () {
-        browser.get('http://localhost:9000/');
-        browser.waitForAngular();
-        expect(browser.getCurrentUrl()).to.eventually.eq('http://localhost:9000/');
-    });
 
-    it('go to form controls', function() {
-        this.timeout(0);
-        var  username  =  element(by.css('input[type="text"]'));
-        var  password  =  element(by.css('input[type="password"]'));
-        username.sendKeys('admin');
-        password.sendKeys('password');
-        password.sendKeys(protractor.Key.ENTER);
-        var  enter  =  element(by.css('.btn-solid-submit'));
-        enter.click();
-        var  menu  =  element.all(by.css('.appbar-section')).get(0).all(by.css('button'));
-        menu.click();
-        var  menuItem  =  element(by.css('.menu')).all(by.css('.menu-item')).get(3);
-        menuItem.click();
-        expect(browser.getCurrentUrl()).to.eventually.eq('http://localhost:9000/form-controls');
+    beforeEach(function() {
+        browser.get('http://localhost:8080/');
+        browser.waitForAngular();
+        browser.executeScript(function(){
+            var compile = angular.injector(['ng']).get('$compile');
+            var rootScope = angular.injector(['ng']).get('$rootScope');
+            var element = angular.element(
+                '<form name="MyCtrl.myForm" class="form" novalidate>' +
+                '<blt-textfield data-name="myFirstTextField"' +
+                    'data-label="Text Field"' +
+                    'data-model="MyCtrl.textField1">' +
+                '</blt-textfield>' +
+                '</form>'
+            );
+            compile(element)(rootScope);
+            rootScope.$digest();
+            document.getElementsByClassName('view')[0].appendChild(element[0]);
+        });
     });
 
 
