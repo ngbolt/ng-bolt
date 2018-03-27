@@ -92,6 +92,15 @@
                                 ng-repeat="option in Forms.radioOptions">
             </blt-checkbox-radio>
 
+            <blt-checkbox-radio data-name="radioTest"
+                                data-disabled="Forms.disabled"
+                                data-label="Radio change test"
+                                data-model="Forms.radioTest"
+                                data-type="radio"
+                                data-value="{{option}}"
+                                data-change="Forms.crChange()">
+            </blt-checkbox-radio>
+
             <h3 class="form-heading">Radio Group</h3>
 
             <blt-checkbox-radio data-name="checkbox"
@@ -100,6 +109,15 @@
                                 data-label="Check me"
                                 data-autofocus="true"
                                 data-model="Forms.checked">
+            </blt-checkbox-radio>
+
+            <blt-checkbox-radio data-name="checkbox"
+                                data-disabled="Forms.disabled"
+                                data-required="true"
+                                data-label="Checkbox change test"
+                                data-autofocus="true"
+                                data-model="Forms.checked2"
+                                data-change="Forms.crChange()">
             </blt-checkbox-radio>
 
             <div class="form-row">

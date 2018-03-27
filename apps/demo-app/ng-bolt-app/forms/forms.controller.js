@@ -39,6 +39,8 @@
     ctrl.radioTest = undefined;
     ctrl.radioOptions = ['none', 'radio1', 'radio2', 'radio3', 'radio4', 'radio5'];
 
+    ctrl.crChange = function(){alert('Changed')};
+
     ctrl.testNgRequire = true;
 
     ctrl.testCheckbox = false;
