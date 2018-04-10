@@ -81,6 +81,9 @@
         </blt-toggle-switch>
 
         <h2 class="font-title">Checkbox-Radio</h2>
+
+        <h3 class="form-heading">Radios</h3>
+
         <form class="form" novalidate name="checkboxRadioTests">
             <blt-checkbox-radio data-name="radioTest"
                                 data-disabled="Forms.disabled"
@@ -89,6 +92,7 @@
                                 data-type="radio"
                                 data-value="{{option}}"
                                 data-required="true"
+                                data-tabindex="-1"
                                 ng-repeat="option in Forms.radioOptions">
             </blt-checkbox-radio>
 
@@ -101,37 +105,40 @@
                                 data-change="Forms.crChange()">
             </blt-checkbox-radio>
 
-            <h3 class="form-heading">Radio Group</h3>
+            <h3 class="form-heading">Checkboxes</h3>
 
             <blt-checkbox-radio data-name="checkbox"
                                 data-disabled="Forms.disabled"
                                 data-required="true"
                                 data-label="Check me"
                                 data-autofocus="true"
+                                data-tabindex="-1"
                                 data-model="Forms.checked">
             </blt-checkbox-radio>
 
             <blt-checkbox-radio data-name="checkbox"
                                 data-disabled="Forms.disabled"
-                                data-required="true"
                                 data-label="Checkbox change test"
                                 data-autofocus="true"
                                 data-model="Forms.checked2"
                                 data-change="Forms.crChange()">
             </blt-checkbox-radio>
 
-            <div class="form-row">
-                <blt-checkbox-radio data-name="radioTest"
-                                    data-disabled="Forms.disabled"
-                                    data-label="{{option}}"
-                                    data-model="Forms.radioTest"
-                                    data-type="radio"
-                                    data-value="{{option}}"
-                                    data-tabindex="$index"
-                                    data-required="true"
-                                    ng-repeat="option in Forms.radioOptions">
-                </blt-checkbox-radio>
-            </div>
+            <h3 class="form-heading">Disabled Group</h3>
+
+            <blt-checkbox-radio data-name="checkbox"
+                                data-disabled="true"
+                                data-label="Can't check this"
+                                data-model="Forms.checked">
+            </blt-checkbox-radio>
+
+            <blt-checkbox-radio data-name="radioTest"
+                                data-disabled="true"
+                                data-label="Disabled Radio"
+                                data-model="Forms.radioTest2"
+                                data-type="radio"
+                                data-value="Disabled Radio">
+            </blt-checkbox-radio>
         </form>
 
         <h2 class="font-title">Counter in ngBolt Form</h2>

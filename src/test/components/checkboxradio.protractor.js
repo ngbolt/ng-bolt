@@ -27,7 +27,7 @@ describe('dropdown tests', function () {
     });
 
     it('checkbox should have class "fa-check-square" after pressing space',  function () {
-        var checkbox = element(by.css('input[type="checkbox"]'));
+        var checkbox = element.all(by.css('input[type="checkbox"]')).get(0);
         checkbox.sendKeys(protractor.Key.SPACE);    // Space works on checkboxes in Firefox, but not Enter
         expect(element.all(by.css('.checkbox-radio-input')).get(7).all(by.css('span')).get(0).getAttribute('class')).to.eventually.include('fa-check-square');
     });
@@ -65,4 +65,40 @@ describe('dropdown tests', function () {
         expect(chAlert.getText()).to.eventually.equal(alertText);
         chAlert.accept(); 
     }); 
+
+    it('required message appears for required checkbox', function() {
+        var checkbox = element.all(by.css('.checkbox-radio-icon.fa.fa-square')).get(0);
+        var reqMessage = element.all(by.css('.checkbox-radio-error-hide.checkbox-radio-error-required')).get(0);
+
+        expect(reqMessage.isDisplayed()).to.eventually.be.false;
+
+        checkbox.click();
+        var checkedbox = element.all(by.css('.checkbox-radio-icon.fa.fa-check-square')).get(0);
+        checkedbox.click();
+
+        expect(reqMessage.isDisplayed()).to.eventually.be.true;
+    });
+
+    it('disabled checkbox and radio are not enabled', function(){
+        checkDis = element.all(by.css('input[disabled="disabled"]')).get(0);
+        radDis = element.all(by.css('input[disabled="disabled"]')).get(1);
+
+        expect(checkDis.isEnabled()).to.eventually.be.false;
+        expect(radDis.isEnabled()).to.eventually.be.false;
+    });
+
+    it('radio and checkbox have no tabindex when tabindex = -1', function() {
+        var radio = element.all(by.css('input[type="radio"]')).get(0);
+        var check = element.all(by.css('input[type="checkbox"]')).get(0);
+        var nextCheck = element.all(by.css('input[type="checkbox"]')).get(1);
+
+        nextCheck.sendKeys(protractor.Key.chord(protractor.Key.SHIFT, protractor.Key.TAB));
+
+        var radIH = browser.executeScript("return arguments[0].innerHTML;", radio);
+        var checkIH = browser.executeScript("return arguments[0].innerHTML;", check);
+        var browserFoc = browser.executeScript("return arguments[0].innerHTML;", browser.driver.switchTo().activeElement());
+
+        expect(radIH).to.eventually.not.equal(browserFoc);
+        expect(checkIH).to.eventually.not.equal(browserFoc);
+    });
 });
