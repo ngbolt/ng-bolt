@@ -24,7 +24,7 @@ describe('checkboxradio', function() {
             'data-disabled="disabled" ' +
             'data-required="required" ' +
             'data-tabindex="tabindex" ' +
-            'data-change="changeFn">' +
+            'data-change="changeFn()">' +
             '</blt-checkbox-radio>'
         );
 
@@ -444,31 +444,20 @@ describe('checkboxradio', function() {
             it('should change model with change function', function() {
                 outerScope.$apply(function () {
                     outerScope.changeFn = function() {
-                        console.log("Toggled, model:", outerScope.model);
+                        console.log("Toggled");
                     }
-
-                    // Don't need value attribute for checkbox
-                    outerScope.value = null;
                 });
 
                 var checkSpy = sinon.spy(outerScope, "changeFn");
-            
-                var e = new KeyboardEvent('keyup', {
-                    keyCode: 13
-                });
-
+                
                 var cInput = element[0].children[0].children[0].children[0];
-
-                //cInput.dispatchEvent(e);
-                //cInput.dispatchEvent(new Event('change'));
-
+                
                 var inpEl = angular.element(cInput);
+
                 inpEl.attr('checked', true).triggerHandler('change');
                 
                 timeout.flush();
-
-                console.log(element[0]);
-
+                
                 expect(sinon.assert.calledOnce(checkSpy));
             }); 
         });
@@ -479,6 +468,8 @@ describe('checkboxradio', function() {
             beforeEach(function() {
                 outerScope.$apply(function () {
                     outerScope.type = "radio";
+                    outerScope.model = undefined;
+                    outerScope.value = undefined;
                 });
             });
 
@@ -486,21 +477,17 @@ describe('checkboxradio', function() {
             it('should change model with change function', function() {
                 outerScope.$apply(function () {
                     outerScope.changeFn = function() {
-                        console.log("Toggled, model:", outerScope.model);
+                        console.log("Toggled");
                     }
-                    outerScope.model = 'crModel';
-                    outerScope.value = 'crModel';
                 });
 
                 var radioSpy = sinon.spy(outerScope, "changeFn");
                 var rInput = element[0].children[0].children[0].children[0];
+   
+                var inpEl = angular.element(rInput);
                 
-                var e = new KeyboardEvent('keyup', {
-                    keyCode: 13
-                });
+                inpEl.attr('checked', true).triggerHandler('change');
                 
-                rInput.dispatchEvent(e);
-
                 timeout.flush();
 
                 expect(sinon.assert.calledOnce(radioSpy));
